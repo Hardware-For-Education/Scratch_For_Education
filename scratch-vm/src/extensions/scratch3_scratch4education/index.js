@@ -1,0 +1,441 @@
+/*
+This is the Scratch 3 extension to remotely control an
+Arduino Uno, ESP-8666, or Raspberry Pi
+
+
+ Copyright (c) 2019 Alan Yorinks All rights reserved.
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ Version 3 as published by the Free Software Foundation; either
+ or (at your option) any later version.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+ along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+// Boiler plate from the Scratch Team
+const ArgumentType = require('../../extension-support/argument-type');
+const BlockType = require('../../extension-support/block-type');
+const formatMessage = require('format-message');
+
+
+// The following are constants used within the extension
+
+// Digital Modes
+const DIGITAL_INPUT = 1;
+const DIGITAL_OUTPUT = 2;
+const PWM = 3;
+const SERVO = 4;
+const TONE = 5;
+const SONAR = 6;
+const ANALOG_INPUT = 7;
+
+require('sweetalert');
+
+// an array to save the current pin mode
+// this is common to all board types since it contains enough
+// entries for all the boards.
+// Modes are listed above - initialize to invalid mode of -1
+let pin_modes = new Array(30).fill(-1);
+
+// has an websocket message already been received
+let alerted = false;
+
+let connection_pending = false;
+
+// general outgoing websocket message holder
+let msg = null;
+
+// the pin assigned to the sonar trigger
+// initially set to -1, an illegal value
+let sonar_report_pin = -1;
+
+// flag to indicate if the user connected to a board
+let connected = false;
+
+// arrays to hold input values
+let digital_inputs = new Array(32);
+let analog_inputs = new Array(8);
+
+// flag to indicate if a websocket connect was
+// ever attempted.
+let connect_attempt = false;
+
+// an array to buffer operations until socket is opened
+let wait_open = [];
+
+let the_locale = null;
+
+// common
+const FormPlaySound = {
+    'en': 'Play sound [NOTE]',
+    'es': 'Tocar sonido [NOTE]',
+};
+
+const FormPlaySoundFreq = {
+    'en': 'Tone [FREQ] Hz [DURATION] ms',
+    'es': 'Tocar a [FREQ] Hz [DURATION] ms'
+};
+
+const FormLedRGBSingle = {
+    'en': "LED red [ON_OFF_RED] \ngreen [ON_OFF_GREEN] blue [ON_OFF_BLUE]",
+    'es': "LED rojo [ON_OFF_RED] \nverde [ON_OFF_GREEN] azul [ON_OFF_BLUE]",
+};
+
+const FormLedRGB = {
+    'en': "LED RGB color [RGB_COLOR]",
+    'es': "Poner el LED RGB en [RGB_COLOR]",
+};
+
+const FormMotorDCRight = {
+    'en': "Turn ↻ with speed [SPEED]",
+    'es': "Girar ↻ con velocidad [SPEED]",
+};
+
+const FormMotorDCLeft = {
+    'en': "Turn ↺ with speed [SPEED]",
+    'es': "Girar ↺ con velocidad [SPEED]",
+};
+
+const FormJoystickX = {
+    'en': "X position of the joystick",
+    'es': "Posición en X del joystick",
+};
+
+const FormJoystickY = {
+    'en': "Y position of the joystick",
+    'es': "Posición en Y del joystick",
+};
+
+const FormJoystickZ = {
+    'en': "Z position of the joystick",
+    'es': "Posición en Z del joystick",
+};
+
+const FormPotenciometer = {
+    'en': "Value potenciometer",
+    'es': "Valor del potenciometro",
+};
+
+const FormMicrophone = {
+    'en': "Value microphone",
+    'es': "Valor del micrófono",
+};
+
+const FormSwitch = {
+    'en': "Switch value",
+    'es': "Valor Switch",
+};
+
+
+class Scratch3Scratch4Education {
+    constructor(runtime) {
+        the_locale = this._setLocale();
+        this.runtime = runtime;
+    }
+
+    getInfo() {
+        the_locale = this._setLocale();
+        this.connect();
+
+        return {
+            id: 'scratch4education',
+            color1: '#0C5986',
+            color2: '#34B0F7',
+            name: 'Scratch 4 Education',
+            blocks: [
+                {
+                    opcode: 'play_sound',
+                    blockType: BlockType.COMMAND,
+                    text: FormPlaySound[the_locale],
+
+                    arguments: {
+                        NOTE: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 'Do',
+                            menu: "notes"
+                        }
+                    }
+                },
+                {
+                    opcode: 'play_sound_freq',
+                    blockType: BlockType.COMMAND,
+                    text: FormPlaySoundFreq[the_locale],
+                    arguments: {
+                        FREQ: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 100,
+                        },
+                        DURATION: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 50,
+                        }
+                    }
+                },
+                {
+                    opcode: 'led_RGB_on_off',
+                    blockType: BlockType.COMMAND,
+                    text: FormLedRGBSingle[the_locale],
+                    arguments: {
+                        ON_OFF_RED: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 'Encendido',
+                            menu: "on_off"
+                        },
+                        ON_OFF_GREEN: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 'Encendido',
+                            menu: "on_off"
+                        },
+                        ON_OFF_BLUE: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 'Encendido',
+                            menu: "on_off"
+                        },
+                    }
+                },
+                {
+                    opcode: 'led_RGB_color',
+                    blockType: BlockType.COMMAND,
+                    text: FormLedRGB[the_locale],
+                    arguments: {
+                        RGB_COLOR: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 'Verde',
+                            menu: "rgb_color"
+                        }
+                    }
+                },
+                {
+                    opcode: 'motor_dc_right',
+                    blockType: BlockType.COMMAND,
+                    text: FormMotorDCRight[the_locale],
+                    arguments: {
+                        SPEED: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 100,
+                        },
+
+                    }
+                },
+                {
+                    opcode: 'motor_dc_left',
+                    blockType: BlockType.COMMAND,
+                    text: FormMotorDCLeft[the_locale],
+                    arguments: {
+                        SPEED: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 100,
+                        },
+
+                    }
+                },
+                {
+                    opcode: 'joystick_x',
+                    blockType: BlockType.REPORTER,
+                    text: FormJoystickX[the_locale],
+                },
+                {
+                    opcode: 'joystick_y',
+                    blockType: BlockType.REPORTER,
+                    text: FormJoystickY[the_locale],
+                },
+                {
+                    opcode: 'joystick_z',
+                    blockType: BlockType.REPORTER,
+                    text: FormJoystickZ[the_locale],
+                },
+                {
+                    opcode: 'potenciometer',
+                    blockType: BlockType.REPORTER,
+                    text: FormPotenciometer[the_locale],
+                },
+                {
+                    opcode: 'microphone',
+                    blockType: BlockType.REPORTER,
+                    text: FormMicrophone[the_locale],
+                },
+                {
+                    opcode: 'switch',
+                    blockType: BlockType.REPORTER,
+                    text: FormSwitch[the_locale],
+                },
+            ],
+            menus: {
+                notes: {
+                    acceptReporters: true,
+                    items: [{text: "Do", value: '1'}, 
+                            {text: "Re", value: '2'},
+                            {text: "Mi", value: '3'},
+                            {text: "Fa", value: '4'},
+                            {text: "Sol", value: '5'},
+                            {text: "La", value: '6'},
+                            {text: "Si", value: '7'}]
+                },
+                on_off: {
+                    acceptReporters: true,
+                    items: [{text: "Encendido", value: '1'},
+                            {text: "Apagado", value: '0'}]
+                },
+                rgb_color: {
+                    acceptReporters: true,
+                    items: ['Amarillo', 'Naraja', 'Rojo', 'Magenta', 'Fucsia', 'Violeta', 'Azul',
+                        'Cerúleo', 'Cyan', 'Verde Cyan', 'Verde', 'Lima']
+                }
+            }
+        };
+    }
+
+    // The block handlers
+
+    // command blocks
+
+    //pwm
+    play_sound(args) {
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+
+        if (!connected) {
+            let callbackEntry = [this.play_sound.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let sound = args['NOTE'];
+
+            if (pin_modes[pin] !== PWM) {
+                pin_modes[pin] = PWM;
+                msg = {"command": "set_mode_pwm", "pin": pin};
+                msg = JSON.stringify(msg);
+                window.socket.send(msg);
+            }
+            msg = {"command": "pwm_write", "pin": pin, "value": value};
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+
+        }
+    }
+
+    
+    // end of block handlers
+
+    _setLocale () {
+        let now_locale = '';
+        switch (formatMessage.setup().locale){
+            case 'es':
+                now_locale='es';
+                break;
+            case 'pt-br':
+            case 'pt':
+                now_locale='pt-br';
+                break;
+            case 'en':
+                now_locale='en';
+                break;
+            case 'fr':
+                now_locale='fr';
+                break;
+            case 'zh-tw':
+                now_locale= 'zh-tw';
+                break;
+            case 'zh-cn':
+                now_locale= 'zh-cn';
+                break;
+            case 'pl':
+                now_locale= 'pl';
+                break;
+            case 'ja':
+                now_locale= 'ja';
+                break;
+            case 'de':
+                now_locale= 'de';
+                break;
+            default:
+                now_locale='en';
+                break;
+        }
+        return now_locale;
+    }
+
+    // helpers
+    connect() {
+        if (connected) {
+            // ignore additional connection attempts
+            return;
+        } else {
+            connect_attempt = true;
+            window.socket = new WebSocket("ws://127.0.0.1:9000");
+            msg = JSON.stringify({"id": "to_arduino_gateway"});
+        }
+
+
+        // websocket event handlers
+        window.socket.onopen = function () {
+
+            digital_inputs.fill(0);
+            analog_inputs.fill(0);
+            pin_modes.fill(-1);
+            // connection complete
+            connected = true;
+            connect_attempt = true;
+            // the message is built above
+            try {
+                //ws.send(msg);
+                window.socket.send(msg);
+
+            } catch (err) {
+                // ignore this exception
+            }
+            for (let index = 0; index < wait_open.length; index++) {
+                let data = wait_open[index];
+                data[0](data[1]);
+            }
+        };
+
+        window.socket.onclose = function () {
+            digital_inputs.fill(0);
+            analog_inputs.fill(0);
+            pin_modes.fill(-1);
+            if (alerted === false) {
+                alerted = true;
+                alert(FormWSClosed[the_locale]);}
+            connected = false;
+        };
+
+        // reporter messages from the board
+        window.socket.onmessage = function (message) {
+            msg = JSON.parse(message.data);
+            let report_type = msg["report"];
+            let pin = null;
+            let value = null;
+
+            // types - digital, analog, sonar
+            if (report_type === 'digital_input') {
+                pin = msg['pin'];
+                pin = parseInt(pin, 10);
+                value = msg['value'];
+                digital_inputs[pin] = value;
+            } else if (report_type === 'analog_input') {
+                pin = msg['pin'];
+                pin = parseInt(pin, 10);
+                value = msg['value'];
+                analog_inputs[pin] = value;
+            } else if (report_type === 'sonar_data') {
+                value = msg['value'];
+                digital_inputs[sonar_report_pin] = value;
+            }
+        };
+    }
+
+
+}
+
+module.exports = Scratch3Scratch4Education;

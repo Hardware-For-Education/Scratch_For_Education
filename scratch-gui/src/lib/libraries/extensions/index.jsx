@@ -49,6 +49,9 @@ import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 import onegpioArduinoImage from './onegpioArduino/onegpioArduino.png';
 import onegpioArduinoInsetIconURL from './onegpioArduino/onegpioArduino-small.png';
 
+import scratch4educationImage from './scratch4education/scratch4education-small.png';
+import scratch4educationInsetIconURL from './scratch4education/scratch4education-small.png';
+
 import onegpioRpiImage from './onegpioRpi/onegpioRpi.png';
 import onegpioRpiInsetIconURL from './onegpioRpi/onegpioRpi-small.png';
 
@@ -356,93 +359,17 @@ export default [
     }
 ,
     {
-        name: 'OneGpio Raspberry Pi',
-        extensionId: 'onegpioRpi',
-        collaborator: "Mr. Y's Lab",
-        iconURL: onegpioRpiImage,
-        insetIconURL: onegpioRpiInsetIconURL,
-        description: 'OneGPIORpi',
+        name: 'Scratch 4 Education',
+        extensionId: 'scratch4education',
+        collaborator: "Javeriana",
+        iconURL: scratch4educationImage,
+        insetIconURL: scratch4educationInsetIconURL,
+        description: 'Scratch4Education',
         featured: true,
         disabled: false,
-        internetConnectionRequired: true,
+        internetConnectionRequired: false,
         bluetoothRequired: false,
         helpLink: 'https://mryslab.github.io/s3-extend/'
 
-    }
-,
-    {
-        name: 'OneGpio ESP-8266',
-        extensionId: 'onegpioEsp',
-        collaborator: "Mr. Y's Lab",
-        iconURL: onegpioEspImage,
-        insetIconURL: onegpioEspInsetIconURL,
-        description: 'OneGPIOEsp',
-        featured: true,
-        disabled: false,
-        internetConnectionRequired: true,
-        bluetoothRequired: false,
-        helpLink: 'https://mryslab.github.io/s3-extend/'
-
-    }
-,
-
-    {
-        name: 'OneGpio Picoboard',
-        extensionId: 'onegpioPicoboard',
-        collaborator: "Mr. Y's Lab",
-        iconURL: onegpioPicoboardImage,
-        insetIconURL: onegpioPicoboardInsetIconURL,
-        description: 'OneGPIOPicoboard',
-        featured: true,
-        disabled: false,
-        internetConnectionRequired: true,
-        bluetoothRequired: false,
-        helpLink: 'https://mryslab.github.io/s3-extend/'
-
-    }
-,
-    {
-        name: 'OneGpio Playground Express',
-        extensionId: 'onegpioCpx',
-        collaborator: "Mr. Y's Lab",
-        iconURL: onegpioCpxImage,
-        insetIconURL: onegpioCpxInsetIconURL,
-        description: 'OneGPIOCpx',
-        featured: true,
-        disabled: false,
-        internetConnectionRequired: true,
-        bluetoothRequired: false,
-        helpLink: 'https://mryslab.github.io/s3-extend/'
-
-    }
-,
-    {
-        name: 'OneGpio RoboHAT MM1',
-        extensionId: 'onegpioRoboHAT',
-        collaborator: "Mr. Y's Lab",
-        iconURL: onegpioRoboHATImage,
-        insetIconURL: onegpioRoboHATInsetIconURL,
-        description: 'OneGPIORoboHAT',
-        featured: true,
-        disabled: false,
-        internetConnectionRequired: true,
-        bluetoothRequired: false,
-        helpLink: 'https://mryslab.github.io/s3-extend/'
-
-    }
-,
-    {
-        name: 'OneGpio Raspberry Pi Pico',
-        extensionId: 'onegpioRpiPico',
-        collaborator: "Mr. Y's Lab",
-        iconURL: onegpioRpiPicoImage,
-        insetIconURL: onegpioRpiPicoInsetIconURL,
-        description: 'onegpioRpiPico',
-        featured: true,
-        disabled: false,
-        internetConnectionRequired: true,
-        bluetoothRequired: false,
-        helpLink: 'https://mryslab.github.io/s3-extend/'
-
-    }
+    } 
 ];
