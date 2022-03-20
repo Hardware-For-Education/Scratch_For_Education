@@ -20,12 +20,13 @@ Arduino Uno, ESP-8666, or Raspberry Pi
  */
 
 // Boiler plate from the Scratch Team
-const ArgumentType = require('../../extension-support/argument-type');
-const BlockType = require('../../extension-support/block-type');
-const formatMessage = require('format-message');
+const ArgumentType = require("../../extension-support/argument-type");
+const BlockType = require("../../extension-support/block-type");
+const formatMessage = require("format-message");
 
+require("sweetalert");
 
-// The following are constants used within the extension
+let the_locale = null;
 
 // Digital Modes
 const DIGITAL_INPUT = 1;
@@ -35,8 +36,6 @@ const SERVO = 4;
 const TONE = 5;
 const SONAR = 6;
 const ANALOG_INPUT = 7;
-
-require('sweetalert');
 
 // an array to save the current pin mode
 // this is common to all board types since it contains enough
@@ -60,8 +59,8 @@ let sonar_report_pin = -1;
 let connected = false;
 
 // arrays to hold input values
-let digital_inputs = new Array(32);
-let analog_inputs = new Array(8);
+let digital_inputs = new Array(13);
+let analog_inputs = new Array(6);
 
 // flag to indicate if a websocket connect was
 // ever attempted.
@@ -70,69 +69,93 @@ let connect_attempt = false;
 // an array to buffer operations until socket is opened
 let wait_open = [];
 
-let the_locale = null;
+// Pines de conexión del LED RGB
+const RED = 2;
+const GREEN = 3;
+const BLUE = 4;
 
-// common
+// Pin para el pulsador 
+const SWITCH = 2;
+
+// Pin de conexion del potenciómetro
+const POTENCIOMETRO = 3;
+
+// Pines de conexion del joystick
+const JOYSTICK_X = 0;
+const JOYSTICK_Y = 1;
+const JOYSTICK_Z = 7;
+
 const FormPlaySound = {
-    'en': 'Play sound [NOTE]',
-    'es': 'Tocar sonido [NOTE]',
+    en: "Play sound [NOTE]",
+    es: "Tocar sonido [NOTE]",
+    "es-419": "Tocar sonido [NOTE]",
 };
 
 const FormPlaySoundFreq = {
-    'en': 'Tone [FREQ] Hz [DURATION] ms',
-    'es': 'Tocar a [FREQ] Hz [DURATION] ms'
+    en: "Tone [FREQ] Hz [DURATION] ms",
+    es: "Tocar a [FREQ] Hz [DURATION] ms",
+    "es-419": "Tocar a [FREQ] Hz [DURATION] ms",
 };
 
 const FormLedRGBSingle = {
-    'en': "LED red [ON_OFF_RED] \ngreen [ON_OFF_GREEN] blue [ON_OFF_BLUE]",
-    'es': "LED rojo [ON_OFF_RED] \nverde [ON_OFF_GREEN] azul [ON_OFF_BLUE]",
+    en: "LED red [ON_OFF_RED] \ngreen [ON_OFF_GREEN] blue [ON_OFF_BLUE]",
+    es: "LED rojo [ON_OFF_RED] \nverde [ON_OFF_GREEN] azul [ON_OFF_BLUE]",
+    "es-419": "LED rojo [ON_OFF_RED] \nverde [ON_OFF_GREEN] azul [ON_OFF_BLUE]",
 };
 
 const FormLedRGB = {
-    'en': "LED RGB color [RGB_COLOR]",
-    'es': "Poner el LED RGB en [RGB_COLOR]",
+    en: "LED RGB color [RGB_COLOR]",
+    es: "Poner el LED RGB en [RGB_COLOR]",
+    "es-419": "Poner el LED RGB en [RGB_COLOR]",
 };
 
 const FormMotorDCRight = {
-    'en': "Turn ↻ with speed [SPEED]",
-    'es': "Girar ↻ con velocidad [SPEED]",
+    en: "Turn ↻ with speed [SPEED]",
+    es: "Girar ↻ con velocidad [SPEED]",
+    "es-419": "Girar ↻ con velocidad [SPEED]",
 };
 
 const FormMotorDCLeft = {
-    'en': "Turn ↺ with speed [SPEED]",
-    'es': "Girar ↺ con velocidad [SPEED]",
+    en: "Turn ↺ with speed [SPEED]",
+    es: "Girar ↺ con velocidad [SPEED]",
+    "es-419": "Girar ↺ con velocidad [SPEED]",
 };
 
 const FormJoystickX = {
-    'en': "X position of the joystick",
-    'es': "Posición en X del joystick",
+    en: "X position of the joystick",
+    es: "Posición en X del joystick",
+    "es-419": "Posición en X del joystick",
 };
 
 const FormJoystickY = {
-    'en': "Y position of the joystick",
-    'es': "Posición en Y del joystick",
+    en: "Y position of the joystick",
+    es: "Posición en Y del joystick",
+    "es-419": "Posición en Y del joystick",
 };
 
 const FormJoystickZ = {
-    'en': "Z position of the joystick",
-    'es': "Posición en Z del joystick",
+    en: "Z position of the joystick",
+    es: "Posición en Z del joystick",
+    "es-419": "Posición en Z del joystick",
 };
 
 const FormPotenciometer = {
-    'en': "Value potenciometer",
-    'es': "Valor del potenciometro",
+    en: "Value potenciometer",
+    es: "Valor del potenciometro",
+    "es-419": "Valor del potenciometro",
 };
 
 const FormMicrophone = {
-    'en': "Value microphone",
-    'es': "Valor del micrófono",
+    en: "Value microphone",
+    es: "Valor del micrófono",
+    "es-419": "Valor del micrófono",
 };
 
 const FormSwitch = {
-    'en': "Switch value",
-    'es': "Valor Switch",
+    en: "Switch value",
+    es: "Valor Switch",
+    "es-419": "Valor Switch",
 };
-
 
 class Scratch3Scratch4Education {
     constructor(runtime) {
@@ -145,26 +168,27 @@ class Scratch3Scratch4Education {
         this.connect();
 
         return {
-            id: 'scratch4education',
-            color1: '#0C5986',
-            color2: '#34B0F7',
-            name: 'Scratch 4 Education',
+            id: "scratch4education",
+            color1: "#0C5986",
+            color2: "#34B0F7",
+            name: "Scratch 4 Education",
             blocks: [
                 {
-                    opcode: 'play_sound',
+                    opcode: "play_sound",
                     blockType: BlockType.COMMAND,
                     text: FormPlaySound[the_locale],
 
                     arguments: {
                         NOTE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 'Do',
-                            menu: "notes"
-                        }
-                    }
+                            defaultText: "Do",
+                            defaultValue: 1,
+                            menu: "notes",
+                        },
+                    },
                 },
                 {
-                    opcode: 'play_sound_freq',
+                    opcode: "play_sound_freq",
                     blockType: BlockType.COMMAND,
                     text: FormPlaySoundFreq[the_locale],
                     arguments: {
@@ -175,45 +199,48 @@ class Scratch3Scratch4Education {
                         DURATION: {
                             type: ArgumentType.NUMBER,
                             defaultValue: 50,
-                        }
-                    }
+                        },
+                    },
                 },
                 {
-                    opcode: 'led_RGB_on_off',
+                    opcode: "led_RGB_on_off",
                     blockType: BlockType.COMMAND,
                     text: FormLedRGBSingle[the_locale],
                     arguments: {
                         ON_OFF_RED: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 'Encendido',
-                            menu: "on_off"
+                            defaultText: "Encendido",
+                            defaultValue: 1,
+                            menu: "on_off",
                         },
                         ON_OFF_GREEN: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 'Encendido',
-                            menu: "on_off"
+                            defaultText: "Encendido",
+                            defaultValue: 1,
+                            menu: "on_off",
                         },
                         ON_OFF_BLUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 'Encendido',
-                            menu: "on_off"
+                            defaultText: "Encendido",
+                            defaultValue: 1,
+                            menu: "on_off",
                         },
-                    }
+                    },
                 },
                 {
-                    opcode: 'led_RGB_color',
+                    opcode: "led_RGB_color",
                     blockType: BlockType.COMMAND,
                     text: FormLedRGB[the_locale],
                     arguments: {
                         RGB_COLOR: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 'Verde',
-                            menu: "rgb_color"
-                        }
-                    }
+                            defaultValue: "Rojo",
+                            menu: "rgb_color",
+                        },
+                    },
                 },
                 {
-                    opcode: 'motor_dc_right',
+                    opcode: "motor_dc_right",
                     blockType: BlockType.COMMAND,
                     text: FormMotorDCRight[the_locale],
                     arguments: {
@@ -221,11 +248,10 @@ class Scratch3Scratch4Education {
                             type: ArgumentType.NUMBER,
                             defaultValue: 100,
                         },
-
-                    }
+                    },
                 },
                 {
-                    opcode: 'motor_dc_left',
+                    opcode: "motor_dc_left",
                     blockType: BlockType.COMMAND,
                     text: FormMotorDCLeft[the_locale],
                     arguments: {
@@ -233,36 +259,35 @@ class Scratch3Scratch4Education {
                             type: ArgumentType.NUMBER,
                             defaultValue: 100,
                         },
-
-                    }
+                    },
                 },
                 {
-                    opcode: 'joystick_x',
+                    opcode: "joystick_x",
                     blockType: BlockType.REPORTER,
                     text: FormJoystickX[the_locale],
                 },
                 {
-                    opcode: 'joystick_y',
+                    opcode: "joystick_y",
                     blockType: BlockType.REPORTER,
                     text: FormJoystickY[the_locale],
                 },
                 {
-                    opcode: 'joystick_z',
+                    opcode: "joystick_z",
                     blockType: BlockType.REPORTER,
                     text: FormJoystickZ[the_locale],
                 },
                 {
-                    opcode: 'potenciometer',
+                    opcode: "potenciometer",
                     blockType: BlockType.REPORTER,
                     text: FormPotenciometer[the_locale],
                 },
                 {
-                    opcode: 'microphone',
+                    opcode: "microphone",
                     blockType: BlockType.REPORTER,
                     text: FormMicrophone[the_locale],
                 },
                 {
-                    opcode: 'switch',
+                    opcode: "switch",
                     blockType: BlockType.REPORTER,
                     text: FormSwitch[the_locale],
                 },
@@ -270,96 +295,366 @@ class Scratch3Scratch4Education {
             menus: {
                 notes: {
                     acceptReporters: true,
-                    items: [{text: "Do", value: '1'}, 
-                            {text: "Re", value: '2'},
-                            {text: "Mi", value: '3'},
-                            {text: "Fa", value: '4'},
-                            {text: "Sol", value: '5'},
-                            {text: "La", value: '6'},
-                            {text: "Si", value: '7'}]
+                    items: [
+                        { text: "Do", value: "1" },
+                        { text: "Re", value: "2" },
+                        { text: "Mi", value: "3" },
+                        { text: "Fa", value: "4" },
+                        { text: "Sol", value: "5" },
+                        { text: "La", value: "6" },
+                        { text: "Si", value: "7" },
+                    ],
                 },
                 on_off: {
                     acceptReporters: true,
-                    items: [{text: "Encendido", value: '1'},
-                            {text: "Apagado", value: '0'}]
+                    items: [
+                        { text: "Encendido", value: "1" },
+                        { text: "Apagado", value: "0" },
+                    ],
                 },
                 rgb_color: {
                     acceptReporters: true,
-                    items: ['Amarillo', 'Naraja', 'Rojo', 'Magenta', 'Fucsia', 'Violeta', 'Azul',
-                        'Cerúleo', 'Cyan', 'Verde Cyan', 'Verde', 'Lima']
-                }
-            }
+                    items: [
+                        "Rojo",
+                        "Verde",
+                        "Azul",
+                        "Cyan",
+                        "Amarillo",
+                        "Fucsia",
+                        "Blanco",
+                        "Negro",
+                    ],
+                },
+            },
         };
     }
 
-    // The block handlers
-
-    // command blocks
-
-    //pwm
+    /********************************** Manejadores de funciones ***********************************/
     play_sound(args) {
+        console.log("play_sound");
+        let note = args["NOTE"];
+        console.log(note);
+    }
+
+    play_sound_freq(args) {
+        console.log("play_sound_freq");
+        let freq = args["FREQ"];
+        console.log(freq);
+        let duration = args["DURATION"];
+        console.log(duration);
+    }
+
+    led_RGB_on_off(args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
                 connection_pending = true;
             }
         }
-
         if (!connected) {
-            let callbackEntry = [this.play_sound.bind(this), args];
+            let callbackEntry = [this.led_RGB_on_off.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let sound = args['NOTE'];
-
-            if (pin_modes[pin] !== PWM) {
-                pin_modes[pin] = PWM;
-                msg = {"command": "set_mode_pwm", "pin": pin};
-                msg = JSON.stringify(msg);
-                window.socket.send(msg);
+            let red = parseInt(args["ON_OFF_RED"], 10);
+            let green = parseInt(args["ON_OFF_GREEN"], 10);
+            let blue = parseInt(args["ON_OFF_BLUE"], 10);
+            if (
+                pin_modes[RED] !== DIGITAL_INPUT &&
+                pin_modes[GREEN] !== DIGITAL_INPUT &&
+                pin_modes[BLUE] !== DIGITAL_INPUT
+            ) {
+                this._setpins_led_RGB();
             }
-            msg = {"command": "pwm_write", "pin": pin, "value": value};
-            msg = JSON.stringify(msg);
-            window.socket.send(msg);
-
+            msg_red = { command: "digital_write", pin: RED, value: red };
+            msg_red = JSON.stringify(msg_red);
+            window.socket.send(msg_red);
+            msg_green = { command: "digital_write", pin: GREEN, value: green };
+            msg_green = JSON.stringify(msg_green);
+            window.socket.send(msg_green);
+            msg_blue = { command: "digital_write", pin: BLUE, value: blue };
+            msg_blue = JSON.stringify(msg_blue);
+            window.socket.send(msg_blue)
         }
     }
 
-    
-    // end of block handlers
+    led_RGB_color(args) {
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.led_RGB_on_off.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let red;
+            let green;
+            let blue;
+            if (
+                pin_modes[RED] !== DIGITAL_INPUT &&
+                pin_modes[GREEN] !== DIGITAL_INPUT &&
+                pin_modes[BLUE] !== DIGITAL_INPUT
+            ) {
+                this._setpins_led_RGB();
+            }
+            let rgb = args["RGB_COLOR"];
+            switch (rgb) {
+                case "Rojo":
+                    console.log("ROJO");
+                    red = 1;
+                    green = 0;
+                    blue = 0;
+                    break;
+                case "Verde":
+                    console.log("Verde");
+                    red = 0;
+                    green = 1;
+                    blue = 0;
+                    break;
+                case "Azul":
+                    console.log("Azul");
+                    red = 0;
+                    green = 0;
+                    blue = 1;
+                    break;
+                case "Cyan":
+                    console.log("Cyan");
+                    red = 0;
+                    green = 1;
+                    blue = 1;
+                    break;
+                case "Amarillo":
+                    console.log("Amarillo");
+                    red = 1;
+                    green = 1;
+                    blue = 0;
+                    break;
+                case "Fucsia":
+                    console.log("Fucsia");
+                    red = 1;
+                    green = 0;
+                    blue = 1;
+                    break;
+                case "Blanco":
+                    console.log("Blanco");
+                    red = 1;
+                    green = 1;
+                    blue = 1;
+                    break;
+                case "Negro":
+                    console.log("Negro");
+                    red = 0;
+                    green = 0;
+                    blue = 0;
+                    break;
+                default:
+                    red = null;
+                    green = null;
+                    blue = null;
+                    break;
+            }
+            if (red == null || green == null || blue == null) {
+            } else {
+                msg_red = { command: "digital_write", pin: RED, value: red };
+                msg_red = JSON.stringify(msg_red);
+                window.socket.send(msg_red);
+                msg_green = {
+                    command: "digital_write",
+                    pin: GREEN,
+                    value: green,
+                };
+                msg_green = JSON.stringify(msg_green);
+                window.socket.send(msg_green);
+                msg_blue = { command: "digital_write", pin: BLUE, value: blue };
+                msg_blue = JSON.stringify(msg_blue);
+                window.socket.send(msg_blue);
+            }
+        }
+    }
 
-    _setLocale () {
-        let now_locale = '';
-        switch (formatMessage.setup().locale){
-            case 'es':
-                now_locale='es';
+    motor_dc_right(args) {
+        console.log("motor_dc_right");
+        let speed = args["SPEED"];
+        console.log(speed);
+    }
+
+    motor_dc_left(args) {
+        console.log("motor_dc_left");
+        let speed = args["SPEED"];
+        console.log(speed);
+    }
+
+    joystick_x(args) {
+        console.log("joystick_x");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.joystick_x.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[JOYSTICK_X] !== ANALOG_INPUT) {
+                this._set_joystick_x();
+            }
+            return analog_inputs[JOYSTICK_X];
+        }
+    }
+
+    joystick_y(args) {
+        console.log("joystick_y");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.joystick_y.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[JOYSTICK_Y] !== ANALOG_INPUT) {
+                this._set_joystick_y();
+            }
+            return analog_inputs[JOYSTICK_Y];
+        }
+    }
+
+    joystick_z(args) {
+        console.log("joystick_z");
+    }
+
+    potenciometer(args) {
+        console.log("potenciometer");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.potenciometer.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[POTENCIOMETRO] !== ANALOG_INPUT) {
+                this._set_potenciometer();
+            }
+            return analog_inputs[POTENCIOMETRO];
+        }
+    }
+
+    microphone(args) {
+        console.log("microphone");
+    }
+
+    switch(args) {
+        console.log("switch");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.switch.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[SWITCH] !== ANALOG_INPUT) {
+                this._set_switch();
+            }
+            return analog_inputs[SWITCH];
+        }
+    }
+
+    /********************************* FIN Manejadores de funciones ********************************/
+
+    _setpins_led_RGB() {
+        pin_modes[RED] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_digital_output", pin: RED };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        pin_modes[BLUE] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_digital_output", pin: BLUE };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        pin_modes[GREEN] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_digital_output", pin: GREEN };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
+
+    _set_switch(){
+        pin_modes[SWITCH] = ANALOG_INPUT;
+        msg = {"command": "set_mode_analog_input", "pin": SWITCH};
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+    _set_joystick_x(){
+        pin_modes[JOYSTICK_X] = ANALOG_INPUT;
+        msg = {"command": "set_mode_analog_input", "pin": JOYSTICK_X};
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+    _set_joystick_y(){
+        pin_modes[JOYSTICK_Y] = ANALOG_INPUT;
+        msg = {"command": "set_mode_analog_input", "pin": JOYSTICK_Y};
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+    _set_potenciometer(){
+        pin_modes[POTENCIOMETRO] = ANALOG_INPUT;
+        msg = {"command": "set_mode_analog_input", "pin": POTENCIOMETRO};
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+
+    _setLocale() {
+        let now_locale = "";
+        switch (formatMessage.setup().locale) {
+            case "es-419":
+                now_locale = "es-419";
                 break;
-            case 'pt-br':
-            case 'pt':
-                now_locale='pt-br';
+            case "es":
+                now_locale = "es";
                 break;
-            case 'en':
-                now_locale='en';
+            case "pt-br":
+            case "pt":
+                now_locale = "pt-br";
                 break;
-            case 'fr':
-                now_locale='fr';
+            case "en":
+                now_locale = "en";
                 break;
-            case 'zh-tw':
-                now_locale= 'zh-tw';
+            case "fr":
+                now_locale = "fr";
                 break;
-            case 'zh-cn':
-                now_locale= 'zh-cn';
+            case "zh-tw":
+                now_locale = "zh-tw";
                 break;
-            case 'pl':
-                now_locale= 'pl';
+            case "zh-cn":
+                now_locale = "zh-cn";
                 break;
-            case 'ja':
-                now_locale= 'ja';
+            case "pl":
+                now_locale = "pl";
                 break;
-            case 'de':
-                now_locale= 'de';
+            case "ja":
+                now_locale = "ja";
+                break;
+            case "de":
+                now_locale = "de";
                 break;
             default:
-                now_locale='en';
+                now_locale = "en";
                 break;
         }
         return now_locale;
@@ -373,13 +668,11 @@ class Scratch3Scratch4Education {
         } else {
             connect_attempt = true;
             window.socket = new WebSocket("ws://127.0.0.1:9000");
-            msg = JSON.stringify({"id": "to_arduino_gateway"});
+            msg = JSON.stringify({ id: "to_arduino_gateway" });
         }
-
 
         // websocket event handlers
         window.socket.onopen = function () {
-
             digital_inputs.fill(0);
             analog_inputs.fill(0);
             pin_modes.fill(-1);
@@ -390,7 +683,6 @@ class Scratch3Scratch4Education {
             try {
                 //ws.send(msg);
                 window.socket.send(msg);
-
             } catch (err) {
                 // ignore this exception
             }
@@ -406,7 +698,8 @@ class Scratch3Scratch4Education {
             pin_modes.fill(-1);
             if (alerted === false) {
                 alerted = true;
-                alert(FormWSClosed[the_locale]);}
+                alert(FormWSClosed[the_locale]);
+            }
             connected = false;
         };
 
@@ -418,24 +711,22 @@ class Scratch3Scratch4Education {
             let value = null;
 
             // types - digital, analog, sonar
-            if (report_type === 'digital_input') {
-                pin = msg['pin'];
+            if (report_type === "digital_input") {
+                pin = msg["pin"];
                 pin = parseInt(pin, 10);
-                value = msg['value'];
+                value = msg["value"];
                 digital_inputs[pin] = value;
-            } else if (report_type === 'analog_input') {
-                pin = msg['pin'];
+            } else if (report_type === "analog_input") {
+                pin = msg["pin"];
                 pin = parseInt(pin, 10);
-                value = msg['value'];
+                value = msg["value"];
                 analog_inputs[pin] = value;
-            } else if (report_type === 'sonar_data') {
-                value = msg['value'];
+            } else if (report_type === "sonar_data") {
+                value = msg["value"];
                 digital_inputs[sonar_report_pin] = value;
             }
         };
     }
-
-
 }
 
 module.exports = Scratch3Scratch4Education;

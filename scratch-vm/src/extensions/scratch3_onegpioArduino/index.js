@@ -443,6 +443,7 @@ class Scratch3ArduinoOneGPIO {
             msg = {"command": "digital_write", "pin": pin, "value": value};
             msg = JSON.stringify(msg);
             window.socket.send(msg);
+            console.log(msg);
         }
     }
 
@@ -574,6 +575,7 @@ class Scratch3ArduinoOneGPIO {
                 msg = {"command": "set_mode_analog_input", "pin": pin};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
+                console.log(msg);
             }
             return analog_inputs[pin];
 
