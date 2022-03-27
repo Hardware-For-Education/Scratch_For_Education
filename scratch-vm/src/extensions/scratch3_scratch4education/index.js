@@ -85,6 +85,22 @@ const JOYSTICK_X = 0;
 const JOYSTICK_Y = 1;
 const JOYSTICK_Z = 7;
 
+// Pin de conexión del micrófono
+const MICROPHONE = 4;
+
+// Pin conexión puerto de entrada universal 
+const UNIVERSAL_IN = 5;
+
+// Pin conexión motor DC 
+const MOTOR_DC_1 = 5;
+const MOTOR_DC_2 = 9;
+
+// Pin conexión puerto de salida universal 
+const UNIVERSAL_OUT = 8;
+
+// Pin conexion motor vibrador / Buzzer
+const MOTOR_BUZZER = 6;
+
 const FormPlaySound = {
     en: "Play sound [NOTE]",
     es: "Tocar sonido [NOTE]",
@@ -318,9 +334,9 @@ class Scratch3Scratch4Education {
                         "Rojo",
                         "Verde",
                         "Azul",
-                        "Cyan",
+                        "Cian",
                         "Amarillo",
-                        "Fucsia",
+                        "Magenta",
                         "Blanco",
                         "Negro",
                     ],
@@ -418,8 +434,8 @@ class Scratch3Scratch4Education {
                     green = 0;
                     blue = 1;
                     break;
-                case "Cyan":
-                    console.log("Cyan");
+                case "Cian":
+                    console.log("Cian");
                     red = 0;
                     green = 1;
                     blue = 1;
@@ -430,8 +446,8 @@ class Scratch3Scratch4Education {
                     green = 1;
                     blue = 0;
                     break;
-                case "Fucsia":
-                    console.log("Fucsia");
+                case "Magenta":
+                    console.log("Magenta");
                     red = 1;
                     green = 0;
                     blue = 1;
@@ -507,7 +523,7 @@ class Scratch3Scratch4Education {
     joystick_y(args) {
         console.log("joystick_y");
         if (!connected) {
-            if (!connection_pending) {
+            if (!connection_pending) { 
                 this.connect();
                 connection_pending = true;
             }
@@ -525,6 +541,21 @@ class Scratch3Scratch4Education {
 
     joystick_z(args) {
         console.log("joystick_z");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.digital_read.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[JOYSTICK_Z] !== DIGITAL_INPUT) {
+                this._set_joystick_z();
+            }
+            return digital_inputs[JOYSTICK_Z];
+        }
     }
 
     potenciometer(args) {
@@ -548,6 +579,21 @@ class Scratch3Scratch4Education {
 
     microphone(args) {
         console.log("microphone");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.analog_read.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[MICROPHONE] !== ANALOG_INPUT) {
+                this._set_microphone();
+            }
+            return analog_inputs[MICROPHONE];
+        }
     }
 
     switch(args) {
@@ -610,6 +656,13 @@ class Scratch3Scratch4Education {
         console.log(msg);
     }
 
+    _set_joystick_z(){
+        pin_modes[JOYSTICK_Z] = DIGITAL_INPUT;
+        msg = {"command": "set_mode_digital_input", "pin": JOYSTICK_Z};
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
+
     _set_potenciometer(){
         pin_modes[POTENCIOMETRO] = ANALOG_INPUT;
         msg = {"command": "set_mode_analog_input", "pin": POTENCIOMETRO};
@@ -618,6 +671,14 @@ class Scratch3Scratch4Education {
         console.log(msg);
     }
 
+    _set_microphone(){
+        pin_modes[MICROPHONE] = ANALOG_INPUT;
+        msg = {"command": "set_mode_analog_input", "pin": MICROPHONE};
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+    
 
     _setLocale() {
         let now_locale = "";
