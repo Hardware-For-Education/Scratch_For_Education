@@ -1,9 +1,10 @@
 /*
 This is the Scratch 3 extension to remotely control an
-Arduino Uno, ESP-8666, or Raspberry Pi
+Arduino Uno with the shield develop by the Hardware for Education 
+group.
 
 
- Copyright (c) 2019 Alan Yorinks All rights reserved.
+ Copyright (c) 2022 Hardware for Education All rights reserved.
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -74,7 +75,7 @@ const RED = 2;
 const GREEN = 3;
 const BLUE = 4;
 
-// Pin para el pulsador 
+// Pin para el pulsador
 const SWITCH = 2;
 
 // Pin de conexion del potenciómetro
@@ -88,14 +89,14 @@ const JOYSTICK_Z = 7;
 // Pin de conexión del micrófono
 const MICROPHONE = 4;
 
-// Pin conexión puerto de entrada universal 
+// Pin conexión puerto de entrada universal
 const UNIVERSAL_IN = 5;
 
-// Pin conexión motor DC 
+// Pin conexión motor DC
 const MOTOR_DC_1 = 5;
 const MOTOR_DC_2 = 9;
 
-// Pin conexión puerto de salida universal 
+// Pin conexión puerto de salida universal
 const UNIVERSAL_OUT = 8;
 
 // Pin conexion motor vibrador / Buzzer
@@ -125,16 +126,28 @@ const FormLedRGB = {
     "es-419": "Poner el LED RGB en [RGB_COLOR]",
 };
 
+const FormMotorDCRightSpeed = {
+    en: "Turn motor ↻ with speed [SPEED]",
+    es: "Girar motor ↻ con velocidad [SPEED]",
+    "es-419": "Girar motor ↻ con velocidad [SPEED]",
+};
+
 const FormMotorDCRight = {
-    en: "Turn ↻ with speed [SPEED]",
-    es: "Girar ↻ con velocidad [SPEED]",
-    "es-419": "Girar ↻ con velocidad [SPEED]",
+    en: "Turn motor ↻",
+    es: "Girar motor ↻",
+    "es-419": "Girar motor ↻",
+};
+
+const FormMotorDCLeftSpeed = {
+    en: "Turn motor ↺ with speed [SPEED]",
+    es: "Girar motor ↺ con velocidad [SPEED]",
+    "es-419": "Girar motor ↺ con velocidad [SPEED]",
 };
 
 const FormMotorDCLeft = {
-    en: "Turn ↺ with speed [SPEED]",
-    es: "Girar ↺ con velocidad [SPEED]",
-    "es-419": "Girar ↺ con velocidad [SPEED]",
+    en: "Turn motor ↺",
+    es: "Girar motor ↺",
+    "es-419": "Girar motor ↺",
 };
 
 const FormJoystickX = {
@@ -171,6 +184,30 @@ const FormSwitch = {
     en: "Switch value",
     es: "Valor Switch",
     "es-419": "Valor Switch",
+};
+
+const FormAccX = {
+    en: "Acceleration value in X axis",
+    es: "Aceleración en el eje X",
+    "es-419": "Aceleración en el eje X",
+};
+
+const FormAccY = {
+    en: "Acceleration value in Y axis",
+    es: "Aceleración en el eje Y",
+    "es-419": "Aceleración en el eje Y",
+};
+
+const FormAccZ = {
+    en: "Acceleration value in Z axis",
+    es: "Aceleración en el eje Z",
+    "es-419": "Aceleración en el eje Z",
+};
+
+const FormScreenLines = {
+    en: "Draw in line [LINE] [STRING]",
+    es: "Dibujar en la línea [LINE] [STRING]",
+    "es-419": "Dibujar en la línea [LINE] [STRING]",
 };
 
 class Scratch3Scratch4Education {
@@ -259,6 +296,16 @@ class Scratch3Scratch4Education {
                     opcode: "motor_dc_right",
                     blockType: BlockType.COMMAND,
                     text: FormMotorDCRight[the_locale],
+                },
+                {
+                    opcode: "motor_dc_left",
+                    blockType: BlockType.COMMAND,
+                    text: FormMotorDCLeft[the_locale],
+                },
+                {
+                    opcode: "motor_dc_right_speed",
+                    blockType: BlockType.COMMAND,
+                    text: FormMotorDCRightSpeed[the_locale],
                     arguments: {
                         SPEED: {
                             type: ArgumentType.NUMBER,
@@ -267,13 +314,29 @@ class Scratch3Scratch4Education {
                     },
                 },
                 {
-                    opcode: "motor_dc_left",
+                    opcode: "motor_dc_left_speed",
                     blockType: BlockType.COMMAND,
-                    text: FormMotorDCLeft[the_locale],
+                    text: FormMotorDCLeftSpeed[the_locale],
                     arguments: {
                         SPEED: {
                             type: ArgumentType.NUMBER,
                             defaultValue: 100,
+                        },
+                    },
+                },
+                {
+                    opcode: "screen_lines",
+                    blockType: BlockType.COMMAND,
+                    text: FormScreenLines[the_locale],
+                    arguments: {
+                        LINE: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1,
+                            menu: "line",
+                        },
+                        STRING: {
+                            type: ArgumentType.STRING,
+                            defaultValue: "",
                         },
                     },
                 },
@@ -307,6 +370,21 @@ class Scratch3Scratch4Education {
                     blockType: BlockType.REPORTER,
                     text: FormSwitch[the_locale],
                 },
+                {
+                    opcode: "accelerometer_X",
+                    blockType: BlockType.REPORTER,
+                    text: FormAccX[the_locale],
+                },
+                {
+                    opcode: "accelerometer_Y",
+                    blockType: BlockType.REPORTER,
+                    text: FormAccY[the_locale],
+                },
+                {
+                    opcode: "accelerometer_Z",
+                    blockType: BlockType.REPORTER,
+                    text: FormAccZ[the_locale],
+                },
             ],
             menus: {
                 notes: {
@@ -339,6 +417,17 @@ class Scratch3Scratch4Education {
                         "Magenta",
                         "Blanco",
                         "Negro",
+                    ],
+                },
+                line: {
+                    acceptReporters: true,
+                    items: [
+                        { text: "1", value: "1" },
+                        { text: "2", value: "2" },
+                        { text: "3", value: "3" },
+                        { text: "4", value: "4" },
+                        { text: "5", value: "5" },
+                        { text: "6", value: "6" },
                     ],
                 },
             },
@@ -389,7 +478,7 @@ class Scratch3Scratch4Education {
             window.socket.send(msg_green);
             msg_blue = { command: "digital_write", pin: BLUE, value: blue };
             msg_blue = JSON.stringify(msg_blue);
-            window.socket.send(msg_blue)
+            window.socket.send(msg_blue);
         }
     }
 
@@ -491,14 +580,39 @@ class Scratch3Scratch4Education {
 
     motor_dc_right(args) {
         console.log("motor_dc_right");
-        let speed = args["SPEED"];
-        console.log(speed);
     }
 
     motor_dc_left(args) {
         console.log("motor_dc_left");
+    }
+
+    motor_dc_right_speed(args) {
+        console.log("motor_dc_right_speed");
         let speed = args["SPEED"];
         console.log(speed);
+    }
+
+    motor_dc_left_speed(args) {
+        console.log("motor_dc_left_speed");
+        let speed = args["SPEED"];
+        console.log(speed);
+    }
+
+    screen_lines(args) {
+        console.log("screen_lines");
+        let string_to_write = args["STRING"];
+        let line = args["LINE"];
+        console.log(string_to_write);
+        console.log(line);
+        if (!string_to_write) {
+            console.log("String vacio");
+        } else {
+            if (string_to_write.length > 14) {
+                console.log("String largo");
+            } else {
+                console.log("String perfecto");
+            }
+        }
     }
 
     joystick_x(args) {
@@ -523,7 +637,7 @@ class Scratch3Scratch4Education {
     joystick_y(args) {
         console.log("joystick_y");
         if (!connected) {
-            if (!connection_pending) { 
+            if (!connection_pending) {
                 this.connect();
                 connection_pending = true;
             }
@@ -615,6 +729,21 @@ class Scratch3Scratch4Education {
         }
     }
 
+    accelerometer_X(args) {
+        console.log("Accelerometer X");
+        return 0;
+    }
+
+    accelerometer_Y(args) {
+        console.log("Accelerometer Y");
+        return 0;
+    }
+
+    accelerometer_Z(args) {
+        console.log("Accelerometer Z");
+        return 0;
+    }
+
     /********************************* FIN Manejadores de funciones ********************************/
 
     _setpins_led_RGB() {
@@ -632,53 +761,52 @@ class Scratch3Scratch4Education {
         window.socket.send(msg);
     }
 
-    _set_switch(){
+    _set_switch() {
         pin_modes[SWITCH] = ANALOG_INPUT;
-        msg = {"command": "set_mode_analog_input", "pin": SWITCH};
+        msg = { command: "set_mode_analog_input", pin: SWITCH };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
     }
 
-    _set_joystick_x(){
+    _set_joystick_x() {
         pin_modes[JOYSTICK_X] = ANALOG_INPUT;
-        msg = {"command": "set_mode_analog_input", "pin": JOYSTICK_X};
+        msg = { command: "set_mode_analog_input", pin: JOYSTICK_X };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
     }
 
-    _set_joystick_y(){
+    _set_joystick_y() {
         pin_modes[JOYSTICK_Y] = ANALOG_INPUT;
-        msg = {"command": "set_mode_analog_input", "pin": JOYSTICK_Y};
+        msg = { command: "set_mode_analog_input", pin: JOYSTICK_Y };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
     }
 
-    _set_joystick_z(){
+    _set_joystick_z() {
         pin_modes[JOYSTICK_Z] = DIGITAL_INPUT;
-        msg = {"command": "set_mode_digital_input", "pin": JOYSTICK_Z};
+        msg = { command: "set_mode_digital_input", pin: JOYSTICK_Z };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
     }
 
-    _set_potenciometer(){
+    _set_potenciometer() {
         pin_modes[POTENCIOMETRO] = ANALOG_INPUT;
-        msg = {"command": "set_mode_analog_input", "pin": POTENCIOMETRO};
+        msg = { command: "set_mode_analog_input", pin: POTENCIOMETRO };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
     }
 
-    _set_microphone(){
+    _set_microphone() {
         pin_modes[MICROPHONE] = ANALOG_INPUT;
-        msg = {"command": "set_mode_analog_input", "pin": MICROPHONE};
+        msg = { command: "set_mode_analog_input", pin: MICROPHONE };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
     }
-    
 
     _setLocale() {
         let now_locale = "";
