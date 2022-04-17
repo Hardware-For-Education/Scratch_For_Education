@@ -210,6 +210,27 @@ const FormScreenLines = {
     "es-419": "Dibujar en la línea [LINE] [STRING]",
 };
 
+// General Alert
+const FormWSClosed = {
+    'pt-br': "A Conexão do WebSocket está Fechada",
+    'pt': "A Conexão do WebSocket está Fechada",
+    'en': "WebSocket Connection Is Closed.",
+    'fr': "La connexion WebSocket est fermée.",
+    'zh-tw': "網路連線中斷",
+    'zh-cn': "网络连接中断",
+    'pl': "Połączenie WebSocket jest zamknięte.",
+    'de': "WebSocket-Verbindung geschlossen.",
+    'ja': "ウェブソケット接続が切断されています",
+    es: "Conexión con el WebSocket está cerrada.",
+    "es-419": "Conexión con el WebSocket está cerrada.",
+};
+
+const FormLengthText = {
+    'en': "Invalid text length. It must be less than or equal to 14 characters.",
+    es: "Longitud del texto inválida. Tiene que ser menor o igual a 14 caracteres.",
+    "es-419": "Longitud del texto inválida. Tiene que ser menor o igual a 14 caracteres.",
+};
+
 class Scratch3Scratch4Education {
     constructor(runtime) {
         the_locale = this._setLocale();
@@ -580,10 +601,56 @@ class Scratch3Scratch4Education {
 
     motor_dc_right(args) {
         console.log("motor_dc_right");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.motor_dc_right.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (
+                pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT &&
+                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT 
+            ) {
+                this._setpins_motor_digital();
+            }
+            msg_motor_1 = { command: "digital_write", pin: MOTOR_DC_1, value: 1 };
+            msg_motor_1 = JSON.stringify(msg_motor_1);
+            window.socket.send(msg_motor_1);
+            msg_motor_2 = { command: "digital_write", pin: MOTOR_DC_2, value: 0 };
+            msg_motor_2 = JSON.stringify(msg_motor_2);
+            window.socket.send(msg_motor_2);
+        }
     }
 
     motor_dc_left(args) {
         console.log("motor_dc_left");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.motor_dc_right.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (
+                pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT &&
+                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT 
+            ) {
+                this._setpins_motor_digital();
+            }
+            msg_motor_1 = { command: "digital_write", pin: MOTOR_DC_1, value: 0 };
+            msg_motor_1 = JSON.stringify(msg_motor_1);
+            window.socket.send(msg_motor_1);
+            msg_motor_2 = { command: "digital_write", pin: MOTOR_DC_2, value: 1 };
+            msg_motor_2 = JSON.stringify(msg_motor_2);
+            window.socket.send(msg_motor_2);
+        }
     }
 
     motor_dc_right_speed(args) {
@@ -609,6 +676,7 @@ class Scratch3Scratch4Education {
         } else {
             if (string_to_write.length > 14) {
                 console.log("String largo");
+                alert(FormLengthText[the_locale]);
             } else {
                 console.log("String perfecto");
             }
@@ -757,6 +825,17 @@ class Scratch3Scratch4Education {
         window.socket.send(msg);
         pin_modes[GREEN] = DIGITAL_OUTPUT;
         msg = { command: "set_mode_digital_output", pin: GREEN };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
+
+    _setpins_motor_digital(){
+        pin_modes[MOTOR_DC_1] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_digital_output", pin: MOTOR_DC_1 };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        pin_modes[MOTOR_DC_2] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_digital_output", pin: MOTOR_DC_2 };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
     }
