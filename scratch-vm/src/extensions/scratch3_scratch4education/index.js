@@ -82,8 +82,8 @@ const SWITCH = 2;
 const POTENCIOMETRO = 3;
 
 // Pines de conexion del joystick
-const JOYSTICK_X = 0;
-const JOYSTICK_Y = 1;
+const JOYSTICK_X = 1;
+const JOYSTICK_Y = 0;
 const JOYSTICK_Z = 7;
 
 // Pin de conexión del micrófono
@@ -102,16 +102,10 @@ const UNIVERSAL_OUT = 8;
 // Pin conexion motor vibrador / Buzzer
 const MOTOR_BUZZER = 6;
 
-const FormPlaySound = {
-    en: "Play sound [NOTE]",
-    es: "Tocar sonido [NOTE]",
-    "es-419": "Tocar sonido [NOTE]",
-};
-
-const FormPlaySoundFreq = {
-    en: "Tone [FREQ] Hz [DURATION] ms",
-    es: "Tocar a [FREQ] Hz [DURATION] ms",
-    "es-419": "Tocar a [FREQ] Hz [DURATION] ms",
+const FormPlaySoundMotor = {
+    en: "[STATE] buzzer and vibrator motor",
+    es: "[STATE] zumbador y motor vibrador",
+    "es-419": "[STATE] zumbador y motor vibrador",
 };
 
 const FormLedRGBSingle = {
@@ -248,31 +242,16 @@ class Scratch3Scratch4Education {
             name: "Scratch 4 Education",
             blocks: [
                 {
-                    opcode: "play_sound",
+                    opcode: "buzzer_vibratormotor",
                     blockType: BlockType.COMMAND,
-                    text: FormPlaySound[the_locale],
+                    text: FormPlaySoundMotor[the_locale],
 
                     arguments: {
-                        NOTE: {
+                        STATE: {
                             type: ArgumentType.NUMBER,
-                            defaultText: "Do",
+                            defaultText: "Encendido",
                             defaultValue: 1,
-                            menu: "notes",
-                        },
-                    },
-                },
-                {
-                    opcode: "play_sound_freq",
-                    blockType: BlockType.COMMAND,
-                    text: FormPlaySoundFreq[the_locale],
-                    arguments: {
-                        FREQ: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 100,
-                        },
-                        DURATION: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 50,
+                            menu: "on_off",
                         },
                     },
                 },
@@ -456,18 +435,27 @@ class Scratch3Scratch4Education {
     }
 
     /********************************** Manejadores de funciones ***********************************/
-    play_sound(args) {
-        console.log("play_sound");
-        let note = args["NOTE"];
-        console.log(note);
-    }
-
-    play_sound_freq(args) {
-        console.log("play_sound_freq");
-        let freq = args["FREQ"];
-        console.log(freq);
-        let duration = args["DURATION"];
-        console.log(duration);
+    buzzer_vibratormotor(args){
+        console.log("buzzer_vibratormotor");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.led_RGB_on_off.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let state = parseInt(args["STATE"], 10);
+            if (
+                pin_modes[MOTOR_BUZZER] !== DIGITAL_INPUT) {
+                this._setpins_motor_buzzer();
+            }
+            msg_motor_buzzer = { command: "digital_write", pin: MOTOR_BUZZER, value: state };
+            msg_motor_buzzer = JSON.stringify(msg_motor_buzzer);
+            window.socket.send(msg_motor_buzzer);
+        }
     }
 
     led_RGB_on_off(args) {
@@ -813,6 +801,12 @@ class Scratch3Scratch4Education {
     }
 
     /********************************* FIN Manejadores de funciones ********************************/
+    _setpins_motor_buzzer(){
+        pin_modes[MOTOR_BUZZER] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_digital_output", pin: MOTOR_BUZZER };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
 
     _setpins_led_RGB() {
         pin_modes[RED] = DIGITAL_OUTPUT;
