@@ -103,9 +103,9 @@ const UNIVERSAL_OUT = 8;
 const MOTOR_BUZZER = 6;
 
 const FormPlaySoundMotor = {
-    en: "[STATE] buzzer and vibrator motor",
-    es: "[STATE] zumbador y motor vibrador",
-    "es-419": "[STATE] zumbador y motor vibrador",
+    en: "buzzer and vibrator motor [STATE]",
+    es: "zumbador y motor vibrador [STATE]",
+    "es-419": "zumbador y motor vibrador [STATE]",
 };
 
 const FormLedRGBSingle = {
@@ -121,9 +121,9 @@ const FormLedRGB = {
 };
 
 const FormMotorDCRightSpeed = {
-    en: "Turn motor ↻ with speed [SPEED]",
-    es: "Girar motor ↻ con velocidad [SPEED]",
-    "es-419": "Girar motor ↻ con velocidad [SPEED]",
+    en: "Turn motor ↻ with speed [SPEED]%",
+    es: "Girar motor ↻ con velocidad [SPEED]%",
+    "es-419": "Girar motor ↻ con velocidad [SPEED]%",
 };
 
 const FormMotorDCRight = {
@@ -133,9 +133,9 @@ const FormMotorDCRight = {
 };
 
 const FormMotorDCLeftSpeed = {
-    en: "Turn motor ↺ with speed [SPEED]",
-    es: "Girar motor ↺ con velocidad [SPEED]",
-    "es-419": "Girar motor ↺ con velocidad [SPEED]",
+    en: "Turn motor ↺ with speed [SPEED]%",
+    es: "Girar motor ↺ con velocidad [SPEED]%",
+    "es-419": "Girar motor ↺ con velocidad [SPEED]%",
 };
 
 const FormMotorDCLeft = {
@@ -206,23 +206,36 @@ const FormScreenLines = {
 
 // General Alert
 const FormWSClosed = {
-    'pt-br': "A Conexão do WebSocket está Fechada",
-    'pt': "A Conexão do WebSocket está Fechada",
-    'en': "WebSocket Connection Is Closed.",
-    'fr': "La connexion WebSocket est fermée.",
-    'zh-tw': "網路連線中斷",
-    'zh-cn': "网络连接中断",
-    'pl': "Połączenie WebSocket jest zamknięte.",
-    'de': "WebSocket-Verbindung geschlossen.",
-    'ja': "ウェブソケット接続が切断されています",
+    "pt-br": "A Conexão do WebSocket está Fechada",
+    pt: "A Conexão do WebSocket está Fechada",
+    en: "WebSocket Connection Is Closed.",
+    fr: "La connexion WebSocket est fermée.",
+    "zh-tw": "網路連線中斷",
+    "zh-cn": "网络连接中断",
+    pl: "Połączenie WebSocket jest zamknięte.",
+    de: "WebSocket-Verbindung geschlossen.",
+    ja: "ウェブソケット接続が切断されています",
     es: "Conexión con el WebSocket está cerrada.",
     "es-419": "Conexión con el WebSocket está cerrada.",
 };
 
 const FormLengthText = {
-    'en': "Invalid text length. It must be less than or equal to 14 characters.",
+    en: "Invalid text length. It must be less than or equal to 14 characters.",
     es: "Longitud del texto inválida. Tiene que ser menor o igual a 14 caracteres.",
-    "es-419": "Longitud del texto inválida. Tiene que ser menor o igual a 14 caracteres.",
+    "es-419":
+        "Longitud del texto inválida. Tiene que ser menor o igual a 14 caracteres.",
+};
+
+const FormDigitalOut = {
+    en: "Digital general out [STATE]",
+    es: "Salida digital general [STATE]",
+    "es-419": "Salida digital general [STATE]",
+};
+
+const FormAnalogIn = {
+    en: "Analog general in",
+    es: "Entrada analoga general",
+    "es-419": "Entrada analoga general",
 };
 
 class Scratch3Scratch4Education {
@@ -341,6 +354,19 @@ class Scratch3Scratch4Education {
                     },
                 },
                 {
+                    opcode: "digital_out",
+                    blockType: BlockType.COMMAND,
+                    text: FormDigitalOut[the_locale],
+                    arguments: {
+                        STATE: {
+                            type: ArgumentType.NUMBER,
+                            defaultText: "Encendido",
+                            defaultValue: 1,
+                            menu: "on_off",
+                        },
+                    },
+                },
+                {
                     opcode: "joystick_x",
                     blockType: BlockType.REPORTER,
                     text: FormJoystickX[the_locale],
@@ -384,6 +410,11 @@ class Scratch3Scratch4Education {
                     opcode: "accelerometer_Z",
                     blockType: BlockType.REPORTER,
                     text: FormAccZ[the_locale],
+                },
+                {
+                    opcode: "analog_in",
+                    blockType: BlockType.REPORTER,
+                    text: FormAnalogIn[the_locale],
                 },
             ],
             menus: {
@@ -435,7 +466,7 @@ class Scratch3Scratch4Education {
     }
 
     /********************************** Manejadores de funciones ***********************************/
-    buzzer_vibratormotor(args){
+    buzzer_vibratormotor(args) {
         console.log("buzzer_vibratormotor");
         if (!connected) {
             if (!connection_pending) {
@@ -448,11 +479,14 @@ class Scratch3Scratch4Education {
             wait_open.push(callbackEntry);
         } else {
             let state = parseInt(args["STATE"], 10);
-            if (
-                pin_modes[MOTOR_BUZZER] !== DIGITAL_INPUT) {
+            if (pin_modes[MOTOR_BUZZER] !== DIGITAL_INPUT) {
                 this._setpins_motor_buzzer();
             }
-            msg_motor_buzzer = { command: "digital_write", pin: MOTOR_BUZZER, value: state };
+            msg_motor_buzzer = {
+                command: "digital_write",
+                pin: MOTOR_BUZZER,
+                value: state,
+            };
             msg_motor_buzzer = JSON.stringify(msg_motor_buzzer);
             window.socket.send(msg_motor_buzzer);
         }
@@ -601,14 +635,22 @@ class Scratch3Scratch4Education {
         } else {
             if (
                 pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT &&
-                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT 
+                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT
             ) {
                 this._setpins_motor_digital();
             }
-            msg_motor_1 = { command: "digital_write", pin: MOTOR_DC_1, value: 1 };
+            msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_1,
+                value: 1,
+            };
             msg_motor_1 = JSON.stringify(msg_motor_1);
             window.socket.send(msg_motor_1);
-            msg_motor_2 = { command: "digital_write", pin: MOTOR_DC_2, value: 0 };
+            msg_motor_2 = {
+                command: "digital_write",
+                pin: MOTOR_DC_2,
+                value: 0,
+            };
             msg_motor_2 = JSON.stringify(msg_motor_2);
             window.socket.send(msg_motor_2);
         }
@@ -628,14 +670,22 @@ class Scratch3Scratch4Education {
         } else {
             if (
                 pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT &&
-                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT 
+                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT
             ) {
                 this._setpins_motor_digital();
             }
-            msg_motor_1 = { command: "digital_write", pin: MOTOR_DC_1, value: 0 };
+            msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_1,
+                value: 0,
+            };
             msg_motor_1 = JSON.stringify(msg_motor_1);
             window.socket.send(msg_motor_1);
-            msg_motor_2 = { command: "digital_write", pin: MOTOR_DC_2, value: 1 };
+            msg_motor_2 = {
+                command: "digital_write",
+                pin: MOTOR_DC_2,
+                value: 1,
+            };
             msg_motor_2 = JSON.stringify(msg_motor_2);
             window.socket.send(msg_motor_2);
         }
@@ -643,14 +693,96 @@ class Scratch3Scratch4Education {
 
     motor_dc_right_speed(args) {
         console.log("motor_dc_right_speed");
-        let speed = args["SPEED"];
-        console.log(speed);
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.pwm_write.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            // maximum value for RPi and Arduino
+            let the_max = 255;
+
+            let speed = args["SPEED"];
+            speed = parseInt(speed, 10);
+
+            // calculate the value based on percentage
+            speed = the_max * (speed / 100);
+            speed = Math.round(speed);
+            if (
+                pin_modes[MOTOR_DC_1] !== PWM &&
+                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT
+            ) {
+                pin_modes[MOTOR_DC_1] = PWM;
+                msg = { command: "set_mode_pwm", pin: MOTOR_DC_1 };
+                msg = JSON.stringify(msg);
+                window.socket.send(msg);
+                pin_modes[MOTOR_DC_2] = DIGITAL_OUTPUT;
+                msg = { command: "set_mode_digital_output", pin: MOTOR_DC_2 };
+                msg = JSON.stringify(msg);
+                window.socket.send(msg);
+            }
+            msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_2,
+                value: 0,
+            };
+            msg_motor_1 = JSON.stringify(msg_motor_1);
+            window.socket.send(msg_motor_1);
+            msg = { command: "pwm_write", pin: MOTOR_DC_1, value: speed };
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+        }
     }
 
     motor_dc_left_speed(args) {
         console.log("motor_dc_left_speed");
-        let speed = args["SPEED"];
-        console.log(speed);
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.pwm_write.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            // maximum value for RPi and Arduino
+            let the_max = 255;
+
+            let speed = args["SPEED"];
+            speed = parseInt(speed, 10);
+
+            // calculate the value based on percentage
+            speed = the_max * (speed / 100);
+            speed = Math.round(speed);
+            if (
+                pin_modes[MOTOR_DC_2] !== PWM &&
+                pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT
+            ) {
+                pin_modes[MOTOR_DC_2] = PWM;
+                msg = { command: "set_mode_pwm", pin: MOTOR_DC_2 };
+                msg = JSON.stringify(msg);
+                window.socket.send(msg);
+                pin_modes[MOTOR_DC_1] = DIGITAL_OUTPUT;
+                msg = { command: "set_mode_digital_output", pin: MOTOR_DC_1 };
+                msg = JSON.stringify(msg);
+                window.socket.send(msg);
+            }
+            msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_1,
+                value: 0,
+            };
+            msg_motor_1 = JSON.stringify(msg_motor_1);
+            window.socket.send(msg_motor_1);
+            msg = { command: "pwm_write", pin: MOTOR_DC_2, value: speed };
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+        }
     }
 
     screen_lines(args) {
@@ -668,6 +800,29 @@ class Scratch3Scratch4Education {
             } else {
                 console.log("String perfecto");
             }
+        }
+    }
+
+    digital_out(args){
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.digital_out.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let state = parseInt(args["STATE"], 10);
+            if (
+                pin_modes[UNIVERSAL_OUT] !== DIGITAL_OUTPUT
+            ) {
+                this._set_digital_out();
+            }
+            msg_red = { command: "digital_write", pin: UNIVERSAL_OUT, value: state };
+            msg_red = JSON.stringify(msg_red);
+            window.socket.send(msg_red);
         }
     }
 
@@ -800,8 +955,27 @@ class Scratch3Scratch4Education {
         return 0;
     }
 
+    analog_in(args){
+        console.log("Universal in");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.analog_in.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[UNIVERSAL_IN] !== ANALOG_INPUT) {
+                this._set_analog_in();
+            }
+            return analog_inputs[UNIVERSAL_IN];
+        }
+    }
+
     /********************************* FIN Manejadores de funciones ********************************/
-    _setpins_motor_buzzer(){
+    _setpins_motor_buzzer() {
         pin_modes[MOTOR_BUZZER] = DIGITAL_OUTPUT;
         msg = { command: "set_mode_digital_output", pin: MOTOR_BUZZER };
         msg = JSON.stringify(msg);
@@ -823,7 +997,7 @@ class Scratch3Scratch4Education {
         window.socket.send(msg);
     }
 
-    _setpins_motor_digital(){
+    _setpins_motor_digital() {
         pin_modes[MOTOR_DC_1] = DIGITAL_OUTPUT;
         msg = { command: "set_mode_digital_output", pin: MOTOR_DC_1 };
         msg = JSON.stringify(msg);
@@ -876,6 +1050,22 @@ class Scratch3Scratch4Education {
     _set_microphone() {
         pin_modes[MICROPHONE] = ANALOG_INPUT;
         msg = { command: "set_mode_analog_input", pin: MICROPHONE };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+    _set_analog_in() {
+        pin_modes[UNIVERSAL_IN] = ANALOG_INPUT;
+        msg = { command: "set_mode_analog_input", pin: UNIVERSAL_IN };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+    _set_digital_out(){
+        pin_modes[UNIVERSAL_OUT] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_analog_input", pin: UNIVERSAL_OUT };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
