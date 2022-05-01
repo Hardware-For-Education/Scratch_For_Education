@@ -199,9 +199,9 @@ const FormAccZ = {
 };
 
 const FormScreenLines = {
-    en: "Draw in line [LINE] [STRING]",
-    es: "Dibujar en la línea [LINE] [STRING]",
-    "es-419": "Dibujar en la línea [LINE] [STRING]",
+    en: "Write on the screen [STRING] on the line [LINE]",
+    es: "Escribir en la pantalla [STRING] en la línea [LINE]",
+    "es-419": "Escribir en la pantalla [STRING] en la línea [LINE]",
 };
 
 // General Alert
