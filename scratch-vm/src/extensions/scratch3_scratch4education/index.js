@@ -507,13 +507,13 @@ class Scratch3Scratch4Education {
             let green = parseInt(args["ON_OFF_GREEN"], 10);
             let blue = parseInt(args["ON_OFF_BLUE"], 10);
             if (
-                pin_modes[RED] !== DIGITAL_INPUT &&
-                pin_modes[GREEN] !== DIGITAL_INPUT &&
-                pin_modes[BLUE] !== DIGITAL_INPUT
+                pin_modes[RED] !== DIGITAL_OUTPUT &&
+                pin_modes[GREEN] !== DIGITAL_OUTPUT &&
+                pin_modes[BLUE] !== DIGITAL_OUTPUT
             ) {
                 this._setpins_led_RGB();
             }
-            msg_red = { command: "digital_write", pin: RED, value: red };
+            /* msg_red = { command: "digital_write", pin: RED, value: red };
             msg_red = JSON.stringify(msg_red);
             window.socket.send(msg_red);
             msg_green = { command: "digital_write", pin: GREEN, value: green };
@@ -521,7 +521,11 @@ class Scratch3Scratch4Education {
             window.socket.send(msg_green);
             msg_blue = { command: "digital_write", pin: BLUE, value: blue };
             msg_blue = JSON.stringify(msg_blue);
-            window.socket.send(msg_blue);
+            window.socket.send(msg_blue); */
+            msg = {command: "led_rgb", red: red, blue: blue, green: green }
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+            console.log(msg)
         }
     }
 
@@ -540,9 +544,9 @@ class Scratch3Scratch4Education {
             let green;
             let blue;
             if (
-                pin_modes[RED] !== DIGITAL_INPUT &&
-                pin_modes[GREEN] !== DIGITAL_INPUT &&
-                pin_modes[BLUE] !== DIGITAL_INPUT
+                pin_modes[RED] !== DIGITAL_OUTPUT &&
+                pin_modes[GREEN] !== DIGITAL_OUTPUT &&
+                pin_modes[BLUE] !== DIGITAL_OUTPUT
             ) {
                 this._setpins_led_RGB();
             }
@@ -634,8 +638,8 @@ class Scratch3Scratch4Education {
             wait_open.push(callbackEntry);
         } else {
             if (
-                pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT &&
-                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT
+                pin_modes[MOTOR_DC_1] !== DIGITAL_OUTPUT &&
+                pin_modes[MOTOR_DC_2] !== DIGITAL_OUTPUT
             ) {
                 this._setpins_motor_digital();
             }
@@ -669,8 +673,8 @@ class Scratch3Scratch4Education {
             wait_open.push(callbackEntry);
         } else {
             if (
-                pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT &&
-                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT
+                pin_modes[MOTOR_DC_1] !== DIGITAL_OUTPUT &&
+                pin_modes[MOTOR_DC_2] !== DIGITAL_OUTPUT
             ) {
                 this._setpins_motor_digital();
             }
@@ -714,7 +718,7 @@ class Scratch3Scratch4Education {
             speed = Math.round(speed);
             if (
                 pin_modes[MOTOR_DC_1] !== PWM &&
-                pin_modes[MOTOR_DC_2] !== DIGITAL_INPUT
+                pin_modes[MOTOR_DC_2] !== DIGITAL_OUTPUT
             ) {
                 pin_modes[MOTOR_DC_1] = PWM;
                 msg = { command: "set_mode_pwm", pin: MOTOR_DC_1 };
@@ -761,7 +765,7 @@ class Scratch3Scratch4Education {
             speed = Math.round(speed);
             if (
                 pin_modes[MOTOR_DC_2] !== PWM &&
-                pin_modes[MOTOR_DC_1] !== DIGITAL_INPUT
+                pin_modes[MOTOR_DC_1] !== DIGITAL_OUTPUT
             ) {
                 pin_modes[MOTOR_DC_2] = PWM;
                 msg = { command: "set_mode_pwm", pin: MOTOR_DC_2 };
@@ -933,7 +937,7 @@ class Scratch3Scratch4Education {
             let callbackEntry = [this.switch.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            if (pin_modes[SWITCH] !== ANALOG_INPUT) {
+            if (pin_modes[SWITCH] !== DIGITAL_INPUT) {
                 this._set_switch();
             }
             return analog_inputs[SWITCH];
@@ -984,15 +988,10 @@ class Scratch3Scratch4Education {
 
     _setpins_led_RGB() {
         pin_modes[RED] = DIGITAL_OUTPUT;
-        msg = { command: "set_mode_digital_output", pin: RED };
-        msg = JSON.stringify(msg);
-        window.socket.send(msg);
         pin_modes[BLUE] = DIGITAL_OUTPUT;
-        msg = { command: "set_mode_digital_output", pin: BLUE };
-        msg = JSON.stringify(msg);
-        window.socket.send(msg);
         pin_modes[GREEN] = DIGITAL_OUTPUT;
-        msg = { command: "set_mode_digital_output", pin: GREEN };
+
+        msg = { command: "set_led_rgb"};
         msg = JSON.stringify(msg);
         window.socket.send(msg);
     }
@@ -1010,7 +1009,7 @@ class Scratch3Scratch4Education {
 
     _set_switch() {
         pin_modes[SWITCH] = ANALOG_INPUT;
-        msg = { command: "set_mode_analog_input", pin: SWITCH };
+        msg = { command: "set_mode_digital_input", pin: SWITCH };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);

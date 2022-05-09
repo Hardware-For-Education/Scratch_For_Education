@@ -447,42 +447,42 @@ class Scratch3ArduinoOneGPIO {
         }
     }
 
-    //pwm
-    pwm_write(args) {
-        if (!connected) {
-            if (!connection_pending) {
-                this.connect();
-                connection_pending = true;
+        //pwm
+        pwm_write(args) {
+            if (!connected) {
+                if (!connection_pending) {
+                    this.connect();
+                    connection_pending = true;
+                }
             }
-        }
 
-        if (!connected) {
-            let callbackEntry = [this.pwm_write.bind(this), args];
-            wait_open.push(callbackEntry);
-        } else {
-            let pin = args['PIN'];
-            // maximum value for RPi and Arduino
-            let the_max = 255;
-            pin = parseInt(pin, 10);
+            if (!connected) {
+                let callbackEntry = [this.pwm_write.bind(this), args];
+                wait_open.push(callbackEntry);
+            } else {
+                let pin = args['PIN'];
+                // maximum value for RPi and Arduino
+                let the_max = 255;
+                pin = parseInt(pin, 10);
 
-            let value = args['VALUE'];
-            value = parseInt(value, 10);
+                let value = args['VALUE'];
+                value = parseInt(value, 10);
 
-            // calculate the value based on percentage
-            value = the_max * (value / 100);
-            value = Math.round(value);
-            if (pin_modes[pin] !== PWM) {
-                pin_modes[pin] = PWM;
-                msg = {"command": "set_mode_pwm", "pin": pin};
+                // calculate the value based on percentage
+                value = the_max * (value / 100);
+                value = Math.round(value);
+                if (pin_modes[pin] !== PWM) {
+                    pin_modes[pin] = PWM;
+                    msg = {"command": "set_mode_pwm", "pin": pin};
+                    msg = JSON.stringify(msg);
+                    window.socket.send(msg);
+                }
+                msg = {"command": "pwm_write", "pin": pin, "value": value};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
-            }
-            msg = {"command": "pwm_write", "pin": pin, "value": value};
-            msg = JSON.stringify(msg);
-            window.socket.send(msg);
 
+            }
         }
-    }
 
     tone_on(args) {
         if (!connected) {
