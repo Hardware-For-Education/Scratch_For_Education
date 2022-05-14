@@ -37,6 +37,10 @@ Proyecto desarrollado en el marco del trabajo de grado como un requisito para op
   * *[Creating a Scratch3 Extension For GPIO Control - Part 4](https://mryslab.github.io/bots-in-pieces/scratch3/gpio/2019/10/17/scratch-3-4.html)*
   * *[Scratch 3 Extensions - Part 5 ](https://mryslab.github.io/bots-in-pieces/scratch3/picoboard/circuit-playground-express/2020/02/02/scratch3-5.html)*
 
+## 💻 Desarrollo de extensiones 💻
+
+Para desarrollar extensiones se creo una breve guía en este archivo: [👋 Extensiones Scratch 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md)
+
 #### 📚 Información relevante 📚
 
 Repositorios oficiales de Scratch® donde se puede encontrar información relevante correspondiente al desarrollo y puesta en marcha localmente para pruebas
