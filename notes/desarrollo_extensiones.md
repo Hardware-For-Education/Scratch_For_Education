@@ -12,9 +12,11 @@
 
 ## 🙋‍♀️ Descripción 🙋‍♀️
 
-Este archivo especifica como crear una nueva extensión para Scratch®. Cabe recalcar que este desarrollo será propio no soportado por Scratch® ni por el MIT y se debe desplegar, de ser necesario, en un servicio de alojamiento propio (hosting). 
+Este archivo especifica como crear una nueva extensión para Scratch 3.0. Cabe recalcar que este desarrollo será propio no soportado por Scratch® ni por el MIT y se debe desplegar, de ser necesario, en un servicio de alojamiento propio (hosting). 
 
-#### 📚 Información relevante 📚
+Para poder desarrollar tu propia extensión para Scratch 3.0, se requiere una base de conocimiento de programación en el lenguaje Javascript, el cual es el lenguaje de programación sobre el cual está construido Scratch en su totalidad. 
+
+### 📚 Información relevante 📚
 
 Repositorios oficiales de Scratch® donde se puede encontrar información relevante correspondiente al desarrollo y puesta en marcha localmente para pruebas
 * [Scratch scratch-gui official repository](https://github.com/LLK/scratch-gui)
@@ -29,3 +31,43 @@ Se puede encontrar mayor información con respecto al desarrollo de extensiones 
 * [[Scratch 3] Block Types You Can Develop and Samples](https://medium.com/@hiroyuki.osaki/scratch-3-block-types-you-can-develop-and-samples-191b0d769b91)
 * [How To Make Your Own Extension In Scratch Using JavaScript](https://brightchamps.com/blog/make-scratch-extension-using-javascript/)
 
+## 💻 Desarrollo 💻
+
+Para desarrollar una nueva extensión para Scratch 3.0 se modificarán ciertos archivos dentro de este repositorio en distintas carpetas: 
+* [scratch-gui](https://github.com/Hardware-For-Education/Scratch_For_Education/tree/master/scratch-gui)
+* [scratch-vm](https://github.com/Hardware-For-Education/Scratch_For_Education/tree/master/scratch-vm)
+
+Cabe aclarar que, al ser estas dos carpetas, proyectos oficiales de Scratch®; como se explico en [Estructura del repositorio](https://github.com/Hardware-For-Education/Scratch_For_Education#-estructura-del-repositorio-), la explicación sobre la creación de una nueva extensión se puede aplicar a los proyectos oficiales de igual forma que se explica a continuación.
+
+### ⚠ Requerimientos para desarrollo ⚠
+
+Antes de empezar a desarrollar se requiere la instalación de: 
+* [Git](https://git-scm.com/)
+* [Node.js](https://nodejs.org/es/)
+
+Cada uno de estos programas cuentan con versiones para sistemas Windows y sistemas basados en Unix. Git se utiliza para la clonar los repositorios requeridos para el desarrollo mientras que Node.js será utilizado como el entorno de tiempo de ejecución de JavaScript.
+
+### 👨‍💻 Clonar repositorios 👨‍💻
+Con Git ya instalado se puede proceder a clonar los repositorios de scratch-gui y scratch-vm. Estos se pueden clonar desde los repositorios oficiales de Scratch® a través de los comandos 
+```
+git clone https://github.com/llk/scratch-vm.git
+git clone https://github.com/llk/scratch-gui.git
+```
+Sin embargo, este repositorio cuenta con las dos bases de código en un solo repositorio. Entonces solo se requiere un comando de clonación
+```
+git clone https://github.com/Hardware-For-Education/Scratch_For_Education.git
+```
+### 👨‍💻 Instalar dependencias 👨‍💻
+Ambos proyectos requieren la instalación de varios paquetes necesarios para el funcionamiento en un entorno local de la página web de Scratch®. Para lograr esto solo hay que correr el siguiente comando dentro de la carpeta scratch-gui y scratch-vm. 
+```
+npm install
+```
+Después de realizar la instalación de dependencias se requiere realizar el enlace entre los dos repositorios descargados. Para esto se ejecutan los siguientes comandos: 
+* En la carpeta scratch-vm: 
+```
+npm link
+```
+* En la carpeta scratch.gui:
+```
+npm link scratch-vm
+```
