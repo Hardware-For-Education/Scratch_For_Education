@@ -87,7 +87,7 @@ Para empezar con la creación de una extensión propia se requiere la creación 
 * Dentro de esa carpeta se debe crear una nueva carpeta con el nombre _scratch3_newblocks_. En sí, la carpeta puede tener cualquier nombre, pero se recomienda el uso de la nomenclatura utilizada para un mejor entendimiento a la hora de realizar los siguientes pasos. _newblocks_ puede ser reemplazada para quedar más acorde al desarrollo realizado.
 *  Dentro de esta nueva carpeta, se debe crear un archivo con el nombre _index.js_. Este nombre **no** puede ser diferente a este. Este archivo contendrá la creación y la definición de las funciones que ejecutarán los nuevos bloques que se adicionarán a Scratch®.
 *  La estructura de este archivo sigue la definición propuesta por Scratch®, un ejemplo de esta propuesta es: 
-```
+```js
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const Cast = require('../../util/cast');
@@ -137,3 +137,5 @@ En la función _getInfo_ los siguiente términos son utilizados:
 * text: Contiene la descripción del bloque, es decir lo que aparece en el bloque dentro de la página web. 
 * arguments: Este es un objeto que contiene los campos para los argumentos definidos en el _text_. 
 * menus (opcional): Este campo es usado para la definición de _drop-down_ menus para argumentos de los bloques creados.
+
+Para mayor información respecto a la creación de extensiones para Scratch, el repositorio [scratch-vm](https://github.com/LLK/scratch-vm) cuenta con un archivo explicando algunos campos opcionales dentro de la definición anterior: [Scratch Extensions](https://github.com/LLK/scratch-vm/blob/develop/docs/extensions.md)
