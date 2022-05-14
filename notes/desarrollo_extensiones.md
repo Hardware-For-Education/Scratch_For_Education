@@ -139,3 +139,17 @@ En la función _getInfo_ los siguiente términos son utilizados:
 * menus (opcional): Este campo es usado para la definición de _drop-down_ menus para argumentos de los bloques creados.
 
 Para mayor información respecto a la creación de extensiones para Scratch, el repositorio [scratch-vm](https://github.com/LLK/scratch-vm) cuenta con un archivo explicando algunos campos opcionales dentro de la definición anterior: [Scratch Extensions](https://github.com/LLK/scratch-vm/blob/develop/docs/extensions.md)
+
+### 👨‍💻 Agregar referencia a nueva extensión en _scratch_vm_ 👨‍💻
+En la carpeta correspondiente a _scratch-vm_ en la siguiente ruta _src/extension-support/extension-manager.js_ hay que agregar la referencia a la extensión que se acabo de crear agregando una línea de código.
+```js
+    const builtinExtensions = {
+        ...,
+        newblocks: () => require('../extensions/scratch3_newblocks')
+    };
+```
+* Los _..._ representan las distintas extensiones agregadas anteriormente. 
+Es importante agregar una *,* después de la última línea antes de agregar la nueva línea. 
+
+### 👨‍💻 Agregar referencia a nueva extensión en _scratch_gui_ 👨‍💻
+Para poder agregar la librería que se acaba de crear a un proyecto de Scratch, se requiere agregar la extensión a la opción de _"+"_ presente en la página web. 
