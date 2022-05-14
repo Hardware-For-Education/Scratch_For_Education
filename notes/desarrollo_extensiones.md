@@ -71,3 +71,11 @@ npm link
 ```
 npm link scratch-vm
 ```
+### 👨‍💻 Compilar e iniciar servicio 👨‍💻
+Para compilar e iniciar el servicio de la página web de Scratch localmente hay que navegar a la carpeta de scratch-gui y ejecutar el siguiente comando
+```
+npm start
+```
+Cuando en la terminal aparezca el mensaje _Compiled sucessully_ se puede acceder a la página web en cualquier navegador local del computador a traves de la dirección **http://localhost:8601/** 
+
+Se pueden realizar las modificaciones en el codigo y, en tiempo real, se irá actualizando la página web. Es decir, no se requiere ejecutar este comando cada vez que se realice una modificación. 
