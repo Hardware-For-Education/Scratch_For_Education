@@ -79,3 +79,61 @@ npm start
 Cuando en la terminal aparezca el mensaje _Compiled sucessully_ se puede acceder a la página web en cualquier navegador local del computador a traves de la dirección **http://localhost:8601/** 
 
 Se pueden realizar las modificaciones en el codigo y, en tiempo real, se irá actualizando la página web. Es decir, no se requiere ejecutar este comando cada vez que se realice una modificación. 
+
+### 👨‍💻 Crear una extensión 👨‍💻
+Para empezar con la creación de una extensión propia se requiere la creación de una carpeta y un archivo. 
+* Ir a la carpeta corrrespondiente a _scratch-vm_ 
+* Buscar la carpeta _src/extensions_
+* Dentro de esa carpeta se debe crear una nueva carpeta con el nombre _scratch3_newblocks_. En sí, la carpeta puede tener cualquier nombre, pero se recomienda el uso de la nomenclatura utilizada para un mejor entendimiento a la hora de realizar los siguientes pasos. _newblocks_ puede ser reemplazada para quedar más acorde al desarrollo realizado.
+*  Dentro de esta nueva carpeta, se debe crear un archivo con el nombre _index.js_. Este nombre **no** puede ser diferente a este. Este archivo contendrá la creación y la definición de las funciones que ejecutarán los nuevos bloques que se adicionarán a Scratch®.
+*  La estructura de este archivo sigue la definición propuesta por Scratch®, un ejemplo de esta propuesta es: 
+```
+const ArgumentType = require('../../extension-support/argument-type');
+const BlockType = require('../../extension-support/block-type');
+const Cast = require('../../util/cast');
+const log = require('../../util/log');
+
+class Scratch3NewBlocks {
+    constructor (runtime) {
+        this.runtime = runtime;
+    }
+
+    getInfo () {
+        return {
+            id: 'newblocks',
+            name: 'New Blocks',
+            blocks: [
+                {
+                    opcode: 'writeLog',
+                    blockType: BlockType.COMMAND,
+                    text: 'log [TEXT]',
+                    arguments: {
+                        TEXT: {
+                            type: ArgumentType.STRING,
+                            defaultValue: "hello"
+                        }
+                    }
+                }
+            ],
+            menus: {
+            }
+        };
+    }
+
+    writeLog (args) {
+        const text = Cast.toString(args.TEXT);
+        log.log(text);
+    }
+}
+
+module.exports = Scratch3NewBlocks;
+```
+En la función _getInfo_ los siguiente términos son utilizados: 
+* id: Un nombre interno único de la extensión. No puede coincidir con ningún otro nombre de extensión dentro del despliegue. 
+* name: Este será el nombre que aparecerá a la hora de seleccionar la extensión. 
+* blocks: Este contiene los objetos/bloques que se crearán en la extensión. 
+* opcode: Este es el método que será llamdo a la hora de ejecutar dicho bloque.
+* blockType: Describe el tipo de bloque que se crea. 
+* text: Contiene la descripción del bloque, es decir lo que aparece en el bloque dentro de la página web. 
+* arguments: Este es un objeto que contiene los campos para los argumentos definidos en el _text_. 
+* menus (opcional): Este campo es usado para la definición de _drop-down_ menus para argumentos de los bloques creados.
