@@ -1,39 +1,40 @@
-# Scratch 3 With OneGPIO Extensions
-![](./images/extensions.png)
+# 👋 Scratch for Education 👋
 
+#### 👨‍💻👩‍💻 Proyecto desarrollado por 👨‍💻👩‍💻
+* [Alejandro Castro Martínez](https://github.com/kstro96)
+* [Janet Chen He](https://github.com/XingYi98)
+* [María José Niño Rodríguez](https://github.com/mjninor99)
+#### 👨‍🏫👩‍🏫 Bajo la dirección de 👨‍🏫👩‍🏫 
+* Ing. MsC. Martha Cano Morales
+* Ing. MsC. PhD. Jairo Alberto Hurtado
 
-## The online version is launchable [here.](https://mryslab.github.io/s3onegpio/)
+<img src="https://github.com/Hardware-For-Education/.github-private/blob/main/profile/images/scratch4education-small.png" width="200" />
 
-## Quick Intallation Intructions:
+## 🙋‍♀️ Descripción 🙋‍♀️
 
-* For Arduino, Circuit Playground Express, ESP-8266, Robohat-MM1, and Raspberry Pi
-  Pico boards, install the server firmware. See the
-  [Preparing Your Micro-Controller](https://mryslab.github.io/s3-extend/) section
-  of the User's Guide.
+Proyecto enfocado en el desarrollo de una plataforma hardware que interactúe con el entorno de programación visual Scratch® a través de sensores y elementos de salida, con fines educativos tecnológicos. 
 
-* Launch the Scratch3 Editor using either the online or offline sites described
-  in the [Ready, Set, Go/Launch The Scratch3 Editor](https://mryslab.github.io/s3-extend/)
-  section of the User's Guide.
+Específicamente este proyecto está enfocado en el código que se ejecuta dentro de la página web conformando así el Scratch® modificado el cual genera los distintos comandos de solicitud hacia el Arduino UNO.
 
-* Select your extension and start coding!.
+Proyecto desarrollado en el marco del trabajo de grado como un requisito para optar por el título de ingenier@ electrónic@ de la Pontificia Universidad Javeriana, Bogotá, Colombia en el año 2022 por parte de los integrantes del grupo resaltados anteriormente. 
 
+### 💻 Estructura del repositorio 💻
 
-## Read the [Installation And Usage Guide.](https://mryslab.github.io/s3-extend/)
+* _scratch-gui_
+  * Interfaz gráfica para crear y correr proyectos de Scratch 3.0. Proyecto extraído de [Scratch scratch-gui official repository](https://github.com/LLK/scratch-gui)
+* _scratch_vm_
+  * Máquina virtual utilizada para representar, ejecutar y mantener el estado de los programas para Scratch 3.0. Proyecto extraído de [Scratch scratch-vm official repository](https://github.com/LLK/scratch-vm)
+* _notes_
+  * Carpeta donde se almacenan algunas notas para el desarrollo de este repositorio. 
+* _images_
+  * Carpeta de almacenamiento de imágenes para su despliegue correcto en este archivo.
 
-## Raspberry Pi Pico Blocks
-![](./images/rpi_pico_blocks.png)
+*Proyecto basado en el desarrollo realizado por [Alan Yoriks](https://github.com/MrYsLabv) en la serie de publicaciones realizadas en su blog [Bots in pieces](https://mryslab.github.io/bots-in-pieces/) bajo el nombre de [Creating a Scratch3 Extension For GPIO Control](https://mryslab.github.io/bots-in-pieces/posts/) en varias partes.*
 
-## Arduino Blocks
-![](./images/arduino_blocks.png)
+  * *[Creating a Scratch3 Extension For GPIO Control - Part 1](https://mryslab.github.io/bots-in-pieces/scratch3/gpio/2019/09/15/scratch3-1.html)*
+  * *[Creating a Scratch3 Extension For GPIO Control - Part 2 ](https://mryslab.github.io/bots-in-pieces/scratch3/gpio/2019/09/16/scratch3-2.html)*
+  * *[Creating a Scratch3 Extension For GPIO Control - Part 3](https://mryslab.github.io/bots-in-pieces/scratch3/gpio/2019/10/03/scratch3-3.html)*
+  * *[Creating a Scratch3 Extension For GPIO Control - Part 4](https://mryslab.github.io/bots-in-pieces/scratch3/gpio/2019/10/17/scratch-3-4.html)*
+  * *[Scratch 3 Extensions - Part 5 ](https://mryslab.github.io/bots-in-pieces/scratch3/picoboard/circuit-playground-express/2020/02/02/scratch3-5.html)*
 
-## ESP-8266 Blocks
-![](./images/esp8266_blocks.png)
-
-## Raspberry Pi Blocks
-![](./images/rpi_blocks.png)
-
-## Picoboard Blocks
-![](./images/pico_blocks.png)
-
-## RoboHAT MMI Blocks
-![](./images/robohat_blocks.png)
+#### 📚 Información relevante 📚
