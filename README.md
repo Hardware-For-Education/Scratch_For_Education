@@ -20,6 +20,15 @@ Proyecto desarrollado en el marco del trabajo de grado como un requisito para op
 
 ### 💻 Estructura del repositorio 💻
 
+* _scratch-gui_
+  * Interfaz gráfica para crear y correr proyectos de Scratch 3.0. Proyecto extraído de [Scratch scratch-gui official repository](https://github.com/LLK/scratch-gui)
+* _scratch_vm_
+  * Máquina virtual utilizada para representar, ejecutar y mantener el estado de los programas para Scratch 3.0. Proyecto extraído de [Scratch scratch-vm official repository](https://github.com/LLK/scratch-vm)
+* _notes_
+  * Carpeta donde se almacenan algunas notas para el desarrollo de este repositorio. 
+* _images_
+  * Carpeta de almacenamiento de imágenes para su despliegue correcto en este archivo.
+
 *Proyecto basado en el desarrollo realizado por [Alan Yoriks](https://github.com/MrYsLabv) en la serie de publicaciones realizadas en su blog [Bots in pieces](https://mryslab.github.io/bots-in-pieces/) bajo el nombre de [Creating a Scratch3 Extension For GPIO Control](https://mryslab.github.io/bots-in-pieces/posts/) en varias partes.*
 
   * *[Creating a Scratch3 Extension For GPIO Control - Part 1](https://mryslab.github.io/bots-in-pieces/scratch3/gpio/2019/09/15/scratch3-1.html)*
