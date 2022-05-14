@@ -8,7 +8,7 @@
 * Ing. MsC. Martha Cano Morales
 * Ing. MsC. PhD. Jairo Alberto Hurtado
 
-<img src="https://github.com/Hardware-For-Education/.github/blob/main/profile/images/scratch4education-small.png" width="200" />
+<img src="https://github.com/Hardware-For-Education/.github-private/blob/main/profile/images/scratch4education-small.png" width="200" />
 
 ## 🙋‍♀️ Descripción 🙋‍♀️
 
