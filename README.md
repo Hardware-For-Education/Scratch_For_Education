@@ -43,30 +43,39 @@ Para desarrollar extensiones se creo una breve guía en este archivo: [👋 Exte
 
 ## 🐱‍👓 Extensión Hardware For Education 🐱‍👓
 
-En este desarrollo se presenta la introducción de una serie de nuevos bloques que permiten la conexión de Scratch® con un hadware externo como bien se explica en la [Arquitectura del sistema](https://github.com/Hardware-For-Education#-arquitectura-del-sistema-). Según lo presentado en la sección [Conexiones]() se pueden observar los sensores y los actuadores presentes en la plataforma hardware diseñada y qué pines del Arduino UNO controlan dichos dispositivos. Con esto en mente, se diseñaron e implementaron los siguientes bloques: 
+En este desarrollo se presenta la introducción de una serie de nuevos bloques que permiten la conexión de Scratch® con un hadware externo como bien se explica en la [Arquitectura del sistema](https://github.com/Hardware-For-Education#-arquitectura-del-sistema-). Según lo presentado en la sección [Conexiones](https://github.com/Hardware-For-Education/.github-private/blob/main/profile/README.md#-plataforma-hardware-) se pueden observar los sensores y los actuadores presentes en la plataforma hardware diseñada y qué pines del Arduino UNO controlan dichos dispositivos. Con esto en mente, se diseñaron e implementaron los siguientes bloques: 
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/libreria.PNG"/>
 
 ### 👉 Zumbador (Buzzer) y Motor vibrador
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/zumbador_motorVibrador_apagado.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/zumbador_motorVibrador_encendido.PNG"/>
 ### 👉 Led RGB 
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_encendido.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_apagado.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_color.PNG"/>
 ### 👉 Motor DC 
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha_velocidad.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda_velocidad.PNG"/>
 ### 👉 Pantalla LCD 
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd.PNG"/>
 ### 👉 Salida digital general 
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Salida_digital_apagado.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Salida_digital_encendido.PNG"/>
 ### 👉 Joystick
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/joystick.PNG"/>
 ### 👉 Potenciómetro 
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/potenciometro.PNG"/>
 ### 👉 Micrófono
 
 ### 👉 Pulsador
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pulsador.PNG"/>
 ### 👉 Acelerómetro 
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/aceler%C3%B3metro.PNG"/>
 ### 👉 Entrada análoga general
-
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/entrada_general.PNG"/>
 #### 📚 Información relevante 📚
 
 Repositorios oficiales de Scratch® donde se puede encontrar información relevante correspondiente al desarrollo y puesta en marcha localmente para pruebas
