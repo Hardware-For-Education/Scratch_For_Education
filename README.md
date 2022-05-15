@@ -48,34 +48,76 @@ En este desarrollo se presenta la introducción de una serie de nuevos bloques q
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/libreria.PNG"/>
 
 ### 👉 Zumbador (Buzzer) y Motor vibrador
+
+Para el zumbador y motor vibrador se diseñó e implementó el bloque para encender y apagar dicho pin como se muestra a continuación. 
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/zumbador_motorVibrador_apagado.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/zumbador_motorVibrador_encendido.PNG"/>
+
 ### 👉 Led RGB 
+
+Para el led RGB se implementaron dos bloques diferentes, en el primer bloque se controlan individualmente cada uno de los leds con seleccionar encendido y apagado para cada uno y, en el segundo bloque se presenta la opción de seleccionar un color específico para el led. 
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_encendido.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_apagado.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_color.PNG"/>
+
 ### 👉 Motor DC 
+
+Para el caso del motor DC se diseñaron e implementaron los siguientes bloques. Estos controlan el sentido de giro del motor DC y en el segundo tipo de bloque se controla además de la dirección de giro, la velocidad de giro a través de un porcentaje. 
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha_velocidad.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda_velocidad.PNG"/>
+
 ### 👉 Pantalla LCD 
+
+Para el caso de la pantalla se presenta la siguiente implementación donde se escriben hasta 14 caractéres y en qué línea deben escribirse dichos caracteres en la pantalla LCD. 
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd.PNG"/>
+
 ### 👉 Salida digital general 
+
+Este bloque se diseñó e implementó para el control on off de una salida digital general que se encuentra presente en la plataforma hardware para conectar cualquier dispositivo externo. 
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Salida_digital_apagado.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Salida_digital_encendido.PNG"/>
+
 ### 👉 Joystick
+
+Para el caso del joystick se generaron los siguientes bloques para obtener los valores del joystick en los tres ejes siendo el tercero un pulsador incluido en el dispositivo adquirido. 
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/joystick.PNG"/>
+
 ### 👉 Potenciómetro 
+
+Para el caso del potenciómetro se presente el siguiente bloque donde se permite la adquisición del valor de este dispositivo.
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/potenciometro.PNG"/>
+
 ### 👉 Micrófono
 
+Para el caso del micrófono se presente el siguiente bloque donde se permite la adquisición del valor de este dispositivo.
+
 ### 👉 Pulsador
+
+Para el caso del pulsador se presente el siguiente bloque donde se permite la adquisición del valor de este dispositivo.
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pulsador.PNG"/>
+
 ### 👉 Acelerómetro 
+
+Para el caso del acelerómetro se generaron los siguientes bloques para obtener los valores de la aceleración en los tres eje. 
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/aceler%C3%B3metro.PNG"/>
+
 ### 👉 Entrada análoga general
+
+Este bloque se diseñó e implementó para la adquisición de los valores de una entrada análoga general que se encuentra presente en la plataforma hardware para conectar cualquier dispositivo externo.
+
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/entrada_general.PNG"/>
+
 #### 📚 Información relevante 📚
 
 Repositorios oficiales de Scratch® donde se puede encontrar información relevante correspondiente al desarrollo y puesta en marcha localmente para pruebas
