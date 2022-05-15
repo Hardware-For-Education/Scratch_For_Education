@@ -153,3 +153,38 @@ Es importante agregar una *,* después de la última línea antes de agregar la 
 
 ### 👨‍💻 Agregar referencia a nueva extensión en _scratch_gui_ 👨‍💻
 Para poder agregar la librería que se acaba de crear a un proyecto de Scratch, se requiere agregar la extensión a la opción de _"+"_ presente en la página web. 
+En esta página se encuentran las distintas librerías de Scratch, en forma de tarjetas para ser agregadas en el proyecto en el que se está trabajando. Estas tarjetas cuentan con una imagen de portada y una pequeña miniatura. Estas imágenes pueden ser modificadas para la extensión creada. 
+* Ubicar la carpeta donde se encuentra el código correspondiente a _scratch_gui_ 
+* En la ruta _src/lib/libraries/extensions_ se debe crear una carpeta con el mismo nombre de la extensión creada y dentro de esa carpeta guardar las dos imágenes que se describieron anteriormente. 
+* En la ruta _src/lib/libraries/extensions_ se encuentra el archivo _index.jsx_ donde se deben agregar varias líneas de código. 
+    1. En primer lugar se deben agregar las referencias a las imágenes anteriores agregando las siguientes líneas de código:   
+```js
+    import newExtensionIconURL from './extension_folder/extensionIconImage.png';
+    import newExtensionInsetIconURL from './extension_folder/extensionInsetImage.png';
+    export default [
+        ...
+    ]
+```
+En este trozo de código se debe configurar según sea el caso, las direcciones _extension_folder_ junto a los nombres de las imaágenes. 
+    2. Dentro del objeto _default_ se debe agregar un codigo como el siguiente, configurando cada campo según corresponda: 
+```js
+    {
+        name: 'My new Extension’,
+        extensionId: 'myExtension',
+        collaborator: 'Me',
+        iconURL: newExtensionIconuRL,
+        insetIconURL: newExtensionInsetIconuRL,
+        description: (
+            <FormattedMessage
+                defaultMessage="Using this extension you can type text"
+                description="my extensions"
+                id="gui .extension.myExtension.description"
+            />
+        featured: true,
+        disabled: false,
+        internetConnectionRequired: true,
+        bluetoothRequired: false,
+        helpLink: 'https://helplink.com'
+    }
+```   
+Con esto ya configurado, el bloque aparecerá en la sección de _librerías_ de la página de Scratch. 
