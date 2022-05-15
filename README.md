@@ -37,4 +37,21 @@ Proyecto desarrollado en el marco del trabajo de grado como un requisito para op
   * *[Creating a Scratch3 Extension For GPIO Control - Part 4](https://mryslab.github.io/bots-in-pieces/scratch3/gpio/2019/10/17/scratch-3-4.html)*
   * *[Scratch 3 Extensions - Part 5 ](https://mryslab.github.io/bots-in-pieces/scratch3/picoboard/circuit-playground-express/2020/02/02/scratch3-5.html)*
 
+## 💻 Desarrollo de extensiones 💻
+
+Para desarrollar extensiones se creo una breve guía en este archivo: [👋 Extensiones Scratch 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md)
+
 #### 📚 Información relevante 📚
+
+Repositorios oficiales de Scratch® donde se puede encontrar información relevante correspondiente al desarrollo y puesta en marcha localmente para pruebas
+* [Scratch scratch-gui official repository](https://github.com/LLK/scratch-gui)
+* [Scratch scratch-vm official repository](https://github.com/LLK/scratch-vm)
+
+Definición de una extensión en Scratch® se puede hallar en la wiki del repositorio [Scratch scratch-vm official repository](https://github.com/LLK/scratch-vm)
+* [Scratch® Extensions](https://github.com/LLK/scratch-vm/blob/develop/docs/extensions.md)
+
+Se puede encontrar mayor información con respecto al desarrollo de extensiones para Scratch® en los siguientes enlaces: 
+
+* [How to Develop Your Own Block for Scratch 3.0](https://medium.com/@hiroyuki.osaki/how-to-develop-your-own-block-for-scratch-3-0-1b5892026421)
+* [[Scratch 3] Block Types You Can Develop and Samples](https://medium.com/@hiroyuki.osaki/scratch-3-block-types-you-can-develop-and-samples-191b0d769b91)
+* [How To Make Your Own Extension In Scratch Using JavaScript](https://brightchamps.com/blog/make-scratch-extension-using-javascript/)
