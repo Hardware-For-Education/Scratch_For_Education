@@ -178,7 +178,7 @@ En este trozo de código se debe configurar según sea el caso, las direcciones 
             <FormattedMessage
                 defaultMessage="Using this extension you can type text"
                 description="my extensions"
-                id="gui .extension.myExtension.description"
+                id="gui.extension.myExtension.description"
             />
         featured: true,
         disabled: false,
