@@ -41,6 +41,32 @@ Proyecto desarrollado en el marco del trabajo de grado como un requisito para op
 
 Para desarrollar extensiones se creo una breve guía en este archivo: [👋 Extensiones Scratch 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md)
 
+## 🐱‍👓 Extensión Hardware For Education 🐱‍👓
+
+En este desarrollo se presenta la introducción de una serie de nuevos bloques que permiten la conexión de Scratch® con un hadware externo como bien se explica en la [Arquitectura del sistema](https://github.com/Hardware-For-Education#-arquitectura-del-sistema-). Según lo presentado en la sección [Conexiones]() se pueden observar los sensores y los actuadores presentes en la plataforma hardware diseñada y qué pines del Arduino UNO controlan dichos dispositivos. Con esto en mente, se diseñaron e implementaron los siguientes bloques: 
+
+### 👉 Zumbador (Buzzer) y Motor vibrador
+
+### 👉 Led RGB 
+
+### 👉 Motor DC 
+
+### 👉 Pantalla LCD 
+
+### 👉 Salida digital general 
+
+### 👉 Joystick
+
+### 👉 Potenciómetro 
+
+### 👉 Micrófono
+
+### 👉 Pulsador
+
+### 👉 Acelerómetro 
+
+### 👉 Entrada análoga general
+
 #### 📚 Información relevante 📚
 
 Repositorios oficiales de Scratch® donde se puede encontrar información relevante correspondiente al desarrollo y puesta en marcha localmente para pruebas
