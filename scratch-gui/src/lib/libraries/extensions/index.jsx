@@ -361,15 +361,21 @@ export default [
     {
         name: 'Scratch 4 Education',
         extensionId: 'scratch4education',
-        collaborator: "Javeriana",
+        collaborator: "Pontificia Universidad Javeriana",
         iconURL: scratch4educationImage,
         insetIconURL: scratch4educationInsetIconURL,
-        description: 'Scratch4Education',
         featured: true,
         disabled: false,
         internetConnectionRequired: false,
         bluetoothRequired: false,
-        helpLink: 'https://mryslab.github.io/s3-extend/'
+        description: (
+            <FormattedMessage
+                defaultMessage="Extensión para el control de la plataforma hardware del proyecto Hardware For Education"
+                description="Hardware For Education"
+                id="gui.extension.scratch4education.description"
+            />
+        ),
+        helpLink: 'https://github.com/Hardware-For-Education'
 
     } 
 ];

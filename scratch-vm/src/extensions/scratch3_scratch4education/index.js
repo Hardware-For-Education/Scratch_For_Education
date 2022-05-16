@@ -120,6 +120,12 @@ const FormLedRGB = {
     "es-419": "Poner el LED RGB en [RGB_COLOR]",
 };
 
+const FormMotorDCStop = {
+    en: "Stop motor",
+    es: "Parar motor",
+    "es-419": "Parar motor",
+};
+
 const FormMotorDCRightSpeed = {
     en: "Turn motor ↻ with speed [SPEED]%",
     es: "Girar motor ↻ con velocidad [SPEED]%",
@@ -176,8 +182,8 @@ const FormMicrophone = {
 
 const FormSwitch = {
     en: "Switch value",
-    es: "Valor Switch",
-    "es-419": "Valor Switch",
+    es: "Valor pulsador",
+    "es-419": "Valor pulsador",
 };
 
 const FormAccX = {
@@ -202,6 +208,12 @@ const FormScreenLines = {
     en: "Write on the screen [STRING] on the line [LINE]",
     es: "Escribir en la pantalla [STRING] en la línea [LINE]",
     "es-419": "Escribir en la pantalla [STRING] en la línea [LINE]",
+};
+
+const FormScreenClear = {
+    en: "Clear LCD screen",
+    es: "Limpiar pantalla LCD",
+    "es-419": "Limpiar pantalla LCD",
 };
 
 // General Alert
@@ -306,6 +318,11 @@ class Scratch3Scratch4Education {
                     },
                 },
                 {
+                    opcode: "motor_dc_stop",
+                    blockType: BlockType.COMMAND,
+                    text: FormMotorDCStop[the_locale],
+                },
+                {
                     opcode: "motor_dc_right",
                     blockType: BlockType.COMMAND,
                     text: FormMotorDCRight[the_locale],
@@ -352,6 +369,11 @@ class Scratch3Scratch4Education {
                             defaultValue: "",
                         },
                     },
+                },
+                {
+                    opcode: "screen_clear",
+                    blockType: BlockType.COMMAND,
+                    text: FormScreenClear[the_locale],
                 },
                 {
                     opcode: "digital_out",
@@ -625,6 +647,41 @@ class Scratch3Scratch4Education {
         }
     }
 
+    motor_dc_stop(args){
+        console.log("motor_dc_stop");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.motor_dc_stop.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (
+                pin_modes[MOTOR_DC_1] !== DIGITAL_OUTPUT &&
+                pin_modes[MOTOR_DC_2] !== DIGITAL_OUTPUT
+            ) {
+                this._setpins_motor_digital();
+            }
+            msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_1,
+                value: 0,
+            };
+            msg_motor_1 = JSON.stringify(msg_motor_1);
+            window.socket.send(msg_motor_1);
+            msg_motor_2 = {
+                command: "digital_write",
+                pin: MOTOR_DC_2,
+                value: 0,
+            };
+            msg_motor_2 = JSON.stringify(msg_motor_2);
+            window.socket.send(msg_motor_2);
+        }
+    }
+
     motor_dc_right(args) {
         console.log("motor_dc_right");
         if (!connected) {
@@ -802,9 +859,30 @@ class Scratch3Scratch4Education {
                 console.log("String largo");
                 alert(FormLengthText[the_locale]);
             } else {
-                console.log("String perfecto");
+                if (!connected) {
+                    let callbackEntry = [this.screen_lines.bind(this), args];
+                    wait_open.push(callbackEntry);
+                }else{
+                    console.log("String perfecto");
+                    msg = { command: "lcd",  string : string_to_write, line: line };
+                    msg = JSON.stringify(msg);
+                    window.socket.send(msg);
+                } 
             }
         }
+    }
+
+    screen_clear(args){
+        console.log("screen_clear");
+        if (!connected) {
+            let callbackEntry = [this.screen_lines.bind(this), args];
+            wait_open.push(callbackEntry);
+        }else{
+            console.log("String perfecto");
+            msg = { command: "clear_lcd"};
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+        } 
     }
 
     digital_out(args){
