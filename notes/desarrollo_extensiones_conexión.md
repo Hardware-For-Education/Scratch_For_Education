@@ -104,36 +104,45 @@ La función _connect_ en el archivo [index.js](https://github.com/Hardware-For-E
             // Ignorar conexiones adicionales
             return;
         } else {
+            // Realizar la conexión a través del objeto WebSocket
             connect_attempt = true;
             window.socket = new WebSocket("ws://127.0.0.1:9000");
             msg = JSON.stringify({ id: "to_arduino_gateway" });
         }
 
-        // websocket event handlers
+        /*
+        * WebSocket: Controladores de eventos
+        */
+        
+        // Controlador para apertura de conexión
         window.socket.onopen = function () {
+            // Variables de control dentro del archivo para almacenar últimos valores de los pines y sus modos de operacion
             digital_inputs.fill(0);
             analog_inputs.fill(0);
             pin_modes.fill(-1);
-            // connection complete
+            // Conexion completada
             connected = true;
             connect_attempt = true;
-            // the message is built above
+            // Envio de mensaje construido anteriormente en la inicializacion
             try {
-                //ws.send(msg);
                 window.socket.send(msg);
             } catch (err) {
-                // ignore this exception
+                // Ignorar esta excepcion
             }
+            // 
             for (let index = 0; index < wait_open.length; index++) {
                 let data = wait_open[index];
                 data[0](data[1]);
             }
         };
-
+        
+        // Controlador para cierre de conexión
         window.socket.onclose = function () {
+            // Variables de control dentro del archivo para almacenar últimos valores de los pines y sus modos de operacion
             digital_inputs.fill(0);
             analog_inputs.fill(0);
             pin_modes.fill(-1);
+            // Creacion del aviso de que la conexion no se ha realizado
             if (alerted === false) {
                 alerted = true;
                 alert(FormWSClosed[the_locale]);
@@ -141,7 +150,7 @@ La función _connect_ en el archivo [index.js](https://github.com/Hardware-For-E
             connected = false;
         };
 
-        // reporter messages from the board
+        // Controlador para llegada de mensajes
         window.socket.onmessage = function (message) {
             msg = JSON.parse(message.data);
             let report_type = msg["report"];
