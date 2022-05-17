@@ -86,6 +86,8 @@ Para crear una extensión que contenga conexión a Arduino entre sus funciones s
 
 Para comprender un poco mejor la arquitectura de software presente en la conexión de Scratch® con Arduino se presenta la siguiente imagen. 
 
+<img src=""/>
+
 En esta imagen se detalla que a partir de la página web se generan una serie de mensajes que son enviados al websocket, este a su vez se conecta con un _backplane_ el cual sirve de interconexión entre ese software y el _gateway_ diseñado para Arduino. Esta arquitectura sigue el diseño propuesto por Alan Yorinks en su implementación s3-extend.
 
 #### ✍ Conexión 
@@ -131,7 +133,7 @@ La función _connect_ en el archivo [index.js](https://github.com/Hardware-For-E
             } catch (err) {
                 // Ignorar esta excepcion
             }
-            // 
+            // Arreglo con el llamado a las funciones que se ejecutaron cuando la conexión no estaba abierta
             for (let index = 0; index < wait_open.length; index++) {
                 let data = wait_open[index];
                 data[0](data[1]);
@@ -158,8 +160,11 @@ La función _connect_ en el archivo [index.js](https://github.com/Hardware-For-E
             let report_type = msg["report"];
             let pin = null;
             let value = null;
-
-            // types - digital, analog, sonar
+ 
+            /*
+            * Tipos de mensaje - digital_input, analog_input, sonar_data
+            * Cuando llega un nuevo mensaje de cualquier tipo se almacena el valor en el1 arreglo correspondiente con el identificador del pin. 
+            */
             if (report_type === "digital_input") {
                 pin = msg["pin"];
                 pin = parseInt(pin, 10);
@@ -178,3 +183,85 @@ La función _connect_ en el archivo [index.js](https://github.com/Hardware-For-E
     }
 ```
 #### ✍ Uso en las funciones
+
+A partir de esta funcion _connect_ se puede hacer uso en la funciones llamadas desde la ejecución de los bloques. A continuación se muestra un diagrama de flujo que representa la serie de instrucciones que se siguen en las implementaciones de las distintas funciones. Cabe resaltar que esta serie de pasos es una recomendación y fue lo implementado por [Alan Yorinks]() en su proyecto [One GPIO]()
+
+<img src=""/>
+
+<img src=""/>
+
+En la primera imagen se presenta el diagrama correspondiente a cuando se requiere realizar envío de información hacia el microcontrolador y la segunda presenta el funcionamiento cuando es algún valor (digital o análogo) enviado por el microcontrolador al computador. 
+
+A continuación se presentan las bases de código para estos dos casos. 
+
+```js
+  function(args) {
+        // Verificar si no se encuentra una conexion activa
+        if (!connected) {
+            // Verificar si no se encuentra una conexion pendiente
+            if (!connection_pending) {
+                // Realizar el proceso de conexion y cambiar las variables de estado para corroborar esto en futuras ejecuciones
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        // Verificar si no se encuentra una conexion activa
+        if (!connected) {
+            // Almacenar la ejecucion de esta funcion en el arreglo wait_open para ser ejecutada una vez se abra una conexion
+            let callbackEntry = [this.motor_dc_right.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            /* 
+            * Si existe una conexion activa se puede proceder a verificar el estado del PIN que se desee obtener el valor.
+            * Este caso se verifica que sea un DIGITAL_OUTPUT pero puede ser ANALOG_OUTPUT tambien. 
+            * Si el estado del PIN no corresponde se procede a realizar un set de dicho PIN al estado deseado. 
+            * Este caso se presenta como una funcion aparte que se puede observar dentro del codigo como se envia un nmensaje a través del WebSocket
+            */
+            if (pin_modes[PIN] !== DIGITAL_OUTPUT) {
+                this._set_digital_out();
+            }
+            /*
+            * Ya habiendo realizado todas estas configuraciones y verificaciones se puede proceder a enviar el mensaje requerido.
+            * El mensaje se construye en la variable msg, luego se vuelve un string para ser enviado por el WebSocket
+            */
+            msg = { command: "digital_write", pin: PIN, value: STATE };
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+        }
+    }
+```
+
+```js 
+  function(args){
+        // Verificar si no se encuentra una conexion activa
+        if (!connected) {
+            // Verificar si no se encuentra una conexion pendiente
+            if (!connection_pending) {
+                // Realizar el proceso de conexion y cambiar las variables de estado para corroborar esto en futuras ejecuciones
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        // Verificar si no se encuentra una conexion activa
+        if (!connected) {
+            // Almacenar la ejecucion de esta funcion en el arreglo wait_open para ser ejecutada una vez se abra una conexion
+            let callbackEntry = [this.function.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            /* 
+            * Si existe una conexion activa se puede proceder a verificar el estado del PIN que se desee obtener el valor.
+            * Este caso se verifica que sea un ANALOG_INPUT pero puede ser DIGITAL_INPUT tambien. 
+            * Si el estado del PIN no corresponde se procede a realizar un set de dicho PIN al estado deseado. 
+            * Este caso se presenta como una funcion aparte que se puede observar dentro del codigo como se envia un nmensaje a través del WebSocket
+            */
+            if (pin_modes[PIN] !== ANALOG_INPUT) {
+                this._set_analog_in();
+            }
+            /*
+            * Ya habiendo realizado todas estas configuraciones y verificaciones se puede proceder a obtener el valor requerido. 
+            * Este valor se encuentra en un arreglo dentro del programa segun sea el caso (analog_inputs o digital_inputs) 
+            */
+            return analog_inputs[PIN];
+        }
+    }
+```
