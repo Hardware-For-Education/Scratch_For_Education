@@ -265,3 +265,42 @@ A continuación se presentan las bases de código para estos dos casos.
         }
     }
 ```
+
+En el actual estado del proyecto se encuentran funcionando algunos comandos desde la página de Scratch® hacia el microcontrolador y la obtención de valores de algunos pines del mismo. Estos son los descritos a continuación: 
+
+* 👉 Zumbador (Buzzer) y Motor vibrador
+
+El bloque implementado para estos dos actuadores es el siguiente
+
+
+
+Este bloque se maneja a través de un comando 
+* 👉 Led RGB
+
+
+* 👉 Motor DC
+
+
+* 👉 Pantalla LCD
+
+
+* 👉 Salida digital general
+
+
+* 👉 Joystick
+
+
+* 👉 Potenciómetro
+
+
+* 👉 Micrófono
+
+
+* 👉 Pulsador
+
+
+* 👉 Acelerómetro
+
+
+* 👉 Entrada análoga general
+
