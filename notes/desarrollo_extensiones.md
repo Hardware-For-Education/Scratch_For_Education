@@ -78,7 +78,24 @@ npm start
 ```
 Cuando en la terminal aparezca el mensaje _Compiled sucessully_ se puede acceder a la página web en cualquier navegador local del computador a traves de la dirección **http://localhost:8601/** 
 
-Se pueden realizar las modificaciones en el codigo y, en tiempo real, se irá actualizando la página web. Es decir, no se requiere ejecutar este comando cada vez que se realice una modificación. 
+Se pueden realizar las modificaciones en el codigo y, en tiempo real, se irá actualizando la página web. Es decir, no se requiere ejecutar este comando cada vez que se realice una modificación.
+
+#### 👨‍💻 Utilización de _yarn_ 👨‍💻
+
+La instalación de dependencias, la compilación e inicio del servicio también se puede realizar el comando _yarn_. A continuación se presenta un paso a paso de este proceso: (los comandos 1, 3 y 7 dependen de cada usuario donde instale los distintos repositorios) 
+
+```
+1. cd to scratch-gui
+2. yarn unlink scratch-vm
+3. cd to scratch-vm
+4. yarn unlink
+5. yarn --force install
+6. yarn link
+7. cd to scratch-gui
+8. yarn link scratch-vm
+9. yarn --force install
+10 yarn start (to test)s
+```
 
 ### 👨‍💻 Crear una extensión 👨‍💻
 Para empezar con la creación de una extensión propia se requiere la creación de una carpeta y un archivo. 

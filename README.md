@@ -41,6 +41,8 @@ Proyecto desarrollado en el marco del trabajo de grado como un requisito para op
 
 Para desarrollar extensiones se creo una breve guía en este archivo: [👋 Extensiones Scratch 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md)
 
+Para desarrollar extensiones con conexión a hardware externo se creo una breve guía en este archivo: [👋 Extensiones Scratch con conexión externa 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones_conexi%C3%B3n.md)
+
 ## 🐱‍👓 Extensión Hardware For Education 🐱‍👓
 
 En este desarrollo se presenta la introducción de una serie de nuevos bloques que permiten la conexión de Scratch® con un hadware externo como bien se explica en la [Arquitectura del sistema](https://github.com/Hardware-For-Education#-arquitectura-del-sistema-). Según lo presentado en la sección [Conexiones](https://github.com/Hardware-For-Education/.github-private/blob/main/profile/README.md#-plataforma-hardware-) se pueden observar los sensores y los actuadores presentes en la plataforma hardware diseñada y qué pines del Arduino UNO controlan dichos dispositivos. Con esto en mente, se diseñaron e implementaron los siguientes bloques: 
@@ -64,18 +66,20 @@ Para el led RGB se implementaron dos bloques diferentes, en el primer bloque se 
 
 ### 👉 Motor DC 
 
-Para el caso del motor DC se diseñaron e implementaron los siguientes bloques. Estos controlan el sentido de giro del motor DC y en el segundo tipo de bloque se controla además de la dirección de giro, la velocidad de giro a través de un porcentaje. 
+Para el caso del motor DC se diseñaron e implementaron los siguientes bloques. Estos controlan el sentido de giro del motor DC y en el segundo tipo de bloque se controla además de la dirección de giro, la velocidad de giro a través de un porcentaje. Existe también un bloque de parada para el motor.  
 
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha_velocidad.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda_velocidad.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_parar.PNG"/>
 
 ### 👉 Pantalla LCD 
 
-Para el caso de la pantalla se presenta la siguiente implementación donde se escriben hasta 14 caractéres y en qué línea deben escribirse dichos caracteres en la pantalla LCD. 
+Para el caso de la pantalla se presenta la siguiente implementación donde se escriben hasta 14 caractéres y en qué línea deben escribirse dichos caracteres en la pantalla LCD. Existe también un bloque para limpiar la pantalla LCD. 
 
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd_limpiar.PNG"/>
 
 ### 👉 Salida digital general 
 
@@ -99,6 +103,8 @@ Para el caso del potenciómetro se presente el siguiente bloque donde se permite
 ### 👉 Micrófono
 
 Para el caso del micrófono se presente el siguiente bloque donde se permite la adquisición del valor de este dispositivo.
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/microfono.PNG"/>
 
 ### 👉 Pulsador
 
