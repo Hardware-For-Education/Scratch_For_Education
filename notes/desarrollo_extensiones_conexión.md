@@ -88,6 +88,8 @@ Para comprender un poco mejor la arquitectura de software presente en la conexi�
 
 En esta imagen se detalla que a partir de la página web se generan una serie de mensajes que son enviados al websocket, este a su vez se conecta con un _backplane_ el cual sirve de interconexión entre ese software y el _gateway_ diseñado para Arduino. Esta arquitectura sigue el diseño propuesto por Alan Yorinks en su implementación s3-extend.
 
+#### ✍ Conexión 
+
 Ya habiendo comprendido este diseño se puede proceder a realizar la implementación de la extensión de Scratch® con conexión a un hardware externo. En principio se debe definir el websocket para comunicar los mensajes de Scratch® con el _backplane_. Este proceso se realiza a través de un objeto de javascript tipo **WebSocket**
 
 ```js 
@@ -175,3 +177,4 @@ La función _connect_ en el archivo [index.js](https://github.com/Hardware-For-E
         };
     }
 ```
+#### ✍ Uso en las funciones
