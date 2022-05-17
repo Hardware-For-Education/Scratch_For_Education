@@ -272,35 +272,207 @@ En el actual estado del proyecto se encuentran funcionando algunos comandos desd
 
 El bloque implementado para estos dos actuadores es el siguiente
 
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/zumbador_motorVibrador_apagado.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/zumbador_motorVibrador_encendido.PNG"/>
 
+Este bloque se maneja a través de un comando que se envia desde el navegador hacia la plataforma hardware. El comando es el siguiente: 
 
-Este bloque se maneja a través de un comando 
+```js 
+  /*
+  * Mensaje que se envia a traves del WebSocket para control del zumbador y el motor vibrador 
+  * MOTOR_BUZZER = 6 -> Pin donde estan conectados eso dispositivos 
+  * state => Seleccion del usuario en el bloque (1: encendido 0: apagado)
+  */
+  msg_motor_buzzer = {
+                command: "digital_write",
+                pin: MOTOR_BUZZER,
+                value: state,
+            };
+```
+
 * 👉 Led RGB
 
+Los bloques implementados para este actuador son los siguientes
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_encendido.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_apagado.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/led_rgb_color.PNG"/>
+
+Estos bloques utilizan los mismos comandos que se envian desde el navegador hacia la plataforma hardware. Los comandos son los siguientes, es uno por cada color de led:
+
+```js 
+  /*
+  * Mensajes que se envian a traves del WebSocket para control del led RGB 
+  * RED = 2 -> Pin donde esta conectado el led rojo 
+  * GREEN = 3 -> Pin donde esta conectado el led verde
+  * BLUE = 4 -> Pin donde esta conectado el led azul
+  * red => Seleccion del usuario en el bloque (1: encendido 0: apagado) para el estado del led rojo
+  * green => Seleccion del usuario en el bloque (1: encendido 0: apagado) para el estado del led verde
+  * blue => Seleccion del usuario en el bloque (1: encendido 0: apagado) para el estado del led azul
+  */
+  msg_red = { 
+              command: "digital_write", 
+              pin: RED, 
+              value: red 
+            };
+  msg_green = {
+                    command: "digital_write",
+                    pin: GREEN,
+                    value: green,
+                };
+  msg_blue = { 
+                command: "digital_write", 
+                pin: BLUE, 
+                value: blue 
+             };
+```
 
 * 👉 Motor DC
 
+Los bloques implementados para este actuador son los siguientes
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_derecha_velocidad.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_izquierda_velocidad.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/motor_parar.PNG"/>
+
+Estos bloques cuentan con distintos mensajes dependiendo del bloque que el usuario utilice. 
+
+```js 
+  /*
+  * Mensajes que se envian a traves del WebSocket para control del motor DC para pararlo
+  * MOTOR_DC_1 = 5 -> Pin donde esta conectado uno de los controles del puente H para el motor DC
+  * MOTOR_DC_2 = 9 -> Pin donde esta conectado el otro control del puente H para el motor DC
+  */
+  msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_1,
+                value: 0,
+            };
+  msg_motor_2 = {
+                command: "digital_write",
+                pin: MOTOR_DC_2,
+                value: 0,
+            };
+```
+
+```js 
+  /*
+  * Mensajes que se envian a traves del WebSocket para control del motor DC para girarlo en un sentido a velocidad completa
+  * MOTOR_DC_1 = 5 -> Pin donde esta conectado uno de los controles del puente H para el motor DC
+  * MOTOR_DC_2 = 9 -> Pin donde esta conectado el otro control del puente H para el motor DC
+  */
+  msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_1,
+                value: 1,
+            };
+  msg_motor_2 = {
+                command: "digital_write",
+                pin: MOTOR_DC_2,
+                value: 0,
+            };
+```
+
+En este caso, para hacerlo girar en el otro sentido, lo único que cambiaría sería el valor de los campos _value_ en ambos mensajes; intercambiandolos. 
+
+```js 
+  /*
+  * Mensajes que se envian a traves del WebSocket para control del motor DC para girarlo en un sentido con una velocidad específica entre 0 y 255
+  * MOTOR_DC_1 = 5 -> Pin donde esta conectado uno de los controles del puente H para el motor DC
+  * MOTOR_DC_2 = 9 -> Pin donde esta conectado el otro control del puente H para el motor DC
+  * speed => variable entre 0 y 255 para el control de velocidad. Esta velocidad es dada por el usuario entre 0% y 100% para ser calculado el valor correspondiente entre 0 y 255. 
+  */
+  msg_motor_1 = {
+                command: "digital_write",
+                pin: MOTOR_DC_1,
+                value: 0,
+            };
+  msg_motor_2 = {
+                command: "digital_write",
+                pin: MOTOR_DC_2,
+                value: speed,
+            };
+```
+
+En este caso, para hacerlo girar en el otro sentido, lo único que cambiaría sería el valor de los campos _value_ en ambos mensajes; intercambiandolos. 
 
 * 👉 Pantalla LCD
 
+Los bloques implementados para este actuador son los siguientes
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd_limpiar.PNG"/>
+
+Estos bloques cuentan con distintos mensajes dependiendo del bloque que el usuario utilice.
 
 * 👉 Salida digital general
 
+El bloque implementado para esta salida genérica digital es el siguiente
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Salida_digital_apagado.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Salida_digital_encendido.PNG"/>
+
+Este bloque se maneja a través de un comando que se envia desde el navegador hacia la plataforma hardware. El comando es el siguiente: 
+
+```js 
+  /*
+  * Mensaje que se envia a traves del WebSocket para control del zumbador y el motor vibrador 
+  * UNIVERSAL_OUT = 8 -> Pin donde esta conectada la salida digital general 
+  * state => Seleccion del usuario en el bloque (1: encendido 0: apagado)
+  */
+  msg = { 
+          command: "digital_write", 
+          pin: UNIVERSAL_OUT, 
+          value: state 
+         };
+```
 
 * 👉 Joystick
 
+Los bloques implementados para este sensor son los siguientes
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/joystick.PNG"/>
+
+Estos bloques, al ser enviados desde el microcontrolador hacia la página web, no se manejan a través de mensajes enviados en el momento; sino que son manejados como valores en un arreglo. Lo único es configurar como _ANALOG_INPUT_ cada uno de los pines correspondientes a los 3 ejes del Joystick.
 
 * 👉 Potenciómetro
 
+El bloque implementado para este sensor es el siguiente
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/potenciometro.PNG"/>
+
+Este bloque, al ser enviado desde el microcontrolador hacia la página web, no se maneja a través de un mensaje enviado en el momento; sino que es manejado como un valor en un arreglo. Lo único es configurar como _ANALOG_INPUT_ el pin correspondiente a la entrada del potenciometro.
 
 * 👉 Micrófono
 
+El bloque implementado para este sensor es el siguiente
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/microfono.PNG"/>
+
+Este bloque, al ser enviado desde el microcontrolador hacia la página web, no se maneja a través de un mensaje enviado en el momento; sino que es manejado como un valor en un arreglo. Lo único es configurar como _ANALOG_INPUT_ el pin correspondiente a la entrada del microfono.
 
 * 👉 Pulsador
 
+El bloque implementado para este sensor es el siguiente
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pulsador.PNG"/>
+
+Este bloque, al ser enviado desde el microcontrolador hacia la página web, no se maneja a través de un mensaje enviado en el momento; sino que es manejado como un valor en un arreglo. Lo único es configurar como _DIGITAL_INPUT_ el pin correspondiente a la entrada del pulsador.
 
 * 👉 Acelerómetro
 
+Los bloques implementados para este sensor es el siguiente
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/aceler%C3%B3metro.PNG"/>
+
+Este bloque, al ser enviado desde el microcontrolador hacia la página web, no se maneja a través de un mensaje enviado en el momento; sino que es manejado como un valor en un arreglo. Ya que este es un sensor complejo, no requiere la configuración de un pin, sino que se encuentra funcionando en la version entregada del programa de Arduino. 
 
 * 👉 Entrada análoga general
 
+El bloque implementado para esta entrada análoga general es el siguiente
+
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/entrada_general.PNG"/>
+
+Este bloque, al ser enviado desde el microcontrolador hacia la página web, no se maneja a través de un mensaje enviado en el momento; sino que es manejado como un valor en un arreglo. Lo único es configurar como _ANALOG_INPUT_ el pin correspondiente a la entrada análoga general.
