@@ -41,6 +41,8 @@ Proyecto desarrollado en el marco del trabajo de grado como un requisito para op
 
 Para desarrollar extensiones se creo una breve guía en este archivo: [👋 Extensiones Scratch 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md)
 
+Para desarrollar extensiones con conexión a hardware externo se creo una breve guía en este archivo: [👋 Extensiones Scratch con conexión externa 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones_conexi%C3%B3n.md)
+
 ## 🐱‍👓 Extensión Hardware For Education 🐱‍👓
 
 En este desarrollo se presenta la introducción de una serie de nuevos bloques que permiten la conexión de Scratch® con un hadware externo como bien se explica en la [Arquitectura del sistema](https://github.com/Hardware-For-Education#-arquitectura-del-sistema-). Según lo presentado en la sección [Conexiones](https://github.com/Hardware-For-Education/.github-private/blob/main/profile/README.md#-plataforma-hardware-) se pueden observar los sensores y los actuadores presentes en la plataforma hardware diseñada y qué pines del Arduino UNO controlan dichos dispositivos. Con esto en mente, se diseñaron e implementaron los siguientes bloques: 
