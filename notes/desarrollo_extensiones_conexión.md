@@ -80,6 +80,23 @@ Cuando en la terminal aparezca el mensaje _Compiled sucessully_ se puede acceder
 
 Se pueden realizar las modificaciones en el codigo y, en tiempo real, se irá actualizando la página web. Es decir, no se requiere ejecutar este comando cada vez que se realice una modificación. 
 
+#### 👨‍💻 Utilización de _yarn_ 👨‍💻
+
+La instalación de dependencias, la compilación e inicio del servicio también se puede realizar el comando _yarn_. A continuación se presenta un paso a paso de este proceso: (los comandos 1, 3 y 7 dependen de cada usuario donde instale los distintos repositorios) 
+
+```
+1. cd to scratch-gui
+2. yarn unlink scratch-vm
+3. cd to scratch-vm
+4. yarn unlink
+5. yarn --force install
+6. yarn link
+7. cd to scratch-gui
+8. yarn link scratch-vm
+9. yarn --force install
+10 yarn start (to test)s
+```
+
 ### 👨‍💻 Crear una extensión con conexión a Arduino 👨‍💻
 
 Para crear una extensión que contenga conexión a Arduino entre sus funciones se deben seguir los mismos pasos descritos en [Crear una extensión en Scratch 3](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md#-crear-una-extensi%C3%B3n-). Con esto en mente, se puede proceder a crear la conexión con el hardware externo a través de un websocket. 
