@@ -1015,10 +1015,15 @@ class Scratch3Scratch4Education {
             let callbackEntry = [this.switch.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            if (pin_modes[SWITCH] !== DIGITAL_INPUT) {
+            if (pin_modes[SWITCH] !== ANALOG_INPUT) {
                 this._set_switch();
             }
-            return analog_inputs[SWITCH];
+            if (analog_inputs[SWITCH]==0) {
+                pulsador = 0
+            } else {
+                pulsador = 1
+            }
+            return pulsador;
         }
     }
 
@@ -1087,7 +1092,7 @@ class Scratch3Scratch4Education {
 
     _set_switch() {
         pin_modes[SWITCH] = ANALOG_INPUT;
-        msg = { command: "set_mode_digital_input", pin: SWITCH };
+        msg = { command: "set_mode_analog_input", pin: SWITCH };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
