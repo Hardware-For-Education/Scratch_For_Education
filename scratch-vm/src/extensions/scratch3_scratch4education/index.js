@@ -1018,7 +1018,7 @@ class Scratch3Scratch4Education {
             if (pin_modes[SWITCH] !== ANALOG_INPUT) {
                 this._set_switch();
             }
-            if (analog_inputs[SWITCH]==0) {
+            if (analog_inputs[SWITCH]<=100) {
                 pulsador = 0
             } else {
                 pulsador = 1
