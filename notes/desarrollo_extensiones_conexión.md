@@ -80,15 +80,32 @@ Cuando en la terminal aparezca el mensaje _Compiled sucessully_ se puede acceder
 
 Se pueden realizar las modificaciones en el codigo y, en tiempo real, se irá actualizando la página web. Es decir, no se requiere ejecutar este comando cada vez que se realice una modificación. 
 
+#### 👨‍💻 Utilización de _yarn_ 👨‍💻
+
+La instalación de dependencias, la compilación e inicio del servicio también se puede realizar el comando _yarn_. A continuación se presenta un paso a paso de este proceso: (los comandos 1, 3 y 7 dependen de cada usuario donde instale los distintos repositorios) 
+
+```
+1. cd to scratch-gui
+2. yarn unlink scratch-vm
+3. cd to scratch-vm
+4. yarn unlink
+5. yarn --force install
+6. yarn link
+7. cd to scratch-gui
+8. yarn link scratch-vm
+9. yarn --force install
+10 yarn start (to test)s
+```
+
 ### 👨‍💻 Crear una extensión con conexión a Arduino 👨‍💻
 
 Para crear una extensión que contenga conexión a Arduino entre sus funciones se deben seguir los mismos pasos descritos en [Crear una extensión en Scratch 3](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md#-crear-una-extensi%C3%B3n-). Con esto en mente, se puede proceder a crear la conexión con el hardware externo a través de un websocket. 
 
 Para comprender un poco mejor la arquitectura de software presente en la conexión de Scratch® con Arduino se presenta la siguiente imagen. 
 
-<img src=""/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Programas.png"/>
 
-En esta imagen se detalla que a partir de la página web se generan una serie de mensajes que son enviados al websocket, este a su vez se conecta con un _backplane_ el cual sirve de interconexión entre ese software y el _gateway_ diseñado para Arduino. Esta arquitectura sigue el diseño propuesto por Alan Yorinks en su implementación s3-extend.
+En esta imagen se detalla que a partir de la página web se generan una serie de mensajes que son enviados al websocket, este a su vez se conecta con un _backplane_ el cual sirve de interconexión entre ese software y el _gateway_ diseñado para Arduino. Esta arquitectura sigue el diseño propuesto por [Alan Yorinks](https://github.com/MrYsLab) en su implementación [s3-extend](https://mryslab.github.io/s3-extend/).
 
 #### ✍ Conexión 
 
@@ -184,11 +201,11 @@ La función _connect_ en el archivo [index.js](https://github.com/Hardware-For-E
 ```
 #### ✍ Uso en las funciones
 
-A partir de esta funcion _connect_ se puede hacer uso en la funciones llamadas desde la ejecución de los bloques. A continuación se muestra un diagrama de flujo que representa la serie de instrucciones que se siguen en las implementaciones de las distintas funciones. Cabe resaltar que esta serie de pasos es una recomendación y fue lo implementado por [Alan Yorinks]() en su proyecto [One GPIO]()
+A partir de esta funcion _connect_ se puede hacer uso en la funciones llamadas desde la ejecución de los bloques. A continuación se muestra un diagrama de flujo que representa la serie de instrucciones que se siguen en las implementaciones de las distintas funciones. Cabe resaltar que esta serie de pasos es una recomendación y fue lo implementado por [Alan Yorinks](https://github.com/MrYsLab) en su proyecto [s3onegpio](https://github.com/MrYsLab/s3onegpio)
 
-<img src=""/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Flowchart_message.png"/>
 
-<img src=""/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/Flowchart_in.png"/>
 
 En la primera imagen se presenta el diagrama correspondiente a cuando se requiere realizar envío de información hacia el microcontrolador y la segunda presenta el funcionamiento cuando es algún valor (digital o análogo) enviado por el microcontrolador al computador. 
 
