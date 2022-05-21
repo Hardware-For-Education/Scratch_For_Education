@@ -849,12 +849,11 @@ class Scratch3Scratch4Education {
     screen_lines(args) {
         console.log("screen_lines");
         let string_to_write = args["STRING"];
-        let line = args["LINE"];
+        let line = parseInt(args["LINE"], 10);
         console.log(string_to_write);
         console.log(line);
-        if (!string_to_write) {
+        if (string_to_write) {
             console.log("String vacio");
-        } else {
             if (string_to_write.length > 14) {
                 console.log("String largo");
                 alert(FormLengthText[the_locale]);
@@ -867,8 +866,11 @@ class Scratch3Scratch4Education {
                     msg = { command: "lcd",  string : string_to_write, line: line };
                     msg = JSON.stringify(msg);
                     window.socket.send(msg);
+                    console.log(msg)
                 } 
             }
+        }else{
+            console.log("NO STRING")
         }
     }
 
@@ -878,7 +880,6 @@ class Scratch3Scratch4Education {
             let callbackEntry = [this.screen_lines.bind(this), args];
             wait_open.push(callbackEntry);
         }else{
-            console.log("String perfecto");
             msg = { command: "clear_lcd"};
             msg = JSON.stringify(msg);
             window.socket.send(msg);
