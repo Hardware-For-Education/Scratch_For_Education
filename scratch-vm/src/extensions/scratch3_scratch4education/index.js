@@ -216,6 +216,24 @@ const FormScreenClear = {
     "es-419": "Limpiar pantalla LCD",
 };
 
+const FormScreenCircle = {
+    en: "Draw a circle on the LCD screen",
+    es: "Dibujar en la pantalla LCD un circulo",
+    "es-419": "Dibujar en la pantalla LCD un circulo",
+};
+
+const FormScreenRectangle = {
+    en: "Draw a rectangle on the LCD screen",
+    es: "Dibujar en la pantalla LCD un rectangulo",
+    "es-419": "Dibujar en la pantalla LCD un rectangulo",
+};
+
+const FormScreenTriangle = {
+    en: "Draw a triangle on the LCD screen",
+    es: "Dibujar en la pantalla LCD un triangulo",
+    "es-419": "Dibujar en la pantalla LCD un triangulo",
+};
+
 // General Alert
 const FormWSClosed = {
     "pt-br": "A Conexão do WebSocket está Fechada",
@@ -374,6 +392,21 @@ class Scratch3Scratch4Education {
                     opcode: "screen_clear",
                     blockType: BlockType.COMMAND,
                     text: FormScreenClear[the_locale],
+                },
+                {
+                    opcode: "screen_circle",
+                    blockType: BlockType.COMMAND,
+                    text: FormScreenCircle[the_locale],
+                },
+                {
+                    opcode: "screen_rectangle",
+                    blockType: BlockType.COMMAND,
+                    text: FormScreenRectangle[the_locale],
+                },
+                {
+                    opcode: "screen_triangle",
+                    blockType: BlockType.COMMAND,
+                    text: FormScreenTriangle[the_locale],
                 },
                 {
                     opcode: "digital_out",
@@ -883,6 +916,45 @@ class Scratch3Scratch4Education {
             msg = { command: "clear_lcd"};
             msg = JSON.stringify(msg);
             window.socket.send(msg);
+        } 
+    }
+
+    screen_circle(args){
+        console.log("screen_circle");
+        if (!connected) {
+            let callbackEntry = [this.screen_circle.bind(this), args];
+            wait_open.push(callbackEntry);
+        }else{
+            msg = { command: "circle_lcd"};
+            msg = JSON.stringify(msg);
+            console.log(msg)
+            window.socket.send(msg);
+        } 
+    }
+
+    screen_rectangle(args){
+        console.log("screen_rectangle");
+        if (!connected) {
+            let callbackEntry = [this.screen_rectangle.bind(this), args];
+            wait_open.push(callbackEntry);
+        }else{
+            msg = { command: "rectangle_lcd"};
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+            console.log(msg)
+        } 
+    }
+
+    screen_triangle(args){
+        console.log("screen_triangle");
+        if (!connected) {
+            let callbackEntry = [this.screen_triangle.bind(this), args];
+            wait_open.push(callbackEntry);
+        }else{
+            msg = { command: "triangle_lcd"};
+            msg = JSON.stringify(msg);
+            window.socket.send(msg);
+            console.log(msg)
         } 
     }
 
