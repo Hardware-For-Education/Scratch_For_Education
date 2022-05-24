@@ -39,6 +39,8 @@ Proyecto desarrollado en el marco del trabajo de grado como un requisito para op
 
 ## 💻 Desarrollo de extensiones 💻
 
+Para poder realizar un desarrollo en Scratch es necesario ejecutar una version de este programa de forma local antes de entregar una version final y que sea desplegable. Una explicacion de este proceso se encuentra en el archivo [👋 Ejecucion del proyecto Scratch en un ambiente local 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/ejecucion_localhost.md)
+
 Para desarrollar extensiones se creo una breve guía en este archivo: [👋 Extensiones Scratch 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones.md)
 
 Para desarrollar extensiones con conexión a hardware externo se creo una breve guía en este archivo: [👋 Extensiones Scratch con conexión externa 👋](https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/notes/desarrollo_extensiones_conexi%C3%B3n.md)
@@ -117,6 +119,8 @@ Para el caso del pulsador se presente el siguiente bloque donde se permite la ad
 Para el caso del acelerómetro se generaron los siguientes bloques para obtener los valores de la aceleración en los tres eje. 
 
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/aceler%C3%B3metro.PNG"/>
+
+* __Nota:__ Estos bloques no se encuentran implementados en su totalidad dado que existe un problema con la comunicacion SPI en el shield diseñado.
 
 ### 👉 Entrada análoga general
 
