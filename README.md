@@ -82,6 +82,7 @@ Para el caso de la pantalla se presenta la siguiente implementación donde se es
 
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd.PNG"/>
 <img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd_limpiar.PNG"/>
+<img src="https://github.com/Hardware-For-Education/Scratch_For_Education/blob/master/images/pantalla_lcd_dibujos.PNG" width="200px"/>
 
 ### 👉 Salida digital general 
 
