@@ -4,9 +4,13 @@
 * [Alejandro Castro Martínez](https://github.com/kstro96)
 * [Janet Chen He](https://github.com/XingYi98)
 * [María José Niño Rodríguez](https://github.com/mjninor99)
+* [Juan Diego Sierra Cifuentes](https://github.com/juandisierra10)
+* [Thomas Morales Varón](https://github.com/Thom037)
+
 #### 👨‍🏫👩‍🏫 Bajo la dirección de 👨‍🏫👩‍🏫 
 * Ing. MsC. Martha Cano Morales
 * Ing. MsC. PhD. Jairo Alberto Hurtado
+* Ing. MsC. PhD. Eduardo Mejía Rodríguez
 
 <img src="https://github.com/Hardware-For-Education/.github-private/blob/main/profile/images/scratch4education-small.png" width="200" />
 
