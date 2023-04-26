@@ -89,8 +89,3 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# yarn .lock 
-scratch-gui/yarn.lock
-scratch-vm/yarn.lock
-scratch-gui/package-lock.json
-scratch-vm/package-lock.json
