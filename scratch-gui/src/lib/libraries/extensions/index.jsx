@@ -52,6 +52,9 @@ import onegpioArduinoInsetIconURL from './onegpioArduino/onegpioArduino-small.pn
 import scratch4educationImage from './scratch4education/scratch4education-small.png';
 import scratch4educationInsetIconURL from './scratch4education/scratch4education-small.png';
 
+import scratch3newblocksImage from './scratch3newblocks/logo.jpg';
+import scratch3newblocksInsetIconURL from './scratch3newblocks/logo1.jpg';
+
 import onegpioRpiImage from './onegpioRpi/onegpioRpi.png';
 import onegpioRpiInsetIconURL from './onegpioRpi/onegpioRpi-small.png';
 
@@ -373,6 +376,28 @@ export default [
                 defaultMessage="Extensión para el control de la plataforma hardware del proyecto Hardware For Education"
                 description="Hardware For Education"
                 id="gui.extension.scratch4education.description"
+            />
+        ),
+        helpLink: 'https://github.com/Hardware-For-Education'
+
+    } 
+    ,
+    {
+        name: 'Scratch New Blocks',
+        extensionId: 'scratch3newblocks',
+        collaborator: "Pontificia Universidad Javeriana",
+        iconURL: scratch3newblocksImage,
+        insetIconURL: scratch3newblocksInsetIconURL,
+
+        featured: true,
+        disabled: false,
+        internetConnectionRequired: false,
+        bluetoothRequired: false,
+        description: (
+            <FormattedMessage
+                defaultMessage="Extensión para el control de la plataforma hardware del proyecto Hardware For Education"
+                description="Hardware For Education"
+                id="gui.extension.scratch3newblocks.description"
             />
         ),
         helpLink: 'https://github.com/Hardware-For-Education'
