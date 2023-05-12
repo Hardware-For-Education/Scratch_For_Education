@@ -52,6 +52,9 @@ import onegpioArduinoInsetIconURL from './onegpioArduino/onegpioArduino-small.pn
 import scratch4educationImage from './scratch4education/scratch4education-small.png';
 import scratch4educationInsetIconURL from './scratch4education/scratch4education-small.png';
 
+import scratch3HardwareInteractivoImage from './HardwareInteractivo/logo1.png';
+import scratch3HardwareInteractivoInsetIconURL from './HardwareInteractivo/logo1.png';
+
 import scratch3newblocksImage from './scratch3newblocks/logo.jpg';
 import scratch3newblocksInsetIconURL from './scratch3newblocks/logo1.jpg';
 
@@ -381,6 +384,26 @@ export default [
         helpLink: 'https://github.com/Hardware-For-Education'
 
     } 
+    ,
+    {
+        name: 'Hardware Interactivo',
+        extensionId: 'scratch3HardwareInteractivo',
+        collaborator: "Pontificia Universidad Javeriana",
+        iconURL: scratch3HardwareInteractivoImage,
+        insetIconURL: scratch3HardwareInteractivoInsetIconURL,
+        featured: true,
+        disabled: false,
+        internetConnectionRequired: false,
+        bluetoothRequired: false,
+        description: (
+            <FormattedMessage
+            defaultMessage="Extensión para el control de la plataforma hardware del proyecto Hardware Interactivo compatible con Scratch"
+            description="Hardware Interactivo compatible con Scratch"
+                id="gui.extension.scratch3HardwareInteractivo.description"
+            />
+        ),
+        helpLink: 'https://github.com/Hardware-For-Education'
+    }
     ,
     {
         name: 'Scratch New Blocks',
