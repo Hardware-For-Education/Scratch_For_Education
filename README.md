@@ -6,6 +6,9 @@
 * [María José Niño Rodríguez](https://github.com/mjninor99)
 * [Juan Diego Sierra Cifuentes](https://github.com/juandisierra10)
 * [Thomas Morales Varón](https://github.com/Thom037)
+* [Sergio Enrique González Martínez](https://github.com/SE-GONZALEZ)
+* [Juan José Pinilla Varon](https://github.com/JuanPinilla13)
+* [Mateo Felipe Ariza Ordoñez](https://github.com/mateoariza)
 
 
 #### 👨‍🏫👩‍🏫 Bajo la dirección de 👨‍🏫👩‍🏫 

@@ -30,27 +30,27 @@ require("sweetalert");
 let the_locale = null;
 
 const FormLedRGB = {
-    en: "Turn up color light [RGB_COLOR]",
-    es: "Encender luz color [RGB_COLOR]",
-    "es-419": "Encender luz color [RGB_COLOR]",
+    en: "Color light [RGB_COLOR]",
+    es: "Luz en color [RGB_COLOR]",
+    "es-419": "Luz en color [RGB_COLOR]",
 };
 
 const FormLedRed = {
-    en: "Turn up color red [RGB_red]",
-    es: "Encender luz roja [RGB_red]",
-    "es-419": "Encender luz roja [RGB_red]",
+    en: "Red light [RGB_red]",
+    es: "Luz roja [RGB_red]",
+    "es-419": "Luz roja [RGB_red]",
 };
 
 const FormLedGreen = {
-    en: "Turn up color green [RGB_green]",
-    es: "Encender luz verde [RGB_green]",
-    "es-419": "Encender luz verde [RGB_green]",
+    en: "Green light[RGB_green]",
+    es: "Luz verde [RGB_green]",
+    "es-419": "Luz verde [RGB_green]",
 };
 
 const FormLedBlue = {
-    en: "Turn up color blue [RGB_blue]",
-    es: "Encender luz azul [RGB_blue]",
-    "es-419": "Encender luz azul [RGB_blue]",
+    en: "Blue light[RGB_blue]",
+    es: "Luz azul [RGB_blue]",
+    "es-419": "Luz azul [RGB_blue]",
 };
 
 const FormPotenciometer = {
@@ -62,27 +62,27 @@ const FormPotenciometer = {
 
 
 const FormPulse1 = {
-    en: "S2 Button",
-    es: "Botón S2",
-    "es-419": "Botón S2",
+    en: "S2 Button State",
+    es: "Estado Botón S2",
+    "es-419": "Estado Botón S2",
 };
 
 const FormPulse2 = {
-    en: "S3 Button",
-    es: "Botón S3",
-    "es-419": "Botón S3",
+    en: "S3 Button State",
+    es: "Estado Botón S3",
+    "es-419": "Estado Botón S3",
 };
 
 const FormPlaySound = {
-    en: "Activate vibration [STATE]",
-    es: "Activar vibración [STATE]",
-    "es-419": "Activar vibración [STATE]",
+    en: "Vibration [STATE]",
+    es: "Vibración [STATE]",
+    "es-419": "Vibración [STATE]",
 };
 
 const FormBuzzer = {
-    en: "Activate sound [buzz]",
-    es: "Activar sonido [buzz]",
-    "es-419": "Activar sonido [buzz]",
+    en: "Sound [buzz]",
+    es: "Sonido [buzz]",
+    "es-419": "Sonido [buzz]",
 };
 
 const FormJoyX = {
