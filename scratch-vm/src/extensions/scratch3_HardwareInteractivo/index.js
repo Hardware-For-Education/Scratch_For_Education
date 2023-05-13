@@ -78,26 +78,26 @@ let wait_open = [];
 /********************************** Pines de los componentes ***************************************/
 
 // Pines Led REG
-const RED = 0;
-const GREEN = 0;
-const BLUE = 0;
+const RED = 5;
+const GREEN = 6;
+const BLUE = 7;
 
 // Pin Pulsador
-const SWITCH = 0;
+const SWITCH = 12;
 
 // Pin Potenciometro
-const POTENCIOMETRO = 0;
+const POTENCIOMETRO = 1;
 
 // Pines Joystick
-const JOYSTICK_X = 0;
-const JOYSTICK_Y = 0;
-const JOYSTICK_Z = 0;
+const JOYSTICK_X = 4;
+const JOYSTICK_Y = 5;
+const JOYSTICK_Z = 2;
 
 //Pin Buzzer
-const BUZZER = 0;
+const BUZZER = 9;
 
 //Pin Motor Vibrador
-const MOTOR = 0;
+const MOTOR = 8;
 
 /********************************** Fin de Pines de los componentes ********************************/
 
@@ -294,7 +294,7 @@ class Scratch3HardwareInteractivo {
 
 /********************************** Manejadores de funciones ***************************************/
     
-    led_RGB_color(args) {
+LedRGB(args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -302,7 +302,7 @@ class Scratch3HardwareInteractivo {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.led_RGB_color.bind(this), args];
+            let callbackEntry = [this.LedRGB.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             let red;
@@ -554,6 +554,8 @@ class Scratch3HardwareInteractivo {
             return digital_inputs[SWITCH];
         }
     }
+
+/********************************* FIN Manejadores de funciones *******************************/
 
 /******************************* Funciones de los modos ***************************************/
     _setpins_led_RGB() {
