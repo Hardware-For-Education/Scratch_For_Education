@@ -26,7 +26,7 @@ const builtinExtensions = {
     gdxfor: () => require('../extensions/scratch3_gdx_for'),
     onegpioArduino: () => require('../extensions/scratch3_onegpioArduino'),
     scratch4education: () => require('../extensions/scratch3_scratch4education'),
-    scratch3newblocks: () => require('../extensions/scratch3_newblocks'),
+    scratch3PHEPcs: () => require('../extensions/scratch3_PHEPcs'),
     scratch3HardwareInteractivo: () => require('../extensions/scratch3_HardwareInteractivo')
 };
 
