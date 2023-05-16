@@ -29,6 +29,48 @@ require("sweetalert");
 
 let the_locale = null;
 
+// Digital Modes
+const DIGITAL_INPUT = 1;
+const DIGITAL_OUTPUT = 2;
+const PWM = 3;
+const ANALOG_INPUT = 7;
+
+
+// an array to save the current pin mode
+// this is common to all board types since it contains enough
+// entries for all the boards.
+// Modes are listed above - initialize to invalid mode of -1
+let pin_modes = new Array(30).fill(-1);
+
+// has an websocket message already been received
+let alerted = false;
+
+let connection_pending = false;
+
+// general outgoing websocket message holder
+let msg = null;
+
+// the pin assigned to the sonar trigger
+// initially set to -1, an illegal value
+let sonar_report_pin = -1;
+
+// flag to indicate if the user connected to a board
+let connected = false;
+
+// arrays to hold input values
+let digital_inputs = new Array(13);
+let analog_inputs = new Array(6);
+
+// flag to indicate if a websocket connect was
+// ever attempted.
+let connect_attempt = false;
+
+// an array to buffer operations until socket is opened
+let wait_open = [];
+
+// Pin conexion Buzzer
+const Pin_BUZZER = 9;
+
 const FormLedRGB = {
     en: "Color light [RGB_COLOR]",
     es: "Luz en color [RGB_COLOR]",
@@ -86,21 +128,21 @@ const FormBuzzer = {
 };
 
 const FormJoyX = {
-    en: "Horizontal joystick value",
-    es: "Valor joystick horizontal ",
-    "es-419": "Valor joystick horizontal",
+    en: "Y joystick value",
+    es: "Valor joystick Y ",
+    "es-419": "Valor joystick Y",
 };
 
 const FormJoyY = {
-    en: "Vertical joystick value",
-    es: "Valor joystick vertical" ,
-    "es-419": "Valor joystick vertical",
+    en: "X joystick value",
+    es: "Valor joystick X" ,
+    "es-419": "Valor joystick X",
 };
 
 const FormJoyZ = {
-    en: "Button joystick value",
-    es: "Valor botón joystick",
-    "es-419": "Valor botón joystick",
+    en: "Button joystick state",
+    es: "Estado botón joystick",
+    "es-419": "Estado botón joystick",
 };
 
 const Formlight = {
@@ -110,21 +152,19 @@ const Formlight = {
 };
 
 const FormInc1 = {
-    en: "Left or right inclination",
-    es: "Inclinación izquierda o derecha",
-    "es-419": "Inclinación izquierda o derecha",
+    en: "X-axis inclination",
+    es: "Inclinación en eje X",
+    "es-419": "Inclinación en eje X",
 };
 
 const FormInc2 = {
-    en: "Up or down inclination",
-    es: "Inclinación arriba o abajo",
-    "es-419": "Inclinación arriba o abajo",
+    en: "Y-axis inclination",
+    es: "Inclinación en eje Y",
+    "es-419": "Inclinación en eje Y",
 };
 
 
-
-
-class Scratch3newblocks {
+class Scratch3PHEPcs {
     constructor(runtime) {
         the_locale = this._setLocale();
         this.runtime = runtime;
@@ -135,10 +175,10 @@ class Scratch3newblocks {
         //this.connect();
 
         return {
-            id: "scratch3newblocks",
+            id: "scratch3PHEPcs",
             color1: "#9F2D2D",
             color2: "#782222",
-            name: "Scratch New Blocks",
+            name: "Scratch PHEPcs",
             blocks: [
                 {
                     opcode: "RGB_list",
@@ -219,9 +259,9 @@ class Scratch3newblocks {
                     arguments: {
                         STATE: {
                             type: ArgumentType.NUMBER,
-                            defaultText: "Encendido",
-                            defaultValue: 1,
-                            menu: "on_off",
+                            defaultText: "Desactivado",
+                            defaultValue: 0,
+                            menu: "enabled",
                         },
                     },
                 },
@@ -233,9 +273,9 @@ class Scratch3newblocks {
                     arguments: {
                         buzz: {
                             type: ArgumentType.NUMBER,
-                            defaultText: "Encendido",
-                            defaultValue: 1,
-                            menu: "on_off",
+                            defaultText: "Desactivado",
+                            defaultValue: 0,
+                            menu: "enabled",
                         },
                     },
                 },
@@ -295,12 +335,52 @@ class Scratch3newblocks {
                     { text: "Encendido", value: "1" },
                     { text: "Apagado", value: "0" },
                 ],
-            },
+                },
+
+                enabled: {
+                acceptReporters: true,
+                items: [
+                    { text: "Activado", value: "1" },
+                    { text: "Desactivado", value: "0" },
+                ],
+                },
             
         },
            
         };
     }
+    buzzer(args) {
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.buzzer.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let state = parseInt(args["buzz"], 10);
+            if (pin_modes[Pin_BUZZER] !== DIGITAL_INPUT) {
+                this._setpin_buzzer();
+            }
+            msg_buzzer = {
+                command: "digital_write",
+                pin: Pin_BUZZER,
+                value: state,
+            };
+            msg_buzzer = JSON.stringify(msg_buzzer);
+            window.socket.send(msg_buzzer);
+        }
+    }
+/********************************* FIN Manejadores de funciones ********************************/
+_setpin_buzzer() {
+    pin_modes[Pin_BUZZER] = Pin_BUZZER;
+    msg = { command: "set_mode_digital_output", pin: Pin_BUZZER };
+    msg = JSON.stringify(msg);
+    window.socket.send(msg);
+}
+
 
     _setLocale() {
         let now_locale = "";
@@ -342,6 +422,75 @@ class Scratch3newblocks {
         }
         return now_locale;
     }
+// helpers
+connect() {
+    if (connected) {
+        // ignore additional connection attempts
+        return;
+    } else {
+        connect_attempt = true;
+        window.socket = new WebSocket("ws://127.0.0.1:9000");
+        msg = JSON.stringify({ id: "to_arduino_gateway" });
+    }
+
+    // websocket event handlers
+    window.socket.onopen = function () {
+        digital_inputs.fill(0);
+        analog_inputs.fill(0);
+        pin_modes.fill(-1);
+        // connection complete
+        connected = true;
+        connect_attempt = true;
+        // the message is built above
+        try {
+            //ws.send(msg);
+            window.socket.send(msg);
+        } catch (err) {
+            // ignore this exception
+        }
+        for (let index = 0; index < wait_open.length; index++) {
+            let data = wait_open[index];
+            data[0](data[1]);
+        }
+    };
+
+    window.socket.onclose = function () {
+        digital_inputs.fill(0);
+        analog_inputs.fill(0);
+        pin_modes.fill(-1);
+        if (alerted === false) {
+            alerted = true;
+            alert(FormWSClosed[the_locale]);
+        }
+        connected = false;
+    };
+
+    // reporter messages from the board
+    window.socket.onmessage = function (message) {
+        msg = JSON.parse(message.data);
+        let report_type = msg["report"];
+        let pin = null;
+        let value = null;
+
+        // types - digital, analog, sonar
+        if (report_type === "digital_input") {
+            pin = msg["pin"];
+            pin = parseInt(pin, 10);
+            value = msg["value"];
+            digital_inputs[pin] = value;
+        } else if (report_type === "analog_input") {
+            pin = msg["pin"];
+            pin = parseInt(pin, 10);
+            value = msg["value"];
+            analog_inputs[pin] = value;
+        } else if (report_type === "sonar_data") {
+            value = msg["value"];
+            digital_inputs[sonar_report_pin] = value;
+        }
+    };
+}
 }
 
-module.exports = Scratch3newblocks;
+
+
+module.exports = Scratch3PHEPcs;
