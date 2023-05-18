@@ -33,7 +33,7 @@ let the_locale = null;
 const DIGITAL_INPUT = 1;
 const DIGITAL_OUTPUT = 2;
 const PWM = 3;
-const ANALOG_INPUT = 7;
+const ANALOG_INPUT = 4;
 
 
 // an array to save the current pin mode
@@ -68,8 +68,21 @@ let connect_attempt = false;
 // an array to buffer operations until socket is opened
 let wait_open = [];
 
+// Pin conexion LED RGB
+const RED_RGB = 2;
+const BLUE_RGB = 3;
+const GREEN_RGB = 4;
+
 // Pin conexion Buzzer
 const Pin_BUZZER = 9;
+
+// Pin conexion motor vibrador
+const MOTOR = 10;
+
+const JOYSTICK_X = 1;
+
+// Pin conexión puerto de entrada universal
+const UNIVERSAL_IN = 5;
 
 const FormLedRGB = {
     en: "Color light [RGB_COLOR]",
@@ -163,6 +176,17 @@ const FormInc2 = {
     "es-419": "Inclinación en eje Y",
 };
 
+const FormDigitalOut = {
+    en: "Digital general out [STATE]",
+    es: "Salida digital general [STATE]",
+    "es-419": "Salida digital general [STATE]",
+};
+
+const FormAnalogIn = {
+    en: "Analog general in",
+    es: "Entrada analoga general",
+    "es-419": "Entrada analoga general",
+};
 
 class Scratch3PHEPcs {
     constructor(runtime) {
@@ -315,6 +339,12 @@ class Scratch3PHEPcs {
                     blockType: BlockType.REPORTER,
                     text: FormInc2[the_locale],
                 },
+
+                {
+                    opcode: "analog_in",
+                    blockType: BlockType.REPORTER,
+                    text: FormAnalogIn[the_locale],
+                },
             ],
             menus: {
                 rgb_color: {
@@ -349,6 +379,8 @@ class Scratch3PHEPcs {
            
         };
     }
+
+       /********************************** Manejadores de funciones ***********************************/
     buzzer(args) {
         if (!connected) {
             if (!connection_pending) {
@@ -373,6 +405,145 @@ class Scratch3PHEPcs {
             window.socket.send(msg_buzzer);
         }
     }
+
+    motor_vibrador(args) {
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.motor_vibrador.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let state = parseInt(args["STATE"], 10);
+            if (pin_modes[MOTOR] !== DIGITAL_INPUT) {
+                this._setpins_motor();
+            }
+            msg_motor = {
+                command: "digital_write",
+                pin: MOTOR,
+                value: state,
+            };
+            msg_motor = JSON.stringify(msg_motor);
+            window.socket.send(msg_motor);
+        }
+    }
+
+    RGB_Red(args) {
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.RGB_Red.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let state = parseInt(args["RGB_red"], 10);
+            if (pin_modes[RED_RGB] !== DIGITAL_INPUT) {
+                this._setpins_red();
+            }
+            msg_red = {
+                command: "digital_write",
+                pin: RED_RGB,
+                value: state,
+            };
+            msg_red = JSON.stringify(msg_red);
+            window.socket.send(msg_red);
+        }
+    }
+
+    RGB_green(args) {
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.RGB_green.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let state = parseInt(args["RGB_green"], 10);
+            if (pin_modes[GREEN_RGB] !== DIGITAL_INPUT) {
+                this._setpins_green();
+            }
+            msg_green = {
+                command: "digital_write",
+                pin: GREEN_RGB,
+                value: state,
+            };
+            msg_green = JSON.stringify(msg_green);
+            window.socket.send(msg_green);
+        }
+    }
+
+    RGB_blue(args) {
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.RGB_blue.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            let state = parseInt(args["RGB_blue"], 10);
+            if (pin_modes[BLUE_RGB] !== DIGITAL_INPUT) {
+                this._setpins_blue();
+            }
+            msg_blue = {
+                command: "digital_write",
+                pin: BLUE_RGB,
+                value: state,
+            };
+            msg_blue = JSON.stringify(msg_blue);
+            window.socket.send(msg_blue);
+        }
+    }
+
+    joyX(args) {
+        console.log("joyX");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.joyX.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[JOYSTICK_X] !== ANALOG_INPUT) {
+                this._set_joystick_x();
+            }
+            return analog_inputs[JOYSTICK_X];
+        }
+    }
+
+    analog_in(args){
+        console.log("Universal in");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.analog_in.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[UNIVERSAL_IN] !== ANALOG_INPUT) {
+                this._set_analog_in();
+            }
+            return analog_inputs[UNIVERSAL_IN];
+        }
+    }
+    
 /********************************* FIN Manejadores de funciones ********************************/
 _setpin_buzzer() {
     pin_modes[Pin_BUZZER] = Pin_BUZZER;
@@ -381,6 +552,49 @@ _setpin_buzzer() {
     window.socket.send(msg);
 }
 
+_setpins_motor() {
+    pin_modes[MOTOR] = DIGITAL_OUTPUT;
+    msg = { command: "set_mode_digital_output", pin: MOTOR};
+    msg = JSON.stringify(msg);
+    window.socket.send(msg);
+}
+
+_setpins_red() {
+    pin_modes[RED_RGB] = RED_RGB;
+    msg = { command: "set_mode_digital_output", pin: RED_RGB };
+    msg = JSON.stringify(msg);
+    window.socket.send(msg);
+}
+
+_setpins_green() {
+    pin_modes[GREEN_RGB] = GREEN_RGB;
+    msg = { command: "set_mode_digital_output", pin: GREEN_RGB };
+    msg = JSON.stringify(msg);
+    window.socket.send(msg);
+}
+
+_setpins_blue() {
+    pin_modes[BLUE_RGB] = BLUE_RGB;
+    msg = { command: "set_mode_digital_output", pin: BLUE_RGB };
+    msg = JSON.stringify(msg);
+    window.socket.send(msg);
+}
+
+_set_joystick_x() {
+    pin_modes[JOYSTICK_X] = ANALOG_INPUT;
+    msg = { command: "set_mode_analog_input", pin: JOYSTICK_X };
+    msg = JSON.stringify(msg);
+    window.socket.send(msg);
+    console.log(msg);
+}
+
+_set_analog_in() {
+    pin_modes[UNIVERSAL_IN] = ANALOG_INPUT;
+    msg = { command: "set_mode_analog_input", pin: UNIVERSAL_IN };
+    msg = JSON.stringify(msg);
+    window.socket.send(msg);
+    console.log(msg);
+}
 
     _setLocale() {
         let now_locale = "";
