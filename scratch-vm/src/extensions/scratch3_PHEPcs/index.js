@@ -84,6 +84,21 @@ const JOYSTICK_X = 1;
 // Pin conexión puerto de entrada universal
 const UNIVERSAL_IN = 5;
 
+// General Alert
+const FormWSClosed = {
+    "pt-br": "A Conexão do WebSocket está Fechada",
+    pt: "A Conexão do WebSocket está Fechada",
+    en: "WebSocket Connection Is Closed.",
+    fr: "La connexion WebSocket est fermée.",
+    "zh-tw": "網路連線中斷",
+    "zh-cn": "网络连接中断",
+    pl: "Połączenie WebSocket jest zamknięte.",
+    de: "WebSocket-Verbindung geschlossen.",
+    ja: "ウェブソケット接続が切断されています",
+    es: "Conexión con el WebSocket está cerrada.",
+    "es-419": "Conexión con el WebSocket está cerrada.",
+};
+
 const FormLedRGB = {
     en: "Color light [RGB_COLOR]",
     es: "Luz en color [RGB_COLOR]",
@@ -196,7 +211,7 @@ class Scratch3PHEPcs {
 
     getInfo() {
         the_locale = this._setLocale();
-        //this.connect();
+        this.connect();
 
         return {
             id: "scratch3PHEPcs",
@@ -275,7 +290,6 @@ class Scratch3PHEPcs {
                 },
 
                 {
-
                     opcode: "motor_vibrador",
                     blockType: BlockType.COMMAND,
                     text: FormPlaySound[the_locale],
@@ -375,7 +389,7 @@ class Scratch3PHEPcs {
                 ],
                 },
             
-        },
+            },
            
         };
     }
@@ -522,7 +536,7 @@ class Scratch3PHEPcs {
                 this._set_joystick_x();
             }
             return analog_inputs[JOYSTICK_X];
-        }
+        } 
     }
 
     analog_in(args){
@@ -544,165 +558,165 @@ class Scratch3PHEPcs {
         }
     }
     
-/********************************* FIN Manejadores de funciones ********************************/
-_setpin_buzzer() {
-    pin_modes[Pin_BUZZER] = Pin_BUZZER;
-    msg = { command: "set_mode_digital_output", pin: Pin_BUZZER };
-    msg = JSON.stringify(msg);
-    window.socket.send(msg);
-}
-
-_setpins_motor() {
-    pin_modes[MOTOR] = DIGITAL_OUTPUT;
-    msg = { command: "set_mode_digital_output", pin: MOTOR};
-    msg = JSON.stringify(msg);
-    window.socket.send(msg);
-}
-
-_setpins_red() {
-    pin_modes[RED_RGB] = RED_RGB;
-    msg = { command: "set_mode_digital_output", pin: RED_RGB };
-    msg = JSON.stringify(msg);
-    window.socket.send(msg);
-}
-
-_setpins_green() {
-    pin_modes[GREEN_RGB] = GREEN_RGB;
-    msg = { command: "set_mode_digital_output", pin: GREEN_RGB };
-    msg = JSON.stringify(msg);
-    window.socket.send(msg);
-}
-
-_setpins_blue() {
-    pin_modes[BLUE_RGB] = BLUE_RGB;
-    msg = { command: "set_mode_digital_output", pin: BLUE_RGB };
-    msg = JSON.stringify(msg);
-    window.socket.send(msg);
-}
-
-_set_joystick_x() {
-    pin_modes[JOYSTICK_X] = ANALOG_INPUT;
-    msg = { command: "set_mode_analog_input", pin: JOYSTICK_X };
-    msg = JSON.stringify(msg);
-    window.socket.send(msg);
-    console.log(msg);
-}
-
-_set_analog_in() {
-    pin_modes[UNIVERSAL_IN] = ANALOG_INPUT;
-    msg = { command: "set_mode_analog_input", pin: UNIVERSAL_IN };
-    msg = JSON.stringify(msg);
-    window.socket.send(msg);
-    console.log(msg);
-}
-
-    _setLocale() {
-        let now_locale = "";
-        switch (formatMessage.setup().locale) {
-            case "es-419":
-                now_locale = "es-419";
-                break;
-            case "es":
-                now_locale = "es";
-                break;
-            case "pt-br":
-            case "pt":
-                now_locale = "pt-br";
-                break;
-            case "en":
-                now_locale = "en";
-                break;
-            case "fr":
-                now_locale = "fr";
-                break;
-            case "zh-tw":
-                now_locale = "zh-tw";
-                break;
-            case "zh-cn":
-                now_locale = "zh-cn";
-                break;
-            case "pl":
-                now_locale = "pl";
-                break;
-            case "ja":
-                now_locale = "ja";
-                break;
-            case "de":
-                now_locale = "de";
-                break;
-            default:
-                now_locale = "en";
-                break;
-        }
-        return now_locale;
-    }
-// helpers
-connect() {
-    if (connected) {
-        // ignore additional connection attempts
-        return;
-    } else {
-        connect_attempt = true;
-        window.socket = new WebSocket("ws://127.0.0.1:9000");
-        msg = JSON.stringify({ id: "to_arduino_gateway" });
+    /********************************* FIN Manejadores de funciones ********************************/
+    _setpin_buzzer() {
+        pin_modes[Pin_BUZZER] = Pin_BUZZER;
+        msg = { command: "set_mode_digital_output", pin: Pin_BUZZER };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
     }
 
-    // websocket event handlers
-    window.socket.onopen = function () {
-        digital_inputs.fill(0);
-        analog_inputs.fill(0);
-        pin_modes.fill(-1);
-        // connection complete
-        connected = true;
-        connect_attempt = true;
-        // the message is built above
-        try {
-            //ws.send(msg);
-            window.socket.send(msg);
-        } catch (err) {
-            // ignore this exception
-        }
-        for (let index = 0; index < wait_open.length; index++) {
-            let data = wait_open[index];
-            data[0](data[1]);
-        }
-    };
+    _setpins_motor() {
+        pin_modes[MOTOR] = DIGITAL_OUTPUT;
+        msg = { command: "set_mode_digital_output", pin: MOTOR};
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
 
-    window.socket.onclose = function () {
-        digital_inputs.fill(0);
-        analog_inputs.fill(0);
-        pin_modes.fill(-1);
-        if (alerted === false) {
-            alerted = true;
-            alert(FormWSClosed[the_locale]);
-        }
-        connected = false;
-    };
+    _setpins_red() {
+        pin_modes[RED_RGB] = RED_RGB;
+        msg = { command: "set_mode_digital_output", pin: RED_RGB };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
 
-    // reporter messages from the board
-    window.socket.onmessage = function (message) {
-        msg = JSON.parse(message.data);
-        let report_type = msg["report"];
-        let pin = null;
-        let value = null;
+    _setpins_green() {
+        pin_modes[GREEN_RGB] = GREEN_RGB;
+        msg = { command: "set_mode_digital_output", pin: GREEN_RGB };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
 
-        // types - digital, analog, sonar
-        if (report_type === "digital_input") {
-            pin = msg["pin"];
-            pin = parseInt(pin, 10);
-            value = msg["value"];
-            digital_inputs[pin] = value;
-        } else if (report_type === "analog_input") {
-            pin = msg["pin"];
-            pin = parseInt(pin, 10);
-            value = msg["value"];
-            analog_inputs[pin] = value;
-        } else if (report_type === "sonar_data") {
-            value = msg["value"];
-            digital_inputs[sonar_report_pin] = value;
+    _setpins_blue() {
+        pin_modes[BLUE_RGB] = BLUE_RGB;
+        msg = { command: "set_mode_digital_output", pin: BLUE_RGB };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+    }
+
+    _set_joystick_x() {
+        pin_modes[JOYSTICK_X] = ANALOG_INPUT;
+        msg = { command: "set_mode_analog_input", pin: JOYSTICK_X };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+    _set_analog_in() {
+        pin_modes[UNIVERSAL_IN] = ANALOG_INPUT;
+        msg = { command: "set_mode_analog_input", pin: UNIVERSAL_IN };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+    }
+
+        _setLocale() {
+            let now_locale = "";
+            switch (formatMessage.setup().locale) {
+                case "es-419":
+                    now_locale = "es-419";
+                    break;
+                case "es":
+                    now_locale = "es";
+                    break;
+                case "pt-br":
+                case "pt":
+                    now_locale = "pt-br";
+                    break;
+                case "en":
+                    now_locale = "en";
+                    break;
+                case "fr":
+                    now_locale = "fr";
+                    break;
+                case "zh-tw":
+                    now_locale = "zh-tw";
+                    break;
+                case "zh-cn":
+                    now_locale = "zh-cn";
+                    break;
+                case "pl":
+                    now_locale = "pl";
+                    break;
+                case "ja":
+                    now_locale = "ja";
+                    break;
+                case "de":
+                    now_locale = "de";
+                    break;
+                default:
+                    now_locale = "en";
+                    break;
+            }
+            return now_locale;
         }
-    };
-}
+    // helpers
+    connect() {
+        if (connected) {
+            // ignore additional connection attempts
+            return;
+        } else {
+            connect_attempt = true;
+            window.socket = new WebSocket("ws://127.0.0.1:9000");
+            msg = JSON.stringify({ id: "to_arduino_gateway" });
+        }
+
+        // websocket event handlers
+        window.socket.onopen = function () {
+            digital_inputs.fill(0);
+            analog_inputs.fill(0);
+            pin_modes.fill(-1);
+            // connection complete
+            connected = true;
+            connect_attempt = true;
+            // the message is built above
+            try {
+                //ws.send(msg);
+                window.socket.send(msg);
+            } catch (err) {
+                // ignore this exception
+            }
+            for (let index = 0; index < wait_open.length; index++) {
+                let data = wait_open[index];
+                data[0](data[1]);
+            }
+        };
+
+        window.socket.onclose = function () {
+            digital_inputs.fill(0);
+            analog_inputs.fill(0);
+            pin_modes.fill(-1);
+            if (alerted === false) {
+                alerted = true;
+                alert(FormWSClosed[the_locale]);
+            }
+            connected = false;
+        };
+
+        // reporter messages from the board
+        window.socket.onmessage = function (message) {
+            msg = JSON.parse(message.data);
+            let report_type = msg["report"];
+            let pin = null;
+            let value = null;
+
+            // types - digital, analog, sonar
+            if (report_type === "digital_input") {
+                pin = msg["pin"];
+                pin = parseInt(pin, 10);
+                value = msg["value"];
+                digital_inputs[pin] = value;
+            } else if (report_type === "analog_input") {
+                pin = msg["pin"];
+                pin = parseInt(pin, 10);
+                value = msg["value"];
+                analog_inputs[pin] = value;
+            } else if (report_type === "sonar_data") {
+                value = msg["value"];
+                digital_inputs[sonar_report_pin] = value;
+            }
+        };
+    }
 }
 
 

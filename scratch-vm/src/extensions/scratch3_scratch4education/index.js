@@ -530,7 +530,7 @@ class Scratch3Scratch4Education {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.led_RGB_on_off.bind(this), args];
+            let callbackEntry = [this.buzzer_vibratormotor.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             let state = parseInt(args["STATE"], 10);
@@ -592,7 +592,7 @@ class Scratch3Scratch4Education {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.led_RGB_on_off.bind(this), args];
+            let callbackEntry = [this.led_RGB_color.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             let red;
@@ -1028,7 +1028,7 @@ class Scratch3Scratch4Education {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.digital_read.bind(this), args];
+            let callbackEntry = [this.joystick_z.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             if (pin_modes[JOYSTICK_Z] !== DIGITAL_INPUT) {
