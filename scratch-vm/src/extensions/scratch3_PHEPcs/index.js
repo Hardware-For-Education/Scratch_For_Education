@@ -539,6 +539,29 @@ class Scratch3PHEPcs {
         } 
     }
 
+    joyY(args) {
+        console.log("joyY");
+        // if (!connected) {
+        //     if (!connection_pending) {
+        //         this.connect();
+        //         connection_pending = true;
+        //     }
+        // }
+        // if (!connected) {
+        //     let callbackEntry = [this.joyY.bind(this), args];
+        //     wait_open.push(callbackEntry);
+        // } else {
+        //     if (pin_modes[JOYSTICK_Y] !== ANALOG_INPUT) {
+        //         this._set_joystick_x();
+        //     }
+        //     return analog_inputs[JOYSTICK_Y];
+        // } 
+    }
+
+    joyZ(args) {
+        console.log("joyZ");
+    }
+
     analog_in(args){
         console.log("Universal in");
         if (!connected) {
@@ -556,6 +579,30 @@ class Scratch3PHEPcs {
             }
             return analog_inputs[UNIVERSAL_IN];
         }
+    }
+
+    potenciometer(args){
+        console.log("Potenciometer");
+    }
+
+    pulse_1(args){
+        console.log("Pulse 1");
+    }
+
+    pulse_2(args){
+        console.log("Pulse 2");
+    }
+
+    lightc(args){
+        console.log("Light");
+    }
+
+    inc1(args){
+        console.log("Inclinacion 1");
+    }
+
+    inc2(args){
+        console.log("Inclinacion 2");
     }
     
     /********************************* FIN Manejadores de funciones ********************************/
