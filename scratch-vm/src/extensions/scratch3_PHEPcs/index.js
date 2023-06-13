@@ -121,106 +121,121 @@ const FormWSClosed = {
 const FormLedRGB = {
     en: "Color light [RGB_COLOR]",
     es: "Luz en color [RGB_COLOR]",
+    pt: "Cor da luz [RGB_COLOR]",
     "es-419": "Luz en color [RGB_COLOR]",
-};
-
-const FormLedRed = {
+    };
+    
+    const FormLedRed = {
     en: "Red light [RGB_red]",
     es: "Luz roja [RGB_red]",
+    pt: "Luz vermelha [RGB_red]",
     "es-419": "Luz roja [RGB_red]",
-};
-
-const FormLedGreen = {
+    };
+    
+    const FormLedGreen = {
     en: "Green light[RGB_green]",
     es: "Luz verde [RGB_green]",
+    pt: "Luz verde [RGB_green]",
     "es-419": "Luz verde [RGB_green]",
-};
-
-const FormLedBlue = {
+    };
+    
+    const FormLedBlue = {
     en: "Blue light[RGB_blue]",
     es: "Luz azul [RGB_blue]",
+    pt: "Luz azul [RGB_blue]",
     "es-419": "Luz azul [RGB_blue]",
-};
-
-const FormPotenciometer = {
+    };
+    
+    const FormPotenciometer = {
     en: "Potenciometer Value",
     es: "Valor del potenciómetro",
+    pt: "Valor do potenciômetro",
     "es-419": "Valor del potenciómetro",
-};
-
-
-
-const FormPulse1 = {
+    };
+    
+    const FormPulse1 = {
     en: "S2 Button State",
     es: "Estado Botón S2",
+    pt: "Estado do botão S2",
     "es-419": "Estado Botón S2",
-};
-
-const FormPulse2 = {
+    };
+    
+    const FormPulse2 = {
     en: "S3 Button State",
     es: "Estado Botón S3",
+    pt: "Estado do botão S3",
     "es-419": "Estado Botón S3",
-};
-
-const FormPlaySound = {
+    };
+    
+    const FormPlaySound = {
     en: "Vibration [STATE]",
     es: "Vibración [STATE]",
+    pt: "Vibração [STATE]",
     "es-419": "Vibración [STATE]",
-};
-
-const FormBuzzer = {
+    };
+    
+    const FormBuzzer = {
     en: "Sound [buzz]",
     es: "Sonido [buzz]",
+    pt: "Som [buzz]",
     "es-419": "Sonido [buzz]",
-};
-
-const FormJoyX = {
+    };
+    
+    const FormJoyX = {
     en: "Y joystick value",
-    es: "Valor joystick Y ",
+    es: "Valor joystick Y",
+    pt: "Valor do joystick Y",
     "es-419": "Valor joystick Y",
-};
-
-const FormJoyY = {
+    };
+    
+    const FormJoyY = {
     en: "X joystick value",
-    es: "Valor joystick X" ,
+    es: "Valor joystick X",
+    pt: "Valor do joystick X",
     "es-419": "Valor joystick X",
-};
-
-const FormJoyZ = {
+    };
+    
+    const FormJoyZ = {
     en: "Button joystick state",
     es: "Estado botón joystick",
+    pt: "Estado do botão do joystick",
     "es-419": "Estado botón joystick",
-};
-
-const Formlight = {
+    };
+    
+    const Formlight = {
     en: "Light amount",
     es: "Cantidad de luz",
+    pt: "Quantidade de luz",
     "es-419": "Cantidad de luz",
-};
-
-const FormInc1 = {
+    };
+    
+    const FormInc1 = {
     en: "X-axis inclination",
     es: "Inclinación en eje X",
+    pt: "Inclinação no eixo X",
     "es-419": "Inclinación en eje X",
-};
-
-const FormInc2 = {
+    };
+    
+    const FormInc2 = {
     en: "Y-axis inclination",
     es: "Inclinación en eje Y",
+    pt: "Inclinação no eixo Y",
     "es-419": "Inclinación en eje Y",
-};
-
-const FormDigitalOut = {
+    };
+    
+    const FormDigitalOut = {
     en: "Digital general out [STATE]",
     es: "Salida digital general [STATE]",
+    pt: "Saída digital geral [STATE]",
     "es-419": "Salida digital general [STATE]",
-};
-
-const FormAnalogIn = {
+    };
+    
+    const FormAnalogIn = {
     en: "Analog general in",
     es: "Entrada analoga general",
+    pt: "Entrada analógica geral",
     "es-419": "Entrada analoga general",
-};
+    };
 
 class Scratch3PHEPcs {
     constructor(runtime) {
@@ -934,7 +949,7 @@ class Scratch3PHEPcs {
                     break;
                 case "pt-br":
                 case "pt":
-                    now_locale = "pt-br";
+                    now_locale = "pt";
                     break;
                 case "en":
                     now_locale = "en";
