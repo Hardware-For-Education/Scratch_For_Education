@@ -121,6 +121,7 @@ const FormWSClosed = {
 const FormLedRGB = {
     en: "Color light [RGB_COLOR]",
     es: "Luz en color [RGB_COLOR]",
+    pt: "Cor da luz [RGB_COLOR]",
     "es-419": "Luz en color [RGB_COLOR]",
     "pt-br": "cor clara [RGB_COLOR]",
     pt: "cor clara [RGB_COLOR]"
@@ -129,6 +130,7 @@ const FormLedRGB = {
 const FormLedRed = {
     en: "Red light [RGB_red]",
     es: "Luz roja [RGB_red]",
+    pt: "Luz vermelha [RGB_red]",
     "es-419": "Luz roja [RGB_red]",
     pt: "Luz vermelha [RGB_red]"
 };
@@ -136,6 +138,7 @@ const FormLedRed = {
 const FormLedGreen = {
     en: "Green light[RGB_green]",
     es: "Luz verde [RGB_green]",
+    pt: "Luz verde [RGB_green]",
     "es-419": "Luz verde [RGB_green]",
     pt: "Luz verde [RGB_green]"
 };
@@ -143,6 +146,7 @@ const FormLedGreen = {
 const FormLedBlue = {
     en: "Blue light[RGB_blue]",
     es: "Luz azul [RGB_blue]",
+    pt: "Luz azul [RGB_blue]",
     "es-419": "Luz azul [RGB_blue]",
     pt: "Luz azul [RGB_blue]"
 };
@@ -150,6 +154,7 @@ const FormLedBlue = {
 const FormPotenciometer = {
     en: "Potenciometer Value",
     es: "Valor del potenciómetro",
+    pt: "Valor do potenciômetro",
     "es-419": "Valor del potenciómetro",
     pt: "Valor do potenciômetro"
 };
@@ -157,6 +162,7 @@ const FormPotenciometer = {
 const FormPulse1 = {
     en: "S2 Button State",
     es: "Estado Botón S2",
+    pt: "Estado do botão S2",
     "es-419": "Estado Botón S2",
     pt: "Status do Botão S2"
 };
@@ -164,6 +170,7 @@ const FormPulse1 = {
 const FormPulse2 = {
     en: "S3 Button State",
     es: "Estado Botón S3",
+    pt: "Estado do botão S3",
     "es-419": "Estado Botón S3",
     pt: "Status do Botão S3"
 };
@@ -171,6 +178,7 @@ const FormPulse2 = {
 const FormPlaySound = {
     en: "Vibration [STATE]",
     es: "Vibración [STATE]",
+    pt: "Vibração [STATE]",
     "es-419": "Vibración [STATE]",
     pt: "Vibração [STATE]"
 };
@@ -178,6 +186,7 @@ const FormPlaySound = {
 const FormBuzzer = {
     en: "Sound [buzz]",
     es: "Sonido [buzz]",
+    pt: "Som [buzz]",
     "es-419": "Sonido [buzz]",
     pt: "Som [buzz]"
 };
@@ -191,7 +200,8 @@ const FormJoyX = {
 
 const FormJoyY = {
     en: "X joystick value",
-    es: "Valor joystick X" ,
+    es: "Valor joystick X",
+    pt: "Valor do joystick X",
     "es-419": "Valor joystick X",
     pt: "Valor X do joystick"
 };
@@ -199,6 +209,7 @@ const FormJoyY = {
 const FormJoyZ = {
     en: "Button joystick state",
     es: "Estado botón joystick",
+    pt: "Estado do botão do joystick",
     "es-419": "Estado botón joystick",
     pt: "Status do botão do joystick"
 };
@@ -206,6 +217,7 @@ const FormJoyZ = {
 const Formlight = {
     en: "Light amount",
     es: "Cantidad de luz",
+    pt: "Quantidade de luz",
     "es-419": "Cantidad de luz",
     en: "Quantidade de luz"
 };
@@ -213,6 +225,7 @@ const Formlight = {
 const FormInc1 = {
     en: "X-axis inclination",
     es: "Inclinación en eje X",
+    pt: "Inclinação no eixo X",
     "es-419": "Inclinación en eje X",
     pt: "Inclinar no eixo X"
 };
@@ -220,6 +233,7 @@ const FormInc1 = {
 const FormInc2 = {
     en: "Y-axis inclination",
     es: "Inclinación en eje Y",
+    pt: "Inclinação no eixo Y",
     "es-419": "Inclinación en eje Y",
     pt: "Inclinar no eixo Y"
 };
@@ -227,6 +241,7 @@ const FormInc2 = {
 const FormDigitalOut = {
     en: "Digital general out [STATE]",
     es: "Salida digital general [STATE]",
+    pt: "Saída digital geral [STATE]",
     "es-419": "Salida digital general [STATE]",
     pt: "Saída digital geral [STATE]"
 };
@@ -234,6 +249,7 @@ const FormDigitalOut = {
 const FormAnalogIn = {
     en: "Analog general in",
     es: "Entrada analoga general",
+    pt: "Entrada analógica geral",
     "es-419": "Entrada analoga general",
     pt: "Entrada analógica geral",
 };
