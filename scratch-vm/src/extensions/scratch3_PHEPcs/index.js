@@ -156,7 +156,7 @@ const FormPotenciometer = {
     es: "Valor del potenciómetro",
     pt: "Valor do potenciômetro",
     "es-419": "Valor del potenciómetro",
-<<<<<<< HEAD
+
     };
     
     const FormPulse1 = {
@@ -175,28 +175,6 @@ const FormPotenciometer = {
     
     
     const FormPlaySound = {
-=======
-    pt: "Valor do potenciômetro"
-};
-
-const FormPulse1 = {
-    en: "S2 Button State",
-    es: "Estado Botón S2",
-    pt: "Estado do botão S2",
-    "es-419": "Estado Botón S2",
-    pt: "Status do Botão S2"
-};
-
-const FormPulse2 = {
-    en: "S3 Button State",
-    es: "Estado Botón S3",
-    pt: "Estado do botão S3",
-    "es-419": "Estado Botón S3",
-    pt: "Status do Botão S3"
-};
-
-const FormPlaySound = {
->>>>>>> 5e01b6cd5291fd436a6779b5d044cfa7f4295ffe
     en: "Vibration [STATE]",
     es: "Vibración [STATE]",
     pt: "Vibração [STATE]",
