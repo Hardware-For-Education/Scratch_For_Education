@@ -69,20 +69,20 @@ let connect_attempt = false;
 let wait_open = [];
 
 // Pin conexion LED RGB
-const RED_RGB = 4;
-const BLUE_RGB = 2;
-const GREEN_RGB = 3;
+const RED_RGB = 11;
+const BLUE_RGB = 10;
+const GREEN_RGB = 9;
 
 // Pin conexion Buzzer
-const Pin_BUZZER = 9;
+const Pin_BUZZER = 3;
 
 // Pin conexion motor vibrador
-const MOTOR = 10;
+const MOTOR = 2;
 
 // Pines de conexion joystick
 const JOYSTICK_X = 1;
 const JOYSTICK_Y = 0;
-const JOYSTICK_Z = 11;
+const JOYSTICK_Z = 4;
 
 //Pin conexion potenciometro
 const POTEN = 2;
@@ -154,18 +154,19 @@ const FormLedRGB = {
     };
     
     const FormPulse1 = {
-    en: "S2 Button State",
-    es: "Estado Botón S2",
-    pt: "Estado do botão S2",
-    "es-419": "Estado Botón S2",
+        en: "Button 1 State",
+        es: "Estado Pulsador 1",
+        pt: "Estado do botão 1",
+        "es-419": "Estado Pulsador 1",
     };
     
     const FormPulse2 = {
-    en: "S3 Button State",
-    es: "Estado Botón S3",
-    pt: "Estado do botão S3",
-    "es-419": "Estado Botón S3",
+        en: "Button 2 State",
+        es: "Estado Pulsador 2",
+        pt: "Estado do botão 2",
+        "es-419": "Estado Pulsador 2",
     };
+    
     
     const FormPlaySound = {
     en: "Vibration [STATE]",
@@ -312,6 +313,12 @@ class Scratch3PHEPcs {
                 },
 
                 {
+                    opcode: "light",
+                    blockType: BlockType.REPORTER,
+                    text: Formlight[the_locale],
+                },
+
+                {
                     opcode: "pulse_1",
                     blockType: BlockType.REPORTER,
                     text: FormPulse1[the_locale],
@@ -368,12 +375,6 @@ class Scratch3PHEPcs {
                     opcode: "joyZ",
                     blockType: BlockType.REPORTER,
                     text: FormJoyZ[the_locale],
-                },
-
-                {
-                    opcode: "lightc",
-                    blockType: BlockType.REPORTER,
-                    text: Formlight[the_locale],
                 },
 
                 {
@@ -455,47 +456,47 @@ class Scratch3PHEPcs {
             switch (rgb) {
                 case "Rojo":
                     console.log("ROJO");
-                    red = 0;
-                    green = 1;
-                    blue = 1;
+                    red = 1;
+                    green = 0;
+                    blue = 0;
                     break;
                 case "Verde":
                     console.log("Verde");
-                    red = 1;
-                    green = 0;
-                    blue = 1;
+                    red = 0;
+                    green = 1;
+                    blue = 0;
                     break;
                 case "Azul":
                     console.log("Azul");
-                    red = 1;
-                    green = 1;
-                    blue = 0;
-                    break;
-                case "Cian":
-                    console.log("Cian");
-                    red = 1;
-                    green = 0;
-                    blue = 0;
-                    break;
-                case "Amarillo":
-                    console.log("Amarillo");
                     red = 0;
                     green = 0;
                     blue = 1;
                     break;
-                case "Magenta":
-                    console.log("Magenta");
+                case "Cian":
+                    console.log("Cian");
                     red = 0;
+                    green = 1;
+                    blue = 1;
+                    break;
+                case "Amarillo":
+                    console.log("Amarillo");
+                    red = 1;
                     green = 1;
                     blue = 0;
                     break;
+                case "Magenta":
+                    console.log("Magenta");
+                    red = 1;
+                    green = 0;
+                    blue = 1;
+                    break;
                 case "Blanco":
                     console.log("Blanco");
-                    red = 0;
-                    green = 0;
-                    blue = 0;
+                    red = 1;
+                    green = 1;
+                    blue = 1;
                     break;
-                default:
+                        default:
                     red = null;
                     green = null;
                     blue = null;
@@ -780,8 +781,23 @@ class Scratch3PHEPcs {
         } 
     }
 
-    lightc(args){
-        console.log("Light");
+    light(args){
+        console.log("light");
+        if (!connected) {
+            if (!connection_pending) {
+                this.connect();
+                connection_pending = true;
+            }
+        }
+        if (!connected) {
+            let callbackEntry = [this.light.bind(this), args];
+            wait_open.push(callbackEntry);
+        } else {
+            if (pin_modes[FOTO] !== ANALOG_INPUT) {
+                this._set_light();
+            }
+            return analog_inputs[FOTO];
+        } 
     }
 
     inc1(args){
@@ -896,6 +912,15 @@ class Scratch3PHEPcs {
     _set_potenciometer(){
         pin_modes[POTEN] = ANALOG_INPUT;
         msg = { command: "set_mode_analog_input", pin: POTEN };
+        msg = JSON.stringify(msg);
+        window.socket.send(msg);
+        console.log(msg);
+
+    }
+
+    _set_light(){
+        pin_modes[FOTO] = ANALOG_INPUT;
+        msg = { command: "set_mode_analog_input", pin: FOTO };
         msg = JSON.stringify(msg);
         window.socket.send(msg);
         console.log(msg);
