@@ -123,34 +123,40 @@ const FormLedRGB = {
     es: "Luz en color [RGB_COLOR]",
     pt: "Cor da luz [RGB_COLOR]",
     "es-419": "Luz en color [RGB_COLOR]",
-    };
-    
-    const FormLedRed = {
+    "pt-br": "cor clara [RGB_COLOR]",
+    pt: "cor clara [RGB_COLOR]"
+};
+
+const FormLedRed = {
     en: "Red light [RGB_red]",
     es: "Luz roja [RGB_red]",
     pt: "Luz vermelha [RGB_red]",
     "es-419": "Luz roja [RGB_red]",
-    };
-    
-    const FormLedGreen = {
+    pt: "Luz vermelha [RGB_red]"
+};
+
+const FormLedGreen = {
     en: "Green light[RGB_green]",
     es: "Luz verde [RGB_green]",
     pt: "Luz verde [RGB_green]",
     "es-419": "Luz verde [RGB_green]",
-    };
-    
-    const FormLedBlue = {
+    pt: "Luz verde [RGB_green]"
+};
+
+const FormLedBlue = {
     en: "Blue light[RGB_blue]",
     es: "Luz azul [RGB_blue]",
     pt: "Luz azul [RGB_blue]",
     "es-419": "Luz azul [RGB_blue]",
-    };
-    
-    const FormPotenciometer = {
+    pt: "Luz azul [RGB_blue]"
+};
+
+const FormPotenciometer = {
     en: "Potenciometer Value",
     es: "Valor del potenciómetro",
     pt: "Valor do potenciômetro",
     "es-419": "Valor del potenciómetro",
+<<<<<<< HEAD
     };
     
     const FormPulse1 = {
@@ -169,74 +175,193 @@ const FormLedRGB = {
     
     
     const FormPlaySound = {
+=======
+    pt: "Valor do potenciômetro"
+};
+
+const FormPulse1 = {
+    en: "S2 Button State",
+    es: "Estado Botón S2",
+    pt: "Estado do botão S2",
+    "es-419": "Estado Botón S2",
+    pt: "Status do Botão S2"
+};
+
+const FormPulse2 = {
+    en: "S3 Button State",
+    es: "Estado Botón S3",
+    pt: "Estado do botão S3",
+    "es-419": "Estado Botón S3",
+    pt: "Status do Botão S3"
+};
+
+const FormPlaySound = {
+>>>>>>> 5e01b6cd5291fd436a6779b5d044cfa7f4295ffe
     en: "Vibration [STATE]",
     es: "Vibración [STATE]",
     pt: "Vibração [STATE]",
     "es-419": "Vibración [STATE]",
-    };
-    
-    const FormBuzzer = {
+    pt: "Vibração [STATE]"
+};
+
+const FormBuzzer = {
     en: "Sound [buzz]",
     es: "Sonido [buzz]",
     pt: "Som [buzz]",
     "es-419": "Sonido [buzz]",
-    };
-    
-    const FormJoyX = {
+    pt: "Som [buzz]"
+};
+
+const FormJoyX = {
     en: "Y joystick value",
     es: "Valor joystick Y",
-    pt: "Valor do joystick Y",
     "es-419": "Valor joystick Y",
-    };
-    
-    const FormJoyY = {
+    pt: "Valor Y do joystick"
+};
+
+const FormJoyY = {
     en: "X joystick value",
     es: "Valor joystick X",
     pt: "Valor do joystick X",
     "es-419": "Valor joystick X",
-    };
-    
-    const FormJoyZ = {
+    pt: "Valor X do joystick"
+};
+
+const FormJoyZ = {
     en: "Button joystick state",
     es: "Estado botón joystick",
     pt: "Estado do botão do joystick",
     "es-419": "Estado botón joystick",
-    };
-    
-    const Formlight = {
+    pt: "Status do botão do joystick"
+};
+
+const Formlight = {
     en: "Light amount",
     es: "Cantidad de luz",
     pt: "Quantidade de luz",
     "es-419": "Cantidad de luz",
-    };
-    
-    const FormInc1 = {
+    en: "Quantidade de luz"
+};
+
+const FormInc1 = {
     en: "X-axis inclination",
     es: "Inclinación en eje X",
     pt: "Inclinação no eixo X",
     "es-419": "Inclinación en eje X",
-    };
-    
-    const FormInc2 = {
+    pt: "Inclinar no eixo X"
+};
+
+const FormInc2 = {
     en: "Y-axis inclination",
     es: "Inclinación en eje Y",
     pt: "Inclinação no eixo Y",
     "es-419": "Inclinación en eje Y",
-    };
-    
-    const FormDigitalOut = {
+    pt: "Inclinar no eixo Y"
+};
+
+const FormDigitalOut = {
     en: "Digital general out [STATE]",
     es: "Salida digital general [STATE]",
     pt: "Saída digital geral [STATE]",
     "es-419": "Salida digital general [STATE]",
-    };
-    
-    const FormAnalogIn = {
+    pt: "Saída digital geral [STATE]"
+};
+
+const FormAnalogIn = {
     en: "Analog general in",
     es: "Entrada analoga general",
     pt: "Entrada analógica geral",
     "es-419": "Entrada analoga general",
-    };
+    pt: "Entrada analógica geral",
+};
+
+const ListRed = {
+    en: "Red",
+    es: "Rojo",
+    "es-419": "Rojo",
+    pt: "Vermelho",
+    "pt-br": "Vermelho",
+}
+
+const ListGreen = {
+    en: "Green",
+    es: "Verde",
+    "es-419": "Verde",
+    pt: "Verde",
+    "pt-br": "Verde",
+};
+
+const ListBlue = {
+    en: "Blue",
+    es: "Azul",
+    "es-419": "Azul",
+    pt: "Azul",
+    "pt-br": "Azul",
+};
+
+const ListCyan = {
+    en: "Cyan",
+    es: "Cian",
+    "es-419": "Cian",
+    pt: "Ciano",
+    "pt-br": "Ciano",
+};
+
+const ListYellow = {
+    en: "Yellow",
+    es: "Amarillo",
+    "es-419": "Amarillo",
+    pt: "Amarelo",
+    "pt-br": "Amarelo",
+};
+
+const ListMagenta = {
+    en: "Magenta",
+    es: "Magenta",
+    "es-419": "Magenta",
+    pt: "Magenta",
+    "pt-br": "Magenta",
+};
+
+const ListWhite = {
+    en: "White",
+    es: "Blanco",
+    "es-419": "Blanco",
+    pt: "Branco",
+    "pt-br": "Branco",
+};
+
+const ListOn = {
+    en: "On",
+    es: "Encendido",
+    "es-419": "Encendido",
+    pt: "Ligado",
+    "pt-br": "Ligado",
+};
+
+const ListOff = {
+    en: "Off",
+    es: "Apagado",
+    "es-419": "Apagado",
+    pt: "Desligado",
+    "pt-br": "Desligado",
+};
+
+const ListActive = {
+    en: "Active",
+    es: "Activado",
+    "es-419": "Activado",
+    pt: "Ativado",
+    "pt-br": "Ativado",
+};
+
+const ListDeactive = {
+    en: "Deactive",
+    es: "Desactivado",
+    "es-419": "Desactivado",
+    pt: "Desabilitado",
+    "pt-br": "Desabilitado",
+};
 
 class Scratch3PHEPcs {
     constructor(runtime) {
@@ -261,7 +386,7 @@ class Scratch3PHEPcs {
                     arguments: {
                         RGB_COLOR: {
                             type: ArgumentType.STRING,
-                            defaultValue: "Rojo",
+                            defaultValue: ListRed[the_locale],
                             menu: "rgb_color",
                         },
                     },
@@ -274,7 +399,7 @@ class Scratch3PHEPcs {
                     arguments: {
                         RGB_red: {
                             type: ArgumentType.STRING,
-                            defaultValue: "Apagado",
+                            defaultValue: ListOff[the_locale],
                             menu: "on_off",
                         },
                     },
@@ -287,7 +412,7 @@ class Scratch3PHEPcs {
                     arguments: {
                         RGB_green: {
                             type: ArgumentType.STRING,
-                            defaultValue: "Apagado",
+                            defaultValue: ListOff[the_locale],
                             menu: "on_off",
                         },
                     },
@@ -300,7 +425,7 @@ class Scratch3PHEPcs {
                     arguments: {
                         RGB_blue: {
                             type: ArgumentType.STRING,
-                            defaultValue: "Apagado",
+                            defaultValue: ListOff[the_locale],
                             menu: "on_off",
                         },
                     },
@@ -399,28 +524,28 @@ class Scratch3PHEPcs {
                 rgb_color: {
                     acceptReporters: true,
                     items: [
-                        "Rojo",
-                        "Verde",
-                        "Azul",
-                        "Cian",
-                        "Amarillo",
-                        "Magenta",
-                        "Blanco",
+                        ListRed[the_locale],
+                        ListGreen[the_locale],
+                        ListBlue[the_locale],
+                        ListCyan[the_locale],
+                        ListYellow[the_locale],
+                        ListMagenta[the_locale],
+                        ListWhite[the_locale],
                     ],
                 },
                 on_off: {
                 acceptReporters: true,
                 items: [
-                    { text: "Encendido", value: "1" },
-                    { text: "Apagado", value: "0" },
+                    { text: ListOn[the_locale], value: "1" },
+                    { text: ListOff[the_locale], value: "0" },
                 ],
                 },
 
                 enabled: {
                 acceptReporters: true,
                 items: [
-                    { text: "Activado", value: "1" },
-                    { text: "Desactivado", value: "0" },
+                    { text: ListActive[the_locale], value: "1" },
+                    { text: ListDeactive[the_locale], value: "0" },
                 ],
                 },
             
@@ -963,46 +1088,27 @@ class Scratch3PHEPcs {
         console.log(msg);
     }
 
-        _setLocale() {
-            let now_locale = "";
-            switch (formatMessage.setup().locale) {
-                case "es-419":
-                    now_locale = "es-419";
-                    break;
-                case "es":
-                    now_locale = "es";
-                    break;
-                case "pt-br":
-                case "pt":
-                    now_locale = "pt";
-                    break;
-                case "en":
-                    now_locale = "en";
-                    break;
-                case "fr":
-                    now_locale = "fr";
-                    break;
-                case "zh-tw":
-                    now_locale = "zh-tw";
-                    break;
-                case "zh-cn":
-                    now_locale = "zh-cn";
-                    break;
-                case "pl":
-                    now_locale = "pl";
-                    break;
-                case "ja":
-                    now_locale = "ja";
-                    break;
-                case "de":
-                    now_locale = "de";
-                    break;
-                default:
-                    now_locale = "en";
-                    break;
-            }
-            return now_locale;
+    _setLocale() {
+        let now_locale = "en";
+        switch (formatMessage.setup().locale) {
+            case "es-419":
+                now_locale = "es-419";
+                break;
+            case "es":
+                now_locale = "es";
+                break;
+            case "pt-br":
+            case "pt":
+                now_locale = "pt";
+                break;
+            case "en":
+                now_locale = "en";
+                break;
         }
+        console.log(formatMessage.setup().locale)
+        return now_locale;
+    }
+
     // helpers
     connect() {
         if (connected) {
