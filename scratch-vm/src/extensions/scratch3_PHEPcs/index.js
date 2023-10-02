@@ -97,8 +97,8 @@ const S3_Button = 6;
 
 // Pines de conexion inclinometros
 
-const Inc_1 = 8;
-const Inc_2 = 7;
+const Inc_1 = 7;
+const Inc_2 = 8;
 
 // Pin conexión puerto de entrada universal
 const UNIVERSAL_IN = 5;
