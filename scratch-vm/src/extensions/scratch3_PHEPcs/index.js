@@ -557,49 +557,49 @@ class Scratch3PHEPcs {
             }
             let rgb = args["RGB_COLOR"];
             switch (rgb) {
-                case "Rojo":
+                case ListRed[the_locale]:
                     console.log("ROJO");
                     red = 1;
                     green = 0;
                     blue = 0;
                     break;
-                case "Verde":
+                case ListGreen[the_locale]:
                     console.log("Verde");
                     red = 0;
                     green = 1;
                     blue = 0;
                     break;
-                case "Azul":
+                case ListBlue[the_locale]:
                     console.log("Azul");
                     red = 0;
                     green = 0;
                     blue = 1;
                     break;
-                case "Cian":
+                case ListCyan[the_locale]:
                     console.log("Cian");
                     red = 0;
                     green = 1;
                     blue = 1;
                     break;
-                case "Amarillo":
+                case ListYellow[the_locale]:
                     console.log("Amarillo");
                     red = 1;
                     green = 1;
                     blue = 0;
                     break;
-                case "Magenta":
+                case ListMagenta[the_locale]:
                     console.log("Magenta");
                     red = 1;
                     green = 0;
                     blue = 1;
                     break;
-                case "Blanco":
+                case ListWhite[the_locale]:
                     console.log("Blanco");
                     red = 1;
                     green = 1;
                     blue = 1;
                     break;
-                        default:
+                default:
                     red = null;
                     green = null;
                     blue = null;
@@ -610,11 +610,7 @@ class Scratch3PHEPcs {
                 msg_red = { command: "digital_write", pin: RED_RGB, value: red };
                 msg_red = JSON.stringify(msg_red);
                 window.socket.send(msg_red);
-                msg_green = {
-                    command: "digital_write",
-                    pin: GREEN_RGB,
-                    value: green,
-                };
+                msg_green = { command: "digital_write", pin: GREEN_RGB, value: green };
                 msg_green = JSON.stringify(msg_green);
                 window.socket.send(msg_green);
                 msg_blue = { command: "digital_write", pin: BLUE_RGB, value: blue };
