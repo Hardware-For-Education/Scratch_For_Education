@@ -91,7 +91,7 @@ const POTENCIOMETRO = 1;
 // Pines Joystick
 const JOYSTICK_X = 4;
 const JOYSTICK_Y = 5;
-const JOYSTICK_Z = 2;
+const JOYSTICK_Z = 10;
 
 //Pin Buzzer
 const BUZZER = 9;
@@ -284,6 +284,7 @@ class Scratch3HardwareInteractivo {
                         "Amarillo",
                         "Magenta",
                         "Blanco",
+                        "Negro",
                     ],
                 },
             }
@@ -358,6 +359,12 @@ LedRGB(args) {
                     red = 1;
                     green = 1;
                     blue = 1;
+                    break;
+                case "Negro":
+                    console.log("Negro");
+                    red = 0;
+                    green = 0;
+                    blue = 0;
                     break;
                 default:
                     red = null;
