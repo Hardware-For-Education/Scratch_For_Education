@@ -79,8 +79,8 @@ let wait_open = [];
 
 // Pines Led REG
 const RED = 5;
-const GREEN = 6;
-const BLUE = 7;
+const GREEN = 7;
+const BLUE = 6;
 
 // Pin Pulsador
 const SWITCH = 12;
