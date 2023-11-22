@@ -108,11 +108,6 @@ const FormLedRGB = {
     es: "Color del Led RGB [RGB_COLOR]",
     "es-419": "Color del Led RGB [RGB_COLOR]",
 };
-const FormLedRGBSingle = {
-    en: "Led red [ON_OFF_RED] \ngreen [ON_OFF_GREEN] blue [ON_OFF_BLUE]",
-    es: "Led rojo [ON_OFF_RED] \nverde [ON_OFF_GREEN] azul [ON_OFF_BLUE]",
-    "es-419": "Led rojo [ON_OFF_RED] \nverde [ON_OFF_GREEN] azul [ON_OFF_BLUE]",
-};
 const FormMotorV = {
     en: "Vibration motor [STATE]",
     es: "Motor de vibracion [STATE]",
@@ -193,28 +188,6 @@ class Scratch3HardwareInteractivo {
                             menu: "rgb_color",
                         }
                     }
-                },
-                {
-                    opcode: "led_RGB_on_off",
-                    blockType: BlockType.COMMAND,
-                    text: FormLedRGBSingle[the_locale],
-                    arguments: {
-                        ON_OFF_RED: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 0,
-                            menu: "on_off",
-                        },
-                        ON_OFF_GREEN: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 0,
-                            menu: "on_off",
-                        },
-                        ON_OFF_BLUE: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 0,
-                            menu: "on_off",
-                        },
-                    },
                 },
                 {
                     opcode: 'MotorV',
