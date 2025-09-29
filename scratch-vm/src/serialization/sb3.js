@@ -20,6 +20,7 @@ const VariableUtil = require('../util/variable-util');
 const {loadCostume} = require('../import/load-costume.js');
 const {loadSound} = require('../import/load-sound.js');
 const {deserializeCostume, deserializeSound} = require('./deserialize-assets.js');
+const { Console } = require('minilog');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -341,18 +342,21 @@ const serializeBlocks = function (blocks) {
  */
 const serializeCostume = function (costume) {
     const obj = Object.create(null);
-    obj.assetId = costume.assetId;
     obj.name = costume.name;
-    obj.bitmapResolution = costume.bitmapResolution;
+
+    const costumeToSerialize = costume.broken || costume;
+
+    obj.bitmapResolution = costumeToSerialize.bitmapResolution;
+    obj.assetId = costumeToSerialize.assetId;
     // serialize this property with the name 'md5ext' because that's
     // what it's actually referring to. TODO runtime objects need to be
     // updated to actually refer to this as 'md5ext' instead of 'md5'
     // but that change should be made carefully since it is very
     // pervasive
-    obj.md5ext = costume.md5;
-    obj.dataFormat = costume.dataFormat.toLowerCase();
-    obj.rotationCenterX = costume.rotationCenterX;
-    obj.rotationCenterY = costume.rotationCenterY;
+    obj.md5ext = costumeToSerialize.md5;
+    obj.dataFormat = costumeToSerialize.dataFormat.toLowerCase();
+    obj.rotationCenterX = costumeToSerialize.rotationCenterX;
+    obj.rotationCenterY = costumeToSerialize.rotationCenterY;
     return obj;
 };
 
